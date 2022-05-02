@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">KotlinWeatherApp</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="planets_array">
+        <item>Wind And Storms</item>
+        <item>Rains</item>
+        <item>Hurricanes</item>
+        <item>Floods</item>
+    </string-array>
+</resources>

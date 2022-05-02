@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".homeScreen.view.HomeFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:weightSum="8.1">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.0">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:id="@+id/imageView"
+                        android:layout_width="249dp"
+                        android:layout_height="187dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="48dp"
+                        android:src="@drawable/cloudygirl"
+                        app:layout_constraintStart_toEndOf="@+id/textView2"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="163dp"
+                        android:layout_height="36dp"
+                        android:layout_marginStart="39dp"
+                        android:layout_marginTop="28dp"
+                        android:fontFamily="casual"
+                        android:text="Nasr city , Egypt"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="101dp"
+                        android:layout_height="63dp"
+                        android:layout_marginTop="4dp"
+                        android:fontFamily="casual"
+                        android:shadowColor="#0B0A0A"
+                        android:text="20C"
+                        android:textAlignment="textStart"
+                        android:textColor="#100F0F"
+                        android:textSize="48sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/textView"
+                        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="62dp"
+                        android:layout_height="37dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginTop="16dp"
+                        android:fontFamily="casual"
+                        android:text="Sunny"
+                        android:textColor="#03dac5 "
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toEndOf="@+id/imageView2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                    <ImageView
+                        android:id="@+id/imageView2"
+                        android:layout_width="40dp"
+                        android:layout_height="36dp"
+                        android:layout_marginTop="16dp"
+                        android:padding="0dp"
+                        android:src="@drawable/cloudy"
+                        app:layout_constraintStart_toStartOf="@+id/textView2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="102dp"
+                        android:layout_height="18dp"
+                        android:layout_marginTop="1dp"
+                        android:fontFamily="casual"
+                        android:text="1/5/2022"
+                        app:layout_constraintStart_toStartOf="@+id/imageView2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="0.005"
+                android:background="#AB6A6A6A" />
+
+            <View
+                android:id="@+id/view2"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.3"
+                android:background="#FFFFFF" />
+
+            <androidx.gridlayout.widget.GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.5"
+                android:rotationY="2"
+                app:columnCount="3">
+
+                <TextView
+                    android:id="@+id/textView7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:width="130dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="Humidity"
+                    android:textColor="#72393939"
+                    app:layout_column="0"
+                    app:layout_row="0" />
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:width="130dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="Pressure"
+                    android:textColor="#72393939"
+                    app:layout_column="1"
+                    app:layout_row="0" />
+
+                <TextView
+                    android:id="@+id/textView9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:width="150dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="Wind"
+                    android:textColor="#72393939"
+                    app:layout_column="2"
+                    app:layout_row="0" />
+
+                <TextView
+                    android:id="@+id/textView10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:width="130dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="16%"
+                    android:textColor="#03DAC5"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_column="0"
+                    app:layout_row="1" />
+
+                <TextView
+                    android:id="@+id/textView11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:width="130dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="27%"
+                    android:textColor="#03DAC5"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_column="1"
+                    app:layout_row="1" />
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:width="150dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="2.3Mile/hr"
+                    android:textColor="#03DAC5"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_column="2"
+                    app:layout_row="1" />
+
+                <TextView
+                    android:id="@+id/textView13"
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="Cloud"
+                    android:textColor="#72393939"
+                    app:layout_column="0"
+                    app:layout_row="2" />
+
+                <TextView
+                    android:id="@+id/textView14"
+                    android:layout_width="130dp"
+                    android:layout_height="30dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="Ultra Violet"
+                    android:textColor="#72393939"
+                    app:layout_column="1"
+                    app:layout_row="2" />
+
+                <TextView
+                    android:id="@+id/textView15"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="Visability"
+                    android:textColor="#72393939"
+                    app:layout_column="2"
+                    app:layout_row="2" />
+
+                <TextView
+                    android:id="@+id/textView16"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="52%"
+                    android:textColor="#03DAC5"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_column="0"
+                    app:layout_row="3" />
+
+                <TextView
+                    android:id="@+id/textView17"
+                    android:layout_width="130dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="10%"
+                    android:textColor="#03DAC5"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_column="1"
+                    app:layout_row="3" />
+
+                <TextView
+                    android:id="@+id/textView18"
+                    android:layout_width="150dp"
+                    android:layout_height="50dp"
+                    android:fontFamily="casual"
+                    android:gravity="center"
+                    android:text="34%"
+                    android:textColor="#03DAC5"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_column="2"
+                    app:layout_row="3" />
+            </androidx.gridlayout.widget.GridLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewHourlyId"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.3"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp" >
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewDailyId"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                />
+        </LinearLayout>
+
+    </FrameLayout>
+
+</ScrollView>

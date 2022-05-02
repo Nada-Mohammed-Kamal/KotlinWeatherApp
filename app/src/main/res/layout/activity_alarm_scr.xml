@@ -1,0 +1,168 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+    android:orientation="vertical"
+    android:weightSum="2"
+    tools:context=".alarmscreen.view.AlarmScrActivity">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:height="40dp" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp"
+        android:focusable="true"
+        android:padding="10sp"
+        app:cardCornerRadius="10sp"
+        app:cardElevation="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="152dp"
+            android:orientation="vertical"
+            android:padding="10sp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10sp"
+                android:layout_weight="0.5"
+                android:text="The Alarm is About:"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerAlarmTimeId"
+                android:layout_width="365dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="0.5"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10sp"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:padding="10sp"
+        app:cardCornerRadius="10sp"
+        app:cardElevation="8dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout_editor_absoluteX="-8dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:text="Trip Start Date"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/startDateid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/startDateid"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <EditText
+                android:id="@+id/startDateid"
+                android:layout_width="200dp"
+                android:layout_height="54dp"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="16dp"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="true"
+                android:inputType="none"
+                android:minHeight="48dp"
+                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Trip End Date"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="@+id/endDateid"
+                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintTop_toTopOf="@+id/endDateid"
+                app:layout_constraintVertical_bias="0.357" />
+
+            <EditText
+                android:id="@+id/endDateid"
+                android:layout_width="200dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="60dp"
+                android:cursorVisible="false"
+                android:ems="10"
+                android:focusable="false"
+                android:focusableInTouchMode="true"
+                android:inputType="none"
+                android:minHeight="48dp"
+                app:layout_constraintStart_toStartOf="@+id/startDateid"
+                app:layout_constraintTop_toBottomOf="@+id/startDateid"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+
+                android:id="@+id/textView12"
+                android:layout_width="107dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:text="Alarm Time"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@+id/ediTtxtAlarmTimeid"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/ediTtxtAlarmTimeid" />
+
+            <EditText
+                android:id="@+id/ediTtxtAlarmTimeid"
+                android:layout_width="200dp"
+                android:layout_height="54dp"
+                android:layout_marginTop="52dp"
+                android:ems="10"
+                android:inputType="textLongMessage"
+                android:minHeight="48dp"
+                android:padding="10sp"
+                android:textColorHighlight="@color/design_default_color_primary_variant"
+                android:textColorLink="@color/purple_700"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/endDateid"
+                app:layout_constraintTop_toBottomOf="@+id/endDateid"
+                tools:ignore="SpeakableTextPresentCheck" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAddAlarmToRecyclerViewFromAlarmDetailsScreenId"
+        android:layout_width="267dp"
+        android:layout_height="59dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="30sp"
+        android:text="Next"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        app:backgroundTint="#03DAC5"
+        app:cornerRadius="20dp" />
+</LinearLayout>
