@@ -20,10 +20,10 @@
     >
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/favRowConstraintLayoutId"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        >
+        android:padding="20dp">
 
         <TextView
             android:id="@+id/txtViewFavPlaceId"

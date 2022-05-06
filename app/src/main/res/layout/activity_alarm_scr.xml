@@ -34,18 +34,38 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10sp"
-                android:layout_weight="0.5"
+                android:layout_weight="0.25"
+                android:fontFamily="casual"
                 android:text="The Alarm is About:"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
             <Spinner
                 android:id="@+id/spinnerAlarmTimeId"
-                android:layout_width="365dp"
+                android:layout_width="372dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:layout_weight="0.5"
-                tools:ignore="SpeakableTextPresentCheck" />
+                android:layout_weight="0.25"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/textView22"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:fontFamily="casual"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/alarmTitleId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.25"
+                android:ems="10"
+                android:fontFamily="casual"
+                android:hint="Title"
+                android:inputType="textPersonName"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -67,11 +87,12 @@
             tools:layout_editor_absoluteY="0dp">
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/homeDateId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
+                android:fontFamily="casual"
                 android:text="Trip Start Date"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/startDateid"
@@ -89,32 +110,35 @@
                 android:ems="10"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
+                android:fontFamily="casual"
                 android:inputType="none"
                 android:minHeight="48dp"
-                app:layout_constraintStart_toEndOf="@+id/textView4"
+                app:layout_constraintStart_toEndOf="@+id/homeDateId"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/homePlaceId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="casual"
                 android:text="Trip End Date"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@+id/endDateid"
-                app:layout_constraintStart_toStartOf="@+id/textView4"
+                app:layout_constraintStart_toStartOf="@+id/homeDateId"
                 app:layout_constraintTop_toTopOf="@+id/endDateid"
-                app:layout_constraintVertical_bias="0.357" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <EditText
                 android:id="@+id/endDateid"
                 android:layout_width="200dp"
                 android:layout_height="54dp"
-                android:layout_marginTop="60dp"
+                android:layout_marginTop="28dp"
                 android:cursorVisible="false"
                 android:ems="10"
                 android:focusable="false"
                 android:focusableInTouchMode="true"
+                android:fontFamily="casual"
                 android:inputType="none"
                 android:minHeight="48dp"
                 app:layout_constraintStart_toStartOf="@+id/startDateid"
@@ -123,23 +147,26 @@
 
             <TextView
 
-                android:id="@+id/textView12"
+                android:id="@+id/homeWindId"
                 android:layout_width="107dp"
                 android:layout_height="32dp"
                 android:layout_marginStart="16dp"
+                android:fontFamily="casual"
                 android:text="Alarm Time"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/ediTtxtAlarmTimeid"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/ediTtxtAlarmTimeid" />
+                app:layout_constraintTop_toTopOf="@+id/ediTtxtAlarmTimeid"
+                app:layout_constraintVertical_bias="0.0" />
 
             <EditText
                 android:id="@+id/ediTtxtAlarmTimeid"
                 android:layout_width="200dp"
                 android:layout_height="54dp"
-                android:layout_marginTop="52dp"
+                android:layout_marginTop="28dp"
                 android:ems="10"
+                android:fontFamily="casual"
                 android:inputType="textLongMessage"
                 android:minHeight="48dp"
                 android:padding="10sp"
@@ -153,6 +180,16 @@
 
     </androidx.cardview.widget.CardView>
 
+    <Switch
+        android:id="@+id/alarmOrNotificationSwitchId"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="casual"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:text="Alarm"
+        android:textColor="#03DAC5" />
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddAlarmToRecyclerViewFromAlarmDetailsScreenId"
         android:layout_width="267dp"
@@ -160,9 +197,11 @@
         android:layout_gravity="center"
         android:layout_marginTop="40dp"
         android:layout_marginBottom="30sp"
+        android:fontFamily="casual"
         android:text="Next"
         android:textAllCaps="false"
         android:textColor="@color/white"
         app:backgroundTint="#03DAC5"
         app:cornerRadius="20dp" />
+
 </LinearLayout>

@@ -2,17 +2,19 @@ package com.example.kotlinweatherapp.homeScreen.view
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinweatherapp.model.Weather
+import com.bumptech.glide.Glide
 import com.example.kotlinweatherapp.R
+import com.example.kotlinweatherapp.models.pojos.WeatherResponse
 
 
-class DailyWeatherAdapter(var sports: Weather?, var context: Context): RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder>() {
+class DailyWeatherAdapter(var weatherObj: WeatherResponse?, var context: Context): RecyclerView.Adapter<DailyWeatherAdapter.ViewHolder>() {
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -30,11 +32,13 @@ class DailyWeatherAdapter(var sports: Weather?, var context: Context): RecyclerV
     }
 
     override fun onBindViewHolder(holder: ViewHolder, @SuppressLint("RecyclerView") position: Int) {
-        holder.dateTimeTextView.text = sports?.dateTime
-        holder.lowTempTextView.text = sports?.lowTemp
-        holder.highTempTextView.text = sports?.heightTemp
+        holder.dateTimeTextView.text = weatherObj?.timezone
+        holder.lowTempTextView.text = weatherObj?.daily?.get(position)?.temp?.min.toString()
+        holder.highTempTextView.text = weatherObj?.daily?.get(position)?.temp?.max.toString()
         holder.iconImageView.setImageResource(R.drawable.cloudy)
-        //Glide.with(holder.iconImageView).load(sports?.dailyIcon).into(holder.iconImageView)
+        //leha url call lwa7daha
+        Log.e("BASHAAAAAAAAAAAA", "onBindViewHolder:${weatherObj?.daily?.get(position)?.weather?.get(0)?.icon}", )
+        Glide.with(holder.iconImageView).load("http://openweathermap.org/img/w/"+weatherObj?.daily?.get(position)?.weather?.get(0)?.icon+".png").into(holder.iconImageView)
     }
 
     override fun getItemCount() = 7//3dd ayam al 2asboo3

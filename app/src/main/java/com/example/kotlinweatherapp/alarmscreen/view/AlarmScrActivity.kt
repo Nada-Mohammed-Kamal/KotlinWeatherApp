@@ -2,14 +2,25 @@ package com.example.kotlinweatherapp.alarmscreen.view
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.app.Notification
 import android.app.TimePickerDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
 
 import com.example.kotlinweatherapp.R
+import com.example.kotlinweatherapp.alarmscreen.viewmodel.AlarmFragViewModel
+import com.example.kotlinweatherapp.alarmscreen.viewmodel.AlarmViewModelFactory
+import com.example.kotlinweatherapp.models.pojos.Alarm
+import com.example.kotlinweatherapp.models.pojos.AlarmType
+import com.example.kotlinweatherapp.models.pojos.ReasonOfTheAlarm
+import com.example.kotlinweatherapp.models.repo.Repo
+import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
+import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,6 +32,9 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
     var startDate : EditText? = null
     var endDate : EditText? = null
     lateinit var addBtn : Button
+    lateinit var reasonOfTheAlarm: Spinner
+    lateinit var title : EditText
+    lateinit var alarmOrNotificationSwitch: Switch
 
     //Time
     var alarmTime : EditText? = null
@@ -29,11 +43,25 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
     var currentMinute : Int = 0
     lateinit var timePickerDialogListener: TimePickerDialog.OnTimeSetListener
     lateinit var timeBtn : Button
+    var isAlarm : Boolean = false
 
+
+    //viewModel
+    private lateinit var viewModel: AlarmFragViewModel
+    lateinit var alarmFactory : AlarmViewModelFactory
+
+    //alarm obj to be added
+    lateinit var alarmObj : Alarm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_scr)
+        //title and reason of the alarm
+        title = findViewById(R.id.alarmTitleId)
+        reasonOfTheAlarm = findViewById(R.id.spinnerAlarmTimeId)
+        alarmOrNotificationSwitch = findViewById(R.id.alarmOrNotificationSwitchId)
+
+
 
         //addBtn
         addBtn = findViewById(R.id.btnAddAlarmToRecyclerViewFromAlarmDetailsScreenId)
@@ -41,6 +69,7 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
         setDateAndTimePickersView()
         //view time picker dialog
         viewTimePicker()
+
 
         //alarmTime
         alarmTime?.setOnClickListener{
@@ -85,11 +114,24 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
         addBtn.setOnClickListener{
             //add to db and set an alarm manager finally return to the previous screen
             //asta5dem de law finish bazet
-//            var i = Intent(context, AlarmScrActivity::class.java)
-//            startActivity(i)
+            isAlarm = alarmOrNotificationSwitch.isChecked
+            //the alarm obj to be added
+            alarmObj = Alarm(title?.text.toString(), startDate?.text.toString() , endDate?.text.toString() , alarmTime?.text.toString()
+                , alarmOrNotificationSwitch.isChecked , reasonOfTheAlarm.selectedItem.toString())
+
+
+            viewModel.addAlarm(alarmObj)
+            Toast.makeText(this , "alarm added successfully" , Toast.LENGTH_SHORT).show()
             finish()
         }
 
+
+        //view model
+        alarmFactory = AlarmViewModelFactory(
+            Repo.getInstance(
+                weatherRetrofitClient.getInstance() ,
+                ConcreateLocalSource(this),  this) , this)
+        viewModel = ViewModelProvider(this, alarmFactory).get(AlarmFragViewModel::class.java)
 
     }
 

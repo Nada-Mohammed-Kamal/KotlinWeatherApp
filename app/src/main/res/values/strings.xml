@@ -3,10 +3,13 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
+
     <string-array name="planets_array">
-        <item>Wind And Storms</item>
-        <item>Rains</item>
-        <item>Hurricanes</item>
-        <item>Floods</item>
+        <item>Wind</item>
+        <item>Rain</item>
+        <item>Snow</item>
+        <item>Cloud</item>
+        <item>Thunder Storm</item>
+        <item>Mist/Fog</item>
     </string-array>
 </resources>

@@ -1,6 +1,9 @@
 package com.example.kotlinweatherapp.settingsscreen.view
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +14,10 @@ import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.Toast
 import com.example.kotlinweatherapp.R
+import com.example.kotlinweatherapp.models.networkConnectivity.NetworkChangeReceiver
+import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
+import com.google.android.material.snackbar.Snackbar
+import kotlin.math.log
 
 class SettingsFragment : Fragment() {
 
@@ -37,6 +44,12 @@ class SettingsFragment : Fragment() {
     private var locSelectedRadioButton: RadioButton? = null
     private var tempSelectedRadioButton: RadioButton? = null
 
+    var language : String = ""
+    var wind : String = ""
+    var temprature : String = ""
+    var location : String = ""
+
+
     //button
     private var btnApply: Button? = null
 
@@ -51,7 +64,19 @@ class SettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myView = view
+        language =SharedPrefsHelper.getLang(requireContext())
+        temprature = SharedPrefsHelper.getTempUnit(requireContext())
         addListenerOnButton();
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        addListenerOnButton()
+        if(!(NetworkChangeReceiver.isThereInternetConnection)){
+            Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
+            showNoNetSnackbar()
+        }
     }
 
     private fun addListenerOnButton() {
@@ -61,48 +86,80 @@ class SettingsFragment : Fragment() {
         windRadioGroup = myView?.findViewById(R.id.radioGroupWindId)
         tempRadioGroup = myView?.findViewById(R.id.radioGroupTempId)
 
-//        //radio buttons
-//        arabicRadioButton = myView?.findViewById(R.id.radioButtonEnglishId)
-//        englishRadioButton = myView?.findViewById(R.id.radioButtonArabicId)
-//        milePerHourRadioButton = myView?.findViewById(R.id.radioButtonMilePerHourId)
-//        meterPerSecRadioButton = myView?.findViewById(R.id.radioButtonMeterPerSecId)
-//        mapRadioButton = myView?.findViewById(R.id.radioButtonMapId)
-//        gpsRadioButton = myView?.findViewById(R.id.radioButtonGPSId)
-//        celsiusRadioButton = myView?.findViewById(R.id.radioButtonCelisiusId)
-//        fahrenheitRadioButton = myView?.findViewById(R.id.radioButtonFehrenhitId)
-//        kelvinRadioButton = myView?.findViewById(R.id.radioButtonKelvinId)
-
-
         //button
         btnApply = myView?.findViewById(R.id.btnApplySettingsScreenId);
-        langRadioGroup?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.radioButtonEnglishId -> {Toast.makeText(context , "english" , Toast.LENGTH_SHORT).show()}
-                R.id.radioButtonArabicId -> {Toast.makeText(context , "arabic" , Toast.LENGTH_SHORT).show()}
-            }
-        })
-        locationRadioGroup?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.radioButtonMapId -> {Toast.makeText(context , "map" , Toast.LENGTH_SHORT).show()}
-                R.id.radioButtonGPSId -> {Toast.makeText(context , "gps" , Toast.LENGTH_SHORT).show()}
-            }
-        })
-        windRadioGroup?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.radioButtonMilePerHourId -> {Toast.makeText(context , "milePerHour" , Toast.LENGTH_SHORT).show()}
-                R.id.radioButtonMeterPerSecId -> {Toast.makeText(context , "meterPerSec" , Toast.LENGTH_SHORT).show()}
-            }
-        })
-        tempRadioGroup?.setOnCheckedChangeListener(RadioGroup.OnCheckedChangeListener { group, checkedId ->
-            when (checkedId) {
-                R.id.radioButtonCelisiusId -> {Toast.makeText(context , "Celsius" , Toast.LENGTH_SHORT).show()}
-                R.id.radioButtonFehrenhitId -> {Toast.makeText(context , "Fahrenheit" , Toast.LENGTH_SHORT).show()}
-                R.id.radioButtonKelvinId -> {Toast.makeText(context , "Kelvin" , Toast.LENGTH_SHORT).show()}
-            }
-        })
 
+        langRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioButtonEnglishId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: english", )
+                    //Toast.makeText(context, "english", Toast.LENGTH_SHORT).show()
+                    language = "en"
+                }
+                R.id.radioButtonArabicId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: arabic", )
+                    //Toast.makeText(context, "arabic", Toast.LENGTH_SHORT).show()
+                    language = "ar"
+                }
+            }
+        }
+        locationRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioButtonMapId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: map", )
+                    //Toast.makeText(context, "map", Toast.LENGTH_SHORT).show()
+                    location = "map"
+                }
+                R.id.radioButtonGPSId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: gps", )
+                    //Toast.makeText(context, "gps", Toast.LENGTH_SHORT).show()
+                    location = "gps"
+                }
+            }
+        }
+        windRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioButtonMilePerHourId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: milePerHour", )
+//                    Toast.makeText(context, "milePerHour", Toast.LENGTH_SHORT).show()
+                    wind = "Mile/hour"
+                    temprature = "imperial"
+                }
+                R.id.radioButtonMeterPerSecId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: meterPerSec", )
+//                    Toast.makeText(context, "meterPerSec", Toast.LENGTH_SHORT).show()
+                    wind = "Meter/sec"
+                    temprature = "metric"
+                }
+            }
+        }
+        tempRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioButtonCelisiusId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: celisus", )
+//                    Toast.makeText(context, "Celsius", Toast.LENGTH_SHORT).show()
+                    temprature = "metric"
+
+                }
+                R.id.radioButtonFehrenhitId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: fehrinhit", )
+//                    Toast.makeText(context, "Fahrenheit", Toast.LENGTH_SHORT).show()
+                    temprature = "imperial"
+                }
+                R.id.radioButtonKelvinId -> {
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: kelvin", )
+//                    Toast.makeText(context, "Kelvin", Toast.LENGTH_SHORT).show()
+                    temprature = "standard"
+                }
+            }
+        }
+
+        //TODO : on click listener ba2a 3al map wal gps
         btnApply?.setOnClickListener{
-            //change the app settings
+            SharedPrefsHelper.setLanguage(requireContext() , language)
+            SharedPrefsHelper.setTempUnit(requireContext() , temprature)
+            Log.e("SETINGSSCREEEEEN", "appl button: al lang $language wal temp $temprature")
+            Toast.makeText(requireContext(), "Changes Applied Successfully", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -118,4 +175,14 @@ class SettingsFragment : Fragment() {
         @JvmStatic
         fun newInstance() = SettingsFragment()
     }
+
+    private fun showNoNetSnackbar() {
+        val snack = Snackbar.make(myView!!, "Please check your internet Connection!", Snackbar.LENGTH_LONG) // replace root view with your view Id
+        snack.setAction("Settings") {
+            startActivity(Intent(Settings.ACTION_WIFI_SETTINGS))
+        }
+        snack.show()
+    }
+
+
 }
