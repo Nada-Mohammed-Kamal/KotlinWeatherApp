@@ -13,4 +13,11 @@
         <item>Mist/Fog</item>
     </string-array>
     <string name="title_activity_maps">MapsActivity</string>
+    <string name="hummidity">Humidity</string>
+    <string name="hummidityy">Hummidity</string>
+    <string name="Pressure">Pressure</string>
+    <string name="Wind">Wind</string>
+    <string name="Cloud">Cloud</string>
+    <string name="UltraViolet">Ultra Violet</string>
+    <string name="Visability">Visability</string>
 </resources>

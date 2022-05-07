@@ -1,8 +1,10 @@
 package com.example.kotlinweatherapp.settingsscreen.view
 
+import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Resources
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -20,6 +22,7 @@ import android.widget.RadioGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
+import com.example.kotlinweatherapp.LocalazationHelper.LocalHelper
 import com.example.kotlinweatherapp.map.view.MapsActivity
 import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.models.networkConnectivity.NetworkChangeReceiver
@@ -39,6 +42,8 @@ import java.io.IOException
 import java.util.*
 
 class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
+
+
 
     //getCurrentLocation
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
@@ -87,7 +92,10 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         super.onResume()
         addListenerOnButton()
         if(!(NetworkChangeReceiver.isThereInternetConnection)){
-            Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
+            Log.e(
+                "snackbaaaaaaaaar",
+                "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} "
+            )
             showNoNetSnackbar()
         }
 
@@ -111,12 +119,12 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         langRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonEnglishId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: english", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: english")
                     //Toast.makeText(context, "english", Toast.LENGTH_SHORT).show()
                     language = "en"
                 }
                 R.id.radioButtonArabicId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: arabic", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: arabic")
                     //Toast.makeText(context, "arabic", Toast.LENGTH_SHORT).show()
                     language = "ar"
                 }
@@ -125,7 +133,7 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         locationRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonMapId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: map", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: map")
                     //Toast.makeText(context, "map", Toast.LENGTH_SHORT).show()
                     location = "map"
                     val intent = Intent(requireContext() , MapsActivity::class.java)
@@ -133,7 +141,7 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
                     startActivity(intent)
                 }
                 R.id.radioButtonGPSId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: gps", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: gps")
                     //Toast.makeText(context, "gps", Toast.LENGTH_SHORT).show()
                     location = "gps"
                     getCurrentLoc()
@@ -143,13 +151,13 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         windRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonMilePerHourId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: milePerHour", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: milePerHour")
 //                    Toast.makeText(context, "milePerHour", Toast.LENGTH_SHORT).show()
                     wind = "Mile/hour"
                     temprature = "imperial"
                 }
                 R.id.radioButtonMeterPerSecId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: meterPerSec", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: meterPerSec")
 //                    Toast.makeText(context, "meterPerSec", Toast.LENGTH_SHORT).show()
                     wind = "Meter/sec"
                     temprature = "metric"
@@ -159,17 +167,17 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         tempRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonCelisiusId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: celisus", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: celisus")
 //                    Toast.makeText(context, "Celsius", Toast.LENGTH_SHORT).show()
                     temprature = "metric"
                 }
                 R.id.radioButtonFehrenhitId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: fehrinhit", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: fehrinhit")
 //                    Toast.makeText(context, "Fahrenheit", Toast.LENGTH_SHORT).show()
                     temprature = "imperial"
                 }
                 R.id.radioButtonKelvinId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: kelvin", )
+                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: kelvin")
 //                    Toast.makeText(context, "Kelvin", Toast.LENGTH_SHORT).show()
                     temprature = "standard"
                 }
@@ -182,6 +190,17 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
             SharedPrefsHelper.setTempUnit(requireContext() , temprature)
             Log.e("SETINGSSCREEEEEN", "appl button: al lang $language wal temp $temprature")
             Toast.makeText(requireContext(), "Changes Applied Successfully", Toast.LENGTH_SHORT).show()
+
+            if(language.equals("en")){
+
+                LocalHelper.setLocale(requireContext(), "en");
+                context?.getResources()!!
+                Toast.makeText(requireContext() , "lang" , Toast.LENGTH_SHORT).show();
+            } else {
+                LocalHelper.setLocale(requireContext(), "ar");
+                context?.getResources()!!
+                Toast.makeText(requireContext() , "lang" , Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

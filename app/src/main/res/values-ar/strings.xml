@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hummidity">Humidity</string>
+    <string name="app_name">برنامج الطقس</string>
+    <string name="hello_blank_fragment">مرحبا</string>
+    <string name="title_activity_maps">الخريطه</string>
+    <string name="hummidityy">الرطوبه</string>
+    <string name="Pressure">الضغط</string>
+    <string name="Wind">الرياح</string>
+    <string name="Cloud">السحب</string>
+    <string name="UltraViolet">الاشعه فوق البنفسجيه</string>
+    <string name="Visability">الرؤيه</string>
+</resources>

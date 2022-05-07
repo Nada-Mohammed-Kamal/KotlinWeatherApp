@@ -128,7 +128,7 @@
                     android:width="130dp"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Humidity"
+                    android:text="@string/hummidityy"
                     android:textColor="#72393939"
                     app:layout_column="0"
                     app:layout_row="0" />
@@ -152,7 +152,7 @@
                     android:width="150dp"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Wind"
+                    android:text="@string/Wind"
                     android:textColor="#72393939"
                     app:layout_column="2"
                     app:layout_row="0" />
@@ -205,7 +205,7 @@
                     android:layout_height="30dp"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Cloud"
+                    android:text="@string/Cloud"
                     android:textColor="#72393939"
                     app:layout_column="0"
                     app:layout_row="2" />
@@ -216,7 +216,7 @@
                     android:layout_height="30dp"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Ultra Violet"
+                    android:text="@string/UltraViolet"
                     android:textColor="#72393939"
                     app:layout_column="1"
                     app:layout_row="2" />
@@ -227,7 +227,7 @@
                     android:layout_height="30dp"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Visability"
+                    android:text="@string/Visability"
                     android:textColor="#72393939"
                     app:layout_column="2"
                     app:layout_row="2" />
