@@ -30,13 +30,13 @@
                 android:weightSum="3">
 
                 <TextView
-                    android:id="@+id/textView6"
+                    android:id="@+id/idlang"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Language"
+                    android:text="@string/Language"
                     android:textColor="#03dac5 "
                     android:textStyle="bold" />
 
@@ -45,16 +45,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="English" />
+                    android:text="@string/english" />
 
                 <RadioButton
                     android:id="@+id/radioButtonArabicId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="Arabic" />
+                    android:text="@string/arabic" />
             </RadioGroup>
         </androidx.cardview.widget.CardView>
 
@@ -76,13 +78,13 @@
                 android:weightSum="3">
 
                 <TextView
-                    android:id="@+id/textView19"
+                    android:id="@+id/idWindSettings"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Wind"
+                    android:text="@string/Wind"
                     android:textColor="#03dac5 "
                     android:textStyle="bold" />
 
@@ -91,16 +93,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="Mile/Hour" />
+                    android:text="@string/MileHour" />
 
                 <RadioButton
                     android:id="@+id/radioButtonMeterPerSecId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="Meter/Second" />
+                    android:text="@string/MeterSecond" />
             </RadioGroup>
         </androidx.cardview.widget.CardView>
 
@@ -122,13 +126,13 @@
                 android:weightSum="4">
 
                 <TextView
-                    android:id="@+id/textView20"
+                    android:id="@+id/idTemp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Temperature"
+                    android:text="@string/Temperature"
                     android:textColor="#03dac5 "
                     android:textStyle="bold" />
 
@@ -137,24 +141,27 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="Celsius" />
+                    android:text="@string/Celsius" />
 
                 <RadioButton
                     android:id="@+id/radioButtonFehrenhitId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="Fahrenheit" />
+                    android:text="@string/Fahrenheit" />
 
                 <RadioButton
                     android:id="@+id/radioButtonKelvinId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="Kelvin" />
+                    android:text="@string/Kelvin" />
             </RadioGroup>
         </androidx.cardview.widget.CardView>
 
@@ -175,13 +182,13 @@
                 android:weightSum="3">
 
                 <TextView
-                    android:id="@+id/textView21"
+                    android:id="@+id/idLoc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.5"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Location"
+                    android:text="@string/Location"
                     android:textColor="#03dac5 "
                     android:textStyle="bold" />
 
@@ -190,16 +197,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="Map" />
+                    android:text="@string/Map" />
 
                 <RadioButton
                     android:id="@+id/radioButtonGPSId"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
                     android:layout_weight="1"
-                    android:text="GPS" />
+                    android:text="@string/GPS" />
             </RadioGroup>
         </androidx.cardview.widget.CardView>
 
@@ -211,7 +220,7 @@
             android:layout_marginTop="60dp"
             android:backgroundTint="#03DAC5"
             android:fontFamily="casual"
-            android:text="Apply"
+            android:text="@string/Apply"
             android:textStyle="bold"
             app:cornerRadius="20dp"
             app:layout_constraintStart_toStartOf="parent"

@@ -1,5 +1,6 @@
 package com.example.kotlinweatherapp.homeScreen.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -56,6 +57,15 @@ class HomeFragment : Fragment() {
     lateinit var visibility : TextView
     lateinit var desc : TextView
 
+    //labels
+    lateinit var hummid : TextView
+    lateinit var pressu : TextView
+    lateinit var wnd : TextView
+    lateinit var clod : TextView
+    lateinit var uv : TextView
+    lateinit var visblty : TextView
+
+
 
     //var weatherObj : WeatherResponse? = null
     lateinit var myView: View
@@ -71,6 +81,7 @@ class HomeFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_home, container, false)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myView = view
@@ -87,6 +98,22 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this, homeFactory).get(HomeFragViewModel::class.java)
 
 
+        //labels
+        uv = view.findViewById(R.id.idUltraViolet)
+        clod = view.findViewById(R.id.idCloud)
+        hummid = view.findViewById(R.id.Idhummid)
+        wnd = view.findViewById(R.id.idWind)
+        pressu = view.findViewById(R.id.idPressure)
+        visblty = view.findViewById(R.id.idVisability)
+
+        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+            uv.text = "الاشعه فوق البنفسجيه"
+            clod.text = "السحب"
+            hummid.text = "الرطوبه"
+            wnd.text = "الرياح"
+            pressu.text = "الضغط"
+            visblty.text = "الرؤيه"
+        }
 
         //recycler views
         dailyRecyclerView = view.findViewById(R.id.recyclerViewDailyId)
@@ -116,28 +143,56 @@ class HomeFragment : Fragment() {
         visibility = view.findViewById(R.id.homeVisabitiyId)
 
 
-        viewModel.getWeatherObj().observe(viewLifecycleOwner , Observer {weatherObj ->
+        viewModel.getWeatherObj().observe(viewLifecycleOwner , { weatherObj ->
 
             if(weatherObj != null && weatherObj.isNotEmpty()){
-                var hourlyAdapter = HourlyWeatherAdapter(weatherObj.get(0) , requireContext())
+                var hourlyAdapter = HourlyWeatherAdapter(weatherObj[0], requireContext())
                 hourlyRecyclerView.adapter = hourlyAdapter
-                var dailyAdapter = DailyWeatherAdapter(weatherObj.get(0) , requireContext())
+                var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
                 dailyRecyclerView.adapter = dailyAdapter
 
                 getAddressAndDateForLocation()
-                temp.text = weatherObj.get(0).current.temp.toString()
+                if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
+                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                        temp.text = "${weatherObj[0].current.temp}" + "س"
+                        wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
+                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                        temp.text = "${weatherObj[0].current.temp}" + "C"
+                        wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
+                    }
+                }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
+                {
+                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                        temp.text = "${weatherObj[0].current.temp}" + "ف"
+                        wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
 
-                Glide.with(descImg).load("http://openweathermap.org/img/w/"+weatherObj?.get(0)?.current?.weather.get(0).icon+".png").into(descImg)
+                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                        temp.text = "${weatherObj[0].current.temp}" + "F"
+                        wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
+                    }
+
+                } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
+                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                        temp.text = "${weatherObj[0].current.temp} ك "
+                        wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
+                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                        temp.text = "${weatherObj[0].current.temp}" + "K"
+                        wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
+                    }
+
+                }
+
+
+                Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
 
                 //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
-                date.text = timeStampToDate(weatherObj.get(0).current.dt)
-                hummidity.text = weatherObj.get(0).current.humidity.toString()
-                pressure.text = weatherObj.get(0).current.pressure.toString()
-                wind.text = weatherObj.get(0).current.windSpeed.toString()
-                cloud.text = weatherObj.get(0).current.clouds.toString()
-                ultraViolet.text = weatherObj.get(0).current.uvi.toString()
-                visibility.text = weatherObj.get(0).current.visibility.toString()
-                desc.text = weatherObj.get(0).current.weather.get(0).description
+                date.text = timeStampToDate(weatherObj[0].current.dt)
+                hummidity.text = weatherObj[0].current.humidity.toString()
+                pressure.text = weatherObj[0].current.pressure.toString()
+                cloud.text = weatherObj[0].current.clouds.toString()
+                ultraViolet.text = weatherObj[0].current.uvi.toString()
+                visibility.text = weatherObj[0].current.visibility.toString()
+                desc.text = weatherObj[0].current.weather[0].description
 
             }else{
                 var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)

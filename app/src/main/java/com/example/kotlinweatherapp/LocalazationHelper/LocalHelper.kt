@@ -14,7 +14,7 @@ class LocalHelper {
         private val SELECTED_LANGUAGE = "Locale.Helper.Selected.Language"
 
         fun setLocale(context: Context, language: String): Context? {
-            persist(context, language)
+            //persist(context, language)
 
             // updating the language for devices above android nougat
             return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

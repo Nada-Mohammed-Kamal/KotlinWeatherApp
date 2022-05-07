@@ -14,12 +14,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:weightSum="8.1">
+            android:weightSum="7.3">
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2.0">
+                android:layout_weight="1.7">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -27,17 +27,18 @@
 
                     <ImageView
                         android:id="@+id/imageView"
-                        android:layout_width="249dp"
-                        android:layout_height="187dp"
+                        android:layout_width="253dp"
+                        android:layout_height="170dp"
                         android:layout_marginStart="20dp"
-                        android:layout_marginTop="48dp"
+                        android:layout_marginTop="75dp"
                         android:src="@drawable/cloudygirl"
                         app:layout_constraintStart_toEndOf="@+id/homeTempratureId"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ImageContrastCheck" />
 
                     <TextView
                         android:id="@+id/homePlaceId"
-                        android:layout_width="163dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="36dp"
                         android:layout_marginStart="39dp"
                         android:layout_marginTop="28dp"
@@ -50,7 +51,7 @@
 
                     <TextView
                         android:id="@+id/homeTempratureId"
-                        android:layout_width="101dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="63dp"
                         android:layout_marginTop="4dp"
                         android:fontFamily="casual"
@@ -80,7 +81,7 @@
                     <ImageView
                         android:id="@+id/descImgId"
                         android:layout_width="40dp"
-                        android:layout_height="36dp"
+                        android:layout_height="40dp"
                         android:layout_marginTop="16dp"
                         android:padding="0dp"
                         android:src="@drawable/cloudy"
@@ -117,12 +118,13 @@
             <androidx.gridlayout.widget.GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1.5"
+                android:layout_weight="1.3"
                 android:rotationY="2"
                 app:columnCount="3">
 
+
                 <TextView
-                    android:id="@+id/textView7"
+                    android:id="@+id/Idhummid"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:width="130dp"
@@ -134,19 +136,19 @@
                     app:layout_row="0" />
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/idPressure"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:width="130dp"
                     android:fontFamily="casual"
                     android:gravity="center"
-                    android:text="Pressure"
+                    android:text="@string/Pressure"
                     android:textColor="#72393939"
                     app:layout_column="1"
                     app:layout_row="0" />
 
                 <TextView
-                    android:id="@+id/textView9"
+                    android:id="@+id/idWind"
                     android:layout_width="wrap_content"
                     android:layout_height="30dp"
                     android:width="150dp"
@@ -200,7 +202,7 @@
                     app:layout_row="1" />
 
                 <TextView
-                    android:id="@+id/textView13"
+                    android:id="@+id/idCloud"
                     android:layout_width="130dp"
                     android:layout_height="30dp"
                     android:fontFamily="casual"
@@ -211,7 +213,7 @@
                     app:layout_row="2" />
 
                 <TextView
-                    android:id="@+id/textView14"
+                    android:id="@+id/idUltraViolet"
                     android:layout_width="130dp"
                     android:layout_height="30dp"
                     android:fontFamily="casual"
@@ -222,7 +224,7 @@
                     app:layout_row="2" />
 
                 <TextView
-                    android:id="@+id/textView15"
+                    android:id="@+id/idVisability"
                     android:layout_width="150dp"
                     android:layout_height="30dp"
                     android:fontFamily="casual"
@@ -270,7 +272,18 @@
                     android:textStyle="bold"
                     app:layout_column="2"
                     app:layout_row="3" />
+
             </androidx.gridlayout.widget.GridLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="0.0001"
+                android:background="#AB6A6A6A"
+                android:backgroundTint="#AB6A6A6A"
+                android:textColor="#AB6A6A6A">
+
+            </TextView>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewHourlyId"
@@ -278,21 +291,37 @@
                 android:layout_height="0dp"
                 android:layout_weight="1.3"
                 android:paddingLeft="20dp"
-                android:paddingRight="20dp" >
+                android:paddingTop="25dp"
+                android:paddingRight="20dp">
 
             </androidx.recyclerview.widget.RecyclerView>
 
 
+
+
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewDailyId"
-                android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_weight="2"
-                android:paddingBottom="20dp" />
+                android:elevation="20dp"
+                android:paddingBottom="20dp"
+                app:cardCornerRadius="20dp">
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewDailyId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:paddingBottom="20dp"
+                    android:paddingTop="12dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+            </androidx.cardview.widget.CardView>
+
+
         </LinearLayout>
 
     </FrameLayout>

@@ -10,4 +10,22 @@
     <string name="Cloud">السحب</string>
     <string name="UltraViolet">الاشعه فوق البنفسجيه</string>
     <string name="Visability">الرؤيه</string>
+    <string name="english">الانجليزيه</string>
+    <string name="arabic">العربيه</string>
+    <string name="MileHour">ميل/ساعه</string>
+    <string name="MeterSecond">متر/ثانيه</string>
+    <string name="Map">الخريطه</string>
+    <string name="GPS">Gps</string>
+    <string name="Celsius">سيليزي</string>
+    <string name="Fahrenheit">فيهرينهيت</string>
+    <string name="Kelvin">كيلفن</string>
+    <string name="Apply">تطبيق</string>
+    <string name="Language">اللغه</string>
+    <string name="Temperature">درجه الحراره</string>
+    <string name="Location">العنوان</string>
+    <string name="Save">حفظ</string>
+    <string name="home">الرئيسيه</string>
+    <string name="fav">المفضل</string>
+    <string name="alarm">التنبيهات</string>
+    <string name="settings">الاعدادات</string>
 </resources>

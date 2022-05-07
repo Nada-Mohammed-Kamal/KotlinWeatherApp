@@ -1,10 +1,8 @@
 package com.example.kotlinweatherapp.settingsscreen.view
 
-import android.content.Context
 import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.res.Resources
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -16,10 +14,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.*
 
-import android.widget.RadioGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.kotlinweatherapp.LocalazationHelper.LocalHelper
@@ -58,6 +54,28 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
     private var locationRadioGroup: RadioGroup? = null
     private var tempRadioGroup: RadioGroup? = null
 
+    //radioButtons
+    private lateinit var eng : RadioButton
+    private lateinit var arb : RadioButton
+
+    private lateinit var milepersec : RadioButton
+    private lateinit var meterperhour : RadioButton
+
+    private lateinit var c : RadioButton
+    private lateinit var f : RadioButton
+    private lateinit var k : RadioButton
+
+    private lateinit var map : RadioButton
+    private lateinit var gps : RadioButton
+
+
+    private lateinit var windTxt : TextView
+    private lateinit var tempTxt : TextView
+    private lateinit var locText : TextView
+    private lateinit var langTxt : TextView
+
+
+
     var language : String = ""
     var wind : String = ""
     var temprature : String = ""
@@ -80,6 +98,26 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
+        //ids
+        eng = view.findViewById(R.id.radioButtonEnglishId)
+        arb = view.findViewById(R.id.radioButtonArabicId)
+
+        milepersec = view.findViewById(R.id.radioButtonMilePerHourId)
+        meterperhour = view.findViewById(R.id.radioButtonMeterPerSecId)
+
+        c = view.findViewById(R.id.radioButtonCelisiusId)
+        f = view.findViewById(R.id.radioButtonFehrenhitId)
+        k = view.findViewById(R.id.radioButtonKelvinId)
+
+        map = view.findViewById(R.id.radioButtonMapId)
+        gps = view.findViewById(R.id.radioButtonGPSId)
+
+
+        windTxt = view.findViewById(R.id.idWindSettings)
+        tempTxt = view.findViewById(R.id.idTemp)
+        locText = view.findViewById(R.id.idLoc)
+        langTxt = view.findViewById(R.id.idlang)
+
 
         myView = view
         language =SharedPrefsHelper.getLang(requireContext())
@@ -90,6 +128,24 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
 
     override fun onResume() {
         super.onResume()
+
+        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+            eng.text = "الانجليزيه"
+            arb.text = "العربيه"
+            milepersec.text = "ميل/ساعه"
+            meterperhour.text = "متر/ثانيه"
+            c.text = "سيليزي"
+            f.text = "فهرنهيت"
+            k.text = "كلفن"
+            map.text = "خريطه"
+            gps.text = "جب بي اس"
+            windTxt.text = "الرياح"
+            tempTxt.text = "درجه الحراره"
+            locText.text = "العنوان"
+            langTxt.text = "اللغه"
+            btnApply!!.text = "تطبيق"
+        }
+
         addListenerOnButton()
         if(!(NetworkChangeReceiver.isThereInternetConnection)){
             Log.e(
@@ -97,6 +153,8 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
                 "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} "
             )
             showNoNetSnackbar()
+
+
         }
 
         settingFactory = SettingsViewModelFactory(
@@ -191,15 +249,43 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
             Log.e("SETINGSSCREEEEEN", "appl button: al lang $language wal temp $temprature")
             Toast.makeText(requireContext(), "Changes Applied Successfully", Toast.LENGTH_SHORT).show()
 
-            if(language.equals("en")){
+            if(language == "en"){
 
                 LocalHelper.setLocale(requireContext(), "en");
-                context?.getResources()!!
-                Toast.makeText(requireContext() , "lang" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext() , "lang (en): ${context?.resources}" , Toast.LENGTH_SHORT).show();
+                eng.text = "English"
+                arb.text = "Arabic"
+                milepersec.text = "Mile/Hour"
+                meterperhour.text = "Meter/sec"
+                c.text = "Celsius"
+                f.text = "Fahrenheit"
+                k.text = "Kelvin"
+                map.text = "Map"
+                gps.text = "GPS"
+                windTxt.text = "Wind"
+                tempTxt.text = "Temperature"
+                locText.text = "Location"
+                langTxt.text = "Language"
+                btnApply!!.text = "Apply"
             } else {
                 LocalHelper.setLocale(requireContext(), "ar");
-                context?.getResources()!!
-                Toast.makeText(requireContext() , "lang" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext() , "lang (ar): ${context?.resources}" , Toast.LENGTH_SHORT).show();
+                if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                    eng.text = "الانجليزيه"
+                    arb.text = "العربيه"
+                    milepersec.text = "ميل/ساعه"
+                    meterperhour.text = "متر/ثانيه"
+                    c.text = "سيليزي"
+                    f.text = "فهرنهيت"
+                    k.text = "كلفن"
+                    map.text = "خريطه"
+                    gps.text = "جب بي اس"
+                    windTxt.text = "الرياح"
+                    tempTxt.text = "درجه الحراره"
+                    locText.text = "العنوان"
+                    langTxt.text = "اللغه"
+                    btnApply!!.text = "تطبيق"
+                }
             }
         }
     }

@@ -20,4 +20,22 @@
     <string name="Cloud">Cloud</string>
     <string name="UltraViolet">Ultra Violet</string>
     <string name="Visability">Visability</string>
+    <string name="english">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="MileHour">Mile/Hour</string>
+    <string name="MeterSecond">Meter/Second</string>
+    <string name="Map">Map</string>
+    <string name="GPS">GPS</string>
+    <string name="Celsius">Celsius</string>
+    <string name="Fahrenheit">Fahrenheit</string>
+    <string name="Kelvin">Kelvin</string>
+    <string name="Apply">Apply</string>
+    <string name="Language">Language</string>
+    <string name="Location">Location</string>
+    <string name="Temperature">Temperature</string>
+    <string name="Save">Save</string>
+    <string name="home">\@drawable/home</string>
+    <string name="fav">\@drawable/favorite</string>
+    <string name="alarm">\@drawable/alarm</string>
+    <string name="settings">\@drawable/settings</string>
 </resources>

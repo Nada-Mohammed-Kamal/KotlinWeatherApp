@@ -20,7 +20,7 @@
         android:layout_gravity="center"
         android:backgroundTint="#03DAC5"
         android:fontFamily="casual"
-        android:text="Save"
+        android:text="@string/Save"
         android:textAllCaps="false"
         android:textColor="@color/white"
         map:layout_constraintBottom_toBottomOf="@+id/map"
