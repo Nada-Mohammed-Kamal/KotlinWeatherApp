@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/activity_alarm_scr.xml" value="0.536" />
+        <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/activity_alarm_scr.xml" value="0.2" />
+        <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/activity_gpsor_map.xml" value="0.11428571428571428" />
         <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/activity_main.xml" value="0.16" />
+        <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/activity_map.xml" value="0.1" />
+        <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/activity_maps.xml" value="0.152" />
         <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/activity_splash_annimation.xml" value="0.1" />
         <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/add_alarm_screen.xml" value="0.1802536231884058" />
         <entry key="..\:/iti content/Android-java/AndroidProjects/KotlinWeatherApp/app/src/main/res/layout/alarm_row.xml" value="0.2" />

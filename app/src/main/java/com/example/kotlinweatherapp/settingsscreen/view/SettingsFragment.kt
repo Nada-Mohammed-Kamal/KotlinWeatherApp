@@ -1,6 +1,12 @@
 package com.example.kotlinweatherapp.settingsscreen.view
 
+import android.content.Context.LOCATION_SERVICE
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -9,40 +15,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.RadioButton
 
 import android.widget.RadioGroup
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.kotlinweatherapp.map.view.MapsActivity
 import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.models.networkConnectivity.NetworkChangeReceiver
+import com.example.kotlinweatherapp.models.pojos.FavouriteObject
+import com.example.kotlinweatherapp.models.repo.Repo
+import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
+import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
+import com.example.kotlinweatherapp.settingsscreen.SettingsAndMapCommunicator
+import com.example.kotlinweatherapp.settingsscreen.viewmodel.SettingsFragViewModel
+import com.example.kotlinweatherapp.settingsscreen.viewmodel.SettingsViewModelFactory
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
-import kotlin.math.log
+import java.io.IOException
+import java.util.*
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
+
+    //getCurrentLocation
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+
+    //viewModel
+    private lateinit var viewModel: SettingsFragViewModel
+    lateinit var settingFactory : SettingsViewModelFactory
 
     //radio groups
     private var langRadioGroup: RadioGroup? = null
     private var windRadioGroup: RadioGroup? = null
     private var locationRadioGroup: RadioGroup? = null
     private var tempRadioGroup: RadioGroup? = null
-
-    //radio buttons
-    private var arabicRadioButton: RadioButton? = null
-    private var englishRadioButton: RadioButton? = null
-    private var milePerHourRadioButton: RadioButton? = null
-    private var meterPerSecRadioButton: RadioButton? = null
-    private var mapRadioButton: RadioButton? = null
-    private var gpsRadioButton: RadioButton? = null
-    private var celsiusRadioButton: RadioButton? = null
-    private var fahrenheitRadioButton: RadioButton? = null
-    private var kelvinRadioButton: RadioButton? = null
-
-    //selected radio buttons
-    private var langRadioButtonSelected: RadioButton? = null
-    private var windSelectedRadioButton: RadioButton? = null
-    private var locSelectedRadioButton: RadioButton? = null
-    private var tempSelectedRadioButton: RadioButton? = null
 
     var language : String = ""
     var wind : String = ""
@@ -63,6 +72,10 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+
         myView = view
         language =SharedPrefsHelper.getLang(requireContext())
         temprature = SharedPrefsHelper.getTempUnit(requireContext())
@@ -77,6 +90,12 @@ class SettingsFragment : Fragment() {
             Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
             showNoNetSnackbar()
         }
+
+        settingFactory = SettingsViewModelFactory(
+            Repo.getInstance(
+                weatherRetrofitClient.getInstance() ,
+                ConcreateLocalSource(requireContext()),  requireContext()) , requireContext())
+        viewModel = ViewModelProvider(this, settingFactory).get(SettingsFragViewModel::class.java)
     }
 
     private fun addListenerOnButton() {
@@ -109,11 +128,15 @@ class SettingsFragment : Fragment() {
                     Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: map", )
                     //Toast.makeText(context, "map", Toast.LENGTH_SHORT).show()
                     location = "map"
+                    val intent = Intent(requireContext() , MapsActivity::class.java)
+                    intent.putExtra("fromScreen" , "settings")
+                    startActivity(intent)
                 }
                 R.id.radioButtonGPSId -> {
                     Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: gps", )
                     //Toast.makeText(context, "gps", Toast.LENGTH_SHORT).show()
                     location = "gps"
+                    getCurrentLoc()
                 }
             }
         }
@@ -139,7 +162,6 @@ class SettingsFragment : Fragment() {
                     Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: celisus", )
 //                    Toast.makeText(context, "Celsius", Toast.LENGTH_SHORT).show()
                     temprature = "metric"
-
                 }
                 R.id.radioButtonFehrenhitId -> {
                     Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: fehrinhit", )
@@ -171,10 +193,6 @@ class SettingsFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance() = SettingsFragment()
-    }
 
     private fun showNoNetSnackbar() {
         val snack = Snackbar.make(myView!!, "Please check your internet Connection!", Snackbar.LENGTH_LONG) // replace root view with your view Id
@@ -185,4 +203,115 @@ class SettingsFragment : Fragment() {
     }
 
 
+    //currentLoc
+    private fun getCurrentLoc()
+    {
+        if(checkPermission())
+        {
+            if(isLocationEnabeled())
+            {
+                //find lat and long
+                fusedLocationProviderClient.lastLocation.addOnCompleteListener {task ->
+                    val location : Location? = task.result
+                    if(location==null)
+                    {
+                        Toast.makeText(requireContext() , "Null location returned" , Toast.LENGTH_LONG).show()
+                    }
+                    else
+                    {
+                        Toast.makeText(requireContext() , "location returned successfully lat is : ${location.latitude} and long is : ${location.longitude} " , Toast.LENGTH_LONG).show()
+                        SharedPrefsHelper.setLatitude(requireContext() , (location.latitude).toString())
+                        SharedPrefsHelper.setLongitude(requireContext() , (location.longitude).toString())
+                    }
+                }
+            }
+            else
+            {
+                //setting open here
+                Toast.makeText(requireContext() , "Please turn on Location" , Toast.LENGTH_SHORT).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+        }
+        else
+        {
+            //request permission here
+            requestPermission()
+        }
+    }
+
+    private fun isLocationEnabeled(): Boolean {
+        val locationManager : LocationManager = activity?.getSystemService(LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(requireActivity(),
+            arrayOf(android.Manifest.permission.ACCESS_COARSE_LOCATION
+                ,android.Manifest.permission.ACCESS_FINE_LOCATION) , 1234)
+    }
+
+    private fun checkPermission(): Boolean {
+        if(ActivityCompat.checkSelfPermission(requireContext() ,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(requireContext() ,
+                android.Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED)
+        {
+            return true
+        }
+        return false
+    }
+
+
+    companion object {
+        private const val PERMISSION_REQUEST_ACCESS_LOCATION = 100
+
+        @JvmStatic
+        fun newInstance() = SettingsFragment()
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if(requestCode == PERMISSION_REQUEST_ACCESS_LOCATION)
+        {
+            if(grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+            {
+                Toast.makeText(requireContext() , "Permission Granted" , Toast.LENGTH_LONG).show()
+                getCurrentLoc()
+            }
+            else{
+                Toast.makeText(requireContext() , "Permission Denied , Please Enable The Location in order to get you the Weather" , Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    override fun addTOFav(location: LatLng) {
+        val addressInTxt = getAddressAndDateForLocation(location.latitude, location.longitude)
+        val favouriteObject = FavouriteObject(location.latitude, location.longitude, addressInTxt)
+        viewModel.addFavourite(favouriteObject)
+        Toast.makeText(requireContext() , "Favourite place added successfully" , Toast.LENGTH_SHORT).show()
+    }
+
+    fun getAddressAndDateForLocation(lat : Double , long : Double) : String{
+        //GPSLat GPSLong
+        var addressGeocoder : Geocoder = Geocoder(requireContext(), Locale.getDefault())
+        try {
+            var myAddress : List<Address> = addressGeocoder.getFromLocation(lat , long, 2)
+            if(myAddress.isNotEmpty()){
+                var locName = "${myAddress[0].subAdminArea}, ${myAddress[0].adminArea}"
+                Log.i("ConvertLocInFavFrag", "getAddressForLocation: ${myAddress[0].subAdminArea} ${myAddress[0].adminArea}")
+                return locName
+            }
+        }catch (e : IOException){
+            e.printStackTrace()
+        }
+        return ""
+    }
 }

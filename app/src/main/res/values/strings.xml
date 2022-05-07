@@ -12,4 +12,5 @@
         <item>Thunder Storm</item>
         <item>Mist/Fog</item>
     </string-array>
+    <string name="title_activity_maps">MapsActivity</string>
 </resources>

@@ -21,6 +21,6 @@ data class DailyWeatherModel (
     val windGust: Double,
     val weather: List<WeatherStatus>,
     val clouds: Long,
-    val pop: Long,
+    //val pop: Long,
     val uvi: Double
 ): Serializable

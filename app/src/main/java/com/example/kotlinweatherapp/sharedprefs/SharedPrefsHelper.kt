@@ -17,7 +17,6 @@ class SharedPrefsHelper{
                 }
             }
 
-
         fun setLongitude(context: Context , longitude : String){
             val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
             var editor = sharedPreference.edit()
@@ -80,6 +79,19 @@ class SharedPrefsHelper{
         fun getIsFav(context: Context) : Boolean{
             val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
             return sharedPreference.getBoolean("isFav", false)!!
+        }
+
+        fun setIsFirstTime(context: Context , isFirstTime : Boolean){
+            val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
+            var editor = sharedPreference.edit()
+            editor.putBoolean("isFirstTime", isFirstTime)
+            editor.apply()
+        }
+
+
+        fun getIsFirstTime(context: Context) : Boolean{
+            val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
+            return sharedPreference.getBoolean("isFirstTime",true)
         }
     }
 }

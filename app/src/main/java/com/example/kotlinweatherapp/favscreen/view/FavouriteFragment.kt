@@ -1,16 +1,13 @@
 package com.example.kotlinweatherapp.favscreen.view
 
 import android.Manifest.permission.*
-import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Dialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
 import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,22 +17,23 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.kotlinweatherapp.map.view.MapsActivity
 import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.favscreen.FavouritesCommunicator
 import com.example.kotlinweatherapp.favscreen.viewmodel.FavFragViewModel
 import com.example.kotlinweatherapp.favscreen.viewmodel.FavViewModelFactory
 import com.example.kotlinweatherapp.models.networkConnectivity.NetworkChangeReceiver
-import com.example.kotlinweatherapp.models.pojos.Alarm
 import com.example.kotlinweatherapp.models.pojos.FavouriteObject
 import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
+import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,7 +45,13 @@ import java.util.*
 class FavouriteFragment : Fragment() {
 
     private lateinit var viewModel: FavFragViewModel
-    lateinit var FavFactory : FavViewModelFactory
+    lateinit var favViewModelFactory : FavViewModelFactory
+
+
+    //maps
+    //map checking
+    private val TAG = "MAP TAG"
+    private val ERROR_DIALOG_REQUEST : Int= 9001
 
     //recyclerViewFavScreenId
     lateinit var favRecyclerView : RecyclerView
@@ -58,25 +62,20 @@ class FavouriteFragment : Fragment() {
     lateinit var myView : View
     lateinit var locationPermissionRequest: ActivityResultLauncher<Array<String>>
     val PERMISSION_ALL = 1
+    var mLocationPermission = false
     val PERMISSIONS = arrayOf(
         ACCESS_FINE_LOCATION,
         ACCESS_COARSE_LOCATION
     )
+    val location_permission_request_code : Int = 1234
     //var location : Location = Location("30.016893,31.377033")
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
-    private lateinit var FavViewModel: FavFragViewModel
-    lateinit var favViewModelFactory : FavViewModelFactory
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
-//
-//        if (!hasPermissions(requireContext(), *PERMISSIONS)) {
-//            ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, PERMISSION_ALL)
-//        }
 
     }
 
@@ -119,8 +118,6 @@ class FavouriteFragment : Fragment() {
 
 
 
-    @SuppressLint("MissingPermission")
-    @RequiresApi(Build.VERSION_CODES.N)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         myView = view
@@ -132,30 +129,6 @@ class FavouriteFragment : Fragment() {
         linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
 
-
-
-
-
-//        //view model
-//        favViewModelFactory = FavViewModelFactory(
-//            Repo.getInstance(
-//                weatherRetrofitClient.getInstance() ,
-//                ConcreateLocalSource(requireContext()),  requireContext()) , requireContext())
-//        FavViewModel = ViewModelProvider(this, favViewModelFactory).get(FavFragViewModel::class.java)
-//        val favourites = FavViewModel.getFavourites()
-//        //put it back
-//        favourites?.observe(viewLifecycleOwner , androidx.lifecycle.Observer { favs ->
-//            if(favs != null){
-//                favAdapter = FavAdapter( favs, requireContext())
-//                favRecyclerView.layoutManager = linearLayoutManager
-//                favRecyclerView.adapter = favAdapter
-//            }else{
-//                favAdapter = FavAdapter( favs , requireContext())
-//                favRecyclerView.layoutManager = linearLayoutManager
-//                favRecyclerView.adapter = favAdapter
-//                Log.e("FromAlarmFragment", "onViewCreated: :List of favourites is null", )
-//            }
-//        })
 
         //view model
         favViewModelFactory = FavViewModelFactory(
@@ -172,61 +145,21 @@ class FavouriteFragment : Fragment() {
         communicator = favAdapter
 
 
-
         btnAddFav.setOnClickListener{
 
-            val favouriteObject = FavouriteObject(
-                30.061695,
-                31.458577,
-                getAddressAndDateForLocation(30.061695, 31.458577)
-            )
-            viewModel.addFavourite(favouriteObject)
-            Toast.makeText(requireContext() , "Added to Favourite Places successfully" , Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext() , MapsActivity::class.java)
+            intent.putExtra("fromScreen" , "fav")
+            startActivity(intent)
+            //getLocationPermission()
+            //TODO: araga3 de (working) bs a replace al static location da bal hayarg3 mal map
 
-            //TODO: araga3 de bs azabatha
-        //check permission
-//            if (!hasPermissions(requireContext(), *PERMISSIONS)) {
-//                ActivityCompat.requestPermissions(requireActivity(), PERMISSIONS, PERMISSION_ALL);
-//            } else {
-//
-//
-//                //getLastKnownLocation()
-//
-//
-//
-//
-//
-//            //open map 3al current location
-////                val lm = getSystemService(Context.APP_OPS_SERVICE) as ?
-////                val location: Location? = lm!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-////                val longitude: Double = location!!.longitude
-////                val latitude: Double = location.latitude
-////                val geocoder: Geocoder
-////                val address: List<Address>
-////                geocoder = Geocoder(requireContext(), Locale.getDefault())
-////
-////                address = geocoder.getFromLocation(latitude, longitude, 1)
-////                Handler().postDelayed(Runnable {
-////                    val uri =
-////                        "http://maps.google.com/maps?saddr=$latitude,$longitude"// + "&daddr=" + destinationLatitude.toString() + "," + destinationLongitude
-////                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-////                    startActivity(intent)
-////                }, 1000)
-//            }
-
-
-//            val geocoder: Geocoder
-//            val address: List<Address>
-//            geocoder = Geocoder(this, Locale.getDefault())
-
-//            address = geocoder.getFromLocation(latitude, longitude, 1)
-//            Handler().postDelayed(Runnable {
-//                val uri =
-//                    "http://maps.google.com/maps?saddr=" + sourceLatitude.toString() + "," + sourceLongitude.toString() + "&daddr=" + destinationLatitude.toString() + "," + destinationLongitude
-//                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri))
-//                startActivity(intent)
-//            }, 1000)
-
+//            val favouriteObject = FavouriteObject(
+//                30.061695,
+//                31.458577,
+//                getAddressAndDateForLocation(30.061695, 31.458577)
+//            )
+//            viewModel.addFavourite(favouriteObject)
+//            Toast.makeText(requireContext() , "Added to Favourite Places successfully" , Toast.LENGTH_SHORT).show()
 
             /*TODO: almafrood ageeb al map aw al gps bs wba3d ma adeeb al lat wal log a create fav obj wa a3mlo save fal room wa a
                 fal on click listener bta3 al adapter bta3 al fav a call get get obj over network wab3ato fal intent ll home wa3rad
@@ -239,78 +172,38 @@ class FavouriteFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(favRecyclerView)
     }
 
-    @SuppressLint("MissingPermission")
-    fun getLastKnownLocation() {
-        fusedLocationClient.lastLocation
-            .addOnSuccessListener { location->
-                if (location != null) {
-                    // use your location object
-                    // get latitude , longitude and other info from this
-                    val longitude: Double = location!!.longitude
-                    val latitude: Double = location.latitude
-                    val geocoder: Geocoder = Geocoder(requireContext(), Locale.getDefault())
-                    val address: List<Address> = geocoder.getFromLocation(latitude, longitude, 1)
-                    Handler().postDelayed(Runnable {
-                        //"http://maps.google.com/maps?saddr="
-                        val uri =
-                            "geo:$latitude,$longitude?z=11"
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:$latitude,$longitude"))
-                        val chooser = Intent.createChooser(intent , "Launch Maps")
-                        startActivity(chooser)
-                    }, 500)
-                }
 
-            }
-
-    }
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
-//            PERMISSION_REQUEST_CODE -> {
-//                // If request is cancelled, the result arrays are empty.
-//                if ((grantResults.isNotEmpty() &&
-//                            grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-//                    // Permission is granted. Continue the action or workflow
-//                    // in your app.
-//                } else {
-//                    // Explain to the user that the feature is unavailable because
-//                    // the features requires a permission that the user has denied.
-//                    // At the same time, respect the user's decision. Don't link to
-//                    // system settings in an effort to convince the user to change
-//                    // their decision.
-//                }
-//                return
-//            }
+            location_permission_request_code -> {
+                // If request is cancelled, the result arrays are empty.
+                if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    Log.e(TAG, "onRequestPermissionsResult: acceptedddddddddddd", )
+                    // Permission is granted.
+                    mLocationPermission = true
 
-            // Add other 'when' lines to check for other
-            // permissions this app might request.
-//            else -> {
-//                // Ignore all other requests.
-//            }
+                    //at2aked mn de
+                    //getLocationPermission()
+                    //for map checking
+                    if (isServiceOkay()){
+                        //initialize the map
+                        init()
+                    }
 
+                } else {
+                    Log.e(TAG, "onRequestPermissionsResult: denidedddddddddd", )
+                    // Explain to the user that the feature is unavailable because
+                    // the features requires a permission
+                    Toast.makeText(requireContext() , "Please enable the location in order to be able to add a favourite place" , Toast.LENGTH_LONG).show()
+                }
+            } else ->{
+            Toast.makeText(requireContext() , "Please enable the location in order to be able to add a favourite place" , Toast.LENGTH_LONG).show()
+        }
         }
     }
 
-//    fun onMapReady(googleMap: GoogleMap) {
-//        val currentLocation = LatLng(location.getLatitude(), location.getLongitude())
-//        googleMap.addMarker(
-//            MarkerOptions().position(currentLocation)
-//                .title("Current Location")
-//        )
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(currentLocation))
-//    }
-
-    fun hasPermissions(context: Context, vararg permissions: String): Boolean = permissions.all {
-        ActivityCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
-    }
-
-//    fun getCurrentLocation(){
-//        val lm = getSystemService(LOCATION_SERVICE) as LocationManager?
-//        val location: Location? = lm!!.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-//        val longitude: Double = location!!.longitude
-//        val latitude: Double = location.latitude
-//    }
 
     companion object {
         @JvmStatic
@@ -385,6 +278,34 @@ class FavouriteFragment : Fragment() {
             }
         val alert = builder.create()
         alert.show()
+    }
+
+    //MAPS
+    fun isServiceOkay() : Boolean{
+        Log.e(TAG, "isServiceOkay: Checking google services version" )
+        var available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(requireContext())
+        if(available == ConnectionResult.SUCCESS){
+            //every thing is fine and i can make a map request
+            Log.e(TAG, "isServiceOkay: Okay :)" )
+
+            return true
+        } else if(GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            //an error occurred but can be fixed
+            Log.e(TAG, "isServiceOkay: Problem can be fixed :|" )
+
+            var dialog : Dialog? = GoogleApiAvailability.getInstance().getErrorDialog(this , available , ERROR_DIALOG_REQUEST)
+            dialog?.show()
+        } else {
+            //i cant make map requests
+            Log.e(TAG, "isServiceOkay: problem cant be fixed :(" )
+
+        }
+        return false
+    }
+
+    private fun init(){
+            var i = Intent(requireContext() , MapsActivity::class.java)
+            startActivity(i)
     }
 
 }

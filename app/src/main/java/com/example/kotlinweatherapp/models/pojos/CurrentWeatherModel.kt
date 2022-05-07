@@ -20,5 +20,5 @@ data class CurrentWeatherModel (
     val windDeg: Long,
     val windGust: Double,
     val weather: List<WeatherStatus>,
-    val pop: Long? = null
+    //val pop: Long? = null
 ): Serializable
