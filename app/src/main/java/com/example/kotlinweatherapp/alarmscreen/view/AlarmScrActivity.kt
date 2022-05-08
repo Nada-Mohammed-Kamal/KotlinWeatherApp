@@ -5,6 +5,7 @@ import android.app.DatePickerDialog.OnDateSetListener
 import android.app.Notification
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -21,6 +22,10 @@ import com.example.kotlinweatherapp.models.pojos.ReasonOfTheAlarm
 import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
+import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
+import com.example.kotlinweatherapp.workmanager.WeatherWorkerClass
+import com.example.kotlinweatherapp.workmanager.WorkerUtilsClass
+import com.google.android.gms.maps.model.LatLng
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -117,10 +122,14 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
             isAlarm = alarmOrNotificationSwitch.isChecked
             //the alarm obj to be added
             alarmObj = Alarm(title?.text.toString(), startDate?.text.toString() , endDate?.text.toString() , alarmTime?.text.toString()
-                , alarmOrNotificationSwitch.isChecked , reasonOfTheAlarm.selectedItem.toString())
+                , alarmOrNotificationSwitch.isChecked , reasonOfTheAlarm.selectedItem.toString() , LatLng( SharedPrefsHelper.getLatitude(this).toDouble() , SharedPrefsHelper.getLongitude(this).toDouble() ))
 
 
             viewModel.addAlarm(alarmObj)
+
+            WorkerUtilsClass.addRequestsToWorkManager(alarmObj)
+
+
             Toast.makeText(this , "alarm added successfully" , Toast.LENGTH_SHORT).show()
             finish()
         }

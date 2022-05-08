@@ -11,6 +11,7 @@ import com.example.kotlinweatherapp.models.pojos.WeatherResponse
 import com.example.kotlinweatherapp.models.retrofit.RemoteSource
 import com.example.kotlinweatherapp.models.room.LocalSource
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -34,6 +35,17 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
         CoroutineScope(Dispatchers.IO).launch {
             if (NetworkChangeReceiver.isThereInternetConnection) {
                 weatherObjOverNetwork = remoteSource.getWeatherObjOverNetwork(context)
+                weatherObjOverNetwork?.loc = "${weatherObjOverNetwork?.lat},${weatherObjOverNetwork?.lon}"
+                localSource.insertHomeObj(weatherObjOverNetwork)
+            }
+        }
+        return localSource.allStoredWeatherResponses
+    }
+
+    override fun getWeatherObjOverNetworkWithLatAndLong(context: Context, latLng: LatLng): LiveData<List<WeatherResponse>> {
+        CoroutineScope(Dispatchers.IO).launch {
+            if (NetworkChangeReceiver.isThereInternetConnection) {
+                weatherObjOverNetwork = remoteSource.getWeatherObjOverNetworkWithLatAndLong(context , latLng)
                 weatherObjOverNetwork?.loc = "${weatherObjOverNetwork?.lat},${weatherObjOverNetwork?.lon}"
                 localSource.insertHomeObj(weatherObjOverNetwork)
             }

@@ -7,14 +7,17 @@ import androidx.lifecycle.LiveData
 import com.example.kotlinweatherapp.models.pojos.Alarm
 import com.example.kotlinweatherapp.models.pojos.FavouriteObject
 import com.example.kotlinweatherapp.models.pojos.WeatherResponse
+import com.google.android.gms.maps.model.LatLng
 import retrofit2.Response
 import java.util.*
 
 interface RepoInterface {
     //mn al network
     fun getWeatherObjOverNetwork(context : Context) : LiveData<List<WeatherResponse>>
+    fun getWeatherObjOverNetworkWithLatAndLong(context : Context , latLng: LatLng) : LiveData<List<WeatherResponse>>
 
-    //room
+
+        //room
 
     //vars
     val allStoredWeatherResponses: LiveData<List<WeatherResponse>>

@@ -3,6 +3,8 @@ package com.example.kotlinweatherapp.models.pojos
 import androidx.annotation.NonNull
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.example.kotlinweatherapp.workmanager.CalcTimes
+import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
 import java.text.ParsePosition
 import java.text.SimpleDateFormat
@@ -16,7 +18,8 @@ class Alarm (
     var endDateText : String ,
     var alarmTimeText: String ,
     var typeBool : Boolean ,
-    var reasonOfAlarmText : String
+    var reasonOfAlarmText : String,
+    var latLng: LatLng
     ) : Serializable {
 
     @PrimaryKey
@@ -43,6 +46,9 @@ class Alarm (
         }
 
 
+    fun clcTimes() : List<Date?>{
+        return CalcTimes.getDaysBetweenDates(startDate, endDate)
+    }
 
     private fun stringToDate(aDate: String?, aFormat: String): Date? {
         if (aDate == null) return null
@@ -89,6 +95,8 @@ class Alarm (
         val amOrPm = separateTheAmAndPm[1]
         return CustomTime(hour, minutes, amOrPm)
     }
+
+
 
 
 }

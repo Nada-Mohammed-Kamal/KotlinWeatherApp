@@ -4,6 +4,7 @@ import android.location.Location
 import android.text.format.Time
 import androidx.room.TypeConverter
 import com.example.kotlinweatherapp.models.pojos.*
+import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
@@ -34,6 +35,18 @@ class Converters {
 
     @TypeConverter
     fun convertCurrentWeatherModelToString(list: CurrentWeatherModel?): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun convertLatLongStringToList(value: String?): LatLng {
+        val listType: Type = object : TypeToken<LatLng?>() {}.getType()
+        return Gson().fromJson<LatLng>(value, listType)
+    }
+
+    @TypeConverter
+    fun convertLatLongToString(list: LatLng?): String {
         val gson = Gson()
         return gson.toJson(list)
     }
@@ -80,6 +93,18 @@ class Converters {
     fun convertCurrentWeatherModel(value: String?): List<WeatherStatus> {
         val listType: Type = object : TypeToken<List<WeatherStatus?>?>() {}.getType()
         return Gson().fromJson<List<WeatherStatus>>(value, listType)
+    }
+
+    @TypeConverter
+    fun alertFromListToString(list: List<Alert?>?): String {
+        val gson = Gson()
+        return gson.toJson(list)
+    }
+
+    @TypeConverter
+    fun convertAlert(value: String?): List<Alert> {
+        val listType: Type = object : TypeToken<List<Alert?>?>() {}.getType()
+        return Gson().fromJson<List<Alert>>(value, listType)
     }
 
     @TypeConverter

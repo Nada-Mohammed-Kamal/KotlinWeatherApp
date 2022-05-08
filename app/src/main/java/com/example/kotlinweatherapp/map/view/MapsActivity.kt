@@ -103,6 +103,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback{
         getLocAndViewThePin()
 
         mMap.setOnMapClickListener {
+            mMap.clear()
             currentLocation = it
             val addressInText =
                 getAddressAndDateForLocation(it.latitude, it.longitude)

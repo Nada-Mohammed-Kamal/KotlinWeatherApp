@@ -81,6 +81,7 @@ class FavouriteFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        favAdapter.notifyDataSetChanged()
         if(!(NetworkChangeReceiver.isThereInternetConnection)){
             Log.e(
                 "snackbaaaaaaaaar",

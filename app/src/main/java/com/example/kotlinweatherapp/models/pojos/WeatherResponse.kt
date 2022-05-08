@@ -18,11 +18,10 @@ data class WeatherResponse (
     val hourly: List<CurrentWeatherModel>,//48
     val daily: List<DailyWeatherModel>//8
      ):Serializable {
-
+    var alerts : List<Alert> =  listOf<Alert>()
     @PrimaryKey
     @NonNull
     var loc : String = ""
 
     //var isFav : Boolean = false
-
      }
