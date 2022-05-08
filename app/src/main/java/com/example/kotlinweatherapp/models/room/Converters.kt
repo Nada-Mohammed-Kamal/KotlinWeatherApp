@@ -95,16 +95,22 @@ class Converters {
         return Gson().fromJson<List<WeatherStatus>>(value, listType)
     }
 
+    //covert from / to alerts
     @TypeConverter
-    fun alertFromListToString(list: List<Alert?>?): String {
+    fun fromAlertToString(alertList: List<Alert>?) : String{
         val gson = Gson()
-        return gson.toJson(list)
+        return gson.toJson(alertList)
     }
 
     @TypeConverter
-    fun convertAlert(value: String?): List<Alert> {
-        val listType: Type = object : TypeToken<List<Alert?>?>() {}.getType()
-        return Gson().fromJson<List<Alert>>(value, listType)
+    fun fromStringToAlert(alertListString: String) : List<Alert>?{
+        val gson = Gson()
+        if(alertListString == null){
+            return Collections.emptyList()
+        }else{
+            var list = object : TypeToken<List<Alert?>?>(){}.type
+            return gson.fromJson(alertListString, list)
+        }
     }
 
     @TypeConverter

@@ -93,5 +93,20 @@ class SharedPrefsHelper{
             val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
             return sharedPreference.getBoolean("isFirstTime",true)
         }
+
+        fun setPreviousLatLng(context: Context , latlng : String){
+            val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
+            var editor = sharedPreference.edit()
+            editor.putString("prevLatLng",latlng)
+            editor.apply()
+        }
+
+
+        fun getPreviousLatLng(context: Context) : String{
+            val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
+            return sharedPreference.getString("prevLatLng","")!!
+        }
+
+
     }
 }

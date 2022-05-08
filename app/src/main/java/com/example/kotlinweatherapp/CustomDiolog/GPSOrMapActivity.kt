@@ -78,6 +78,8 @@ class GPSOrMapActivity : AppCompatActivity() {
 //                            //the map doesn't need permission
 //                        } else{
                             Toast.makeText(this , "location returned successfully lat is : ${location.latitude} and long is : ${location.longitude} " , Toast.LENGTH_LONG).show()
+                            var latlng = "${SharedPrefsHelper.getLatitude(this)},${SharedPrefsHelper.getLongitude(this)}"
+                            SharedPrefsHelper.setPreviousLatLng(this , latlng)
                             SharedPrefsHelper.setLatitude(this , (location.latitude).toString())
                             SharedPrefsHelper.setLongitude(this , (location.longitude).toString())
                             val intent = Intent(this , MainActivity::class.java)

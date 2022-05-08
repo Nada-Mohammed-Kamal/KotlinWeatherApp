@@ -23,6 +23,8 @@
         android:id="@+id/favRowConstraintLayoutId"
         android:layout_width="380dp"
         android:layout_height="wrap_content"
+        android:background="#4FFFFDFD"
+        android:backgroundTint="#4FFFFDFD"
         android:padding="20dp">
 
         <TextView

@@ -33,6 +33,10 @@ interface RepoInterface {
     fun updateHomeWeatherObj(weatherObj: WeatherResponse?)
     fun getHomeWeatherObj(location: String?): LiveData<WeatherResponse>
 
+
+    fun deleteHomeWeatherObjByLatLongId()
+
+
     //Alarms
     //fun getAllAlarms(): LiveData<List<Alarm>>
     fun insertAlarm(alarm: Alarm?)

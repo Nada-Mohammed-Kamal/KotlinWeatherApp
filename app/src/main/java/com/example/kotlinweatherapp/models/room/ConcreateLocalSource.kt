@@ -39,6 +39,10 @@ class ConcreateLocalSource(context : Context) : LocalSource {
         homeWeatherObjDao?.deleteHomeWeatherObj(weatherObj)
     }
 
+    override fun deleteHomeWeatherObjByLatLongId() {
+        homeWeatherObjDao?.deleteHomeWeatherObjByLatLongId()
+    }
+
     override fun deleteFavWeatherObj(favObj: FavouriteObject?) {
         favDao?.deleteFavWeatherObj(favObj)
     }

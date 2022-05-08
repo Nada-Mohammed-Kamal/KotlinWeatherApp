@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#03dac5 "
+    android:backgroundTint="#03DAC5"
     tools:context=".alarmscreen.view.AlarmFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +16,8 @@
             android:id="@+id/recyclerViewAlarmsId"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="#03DAC5"
+            android:backgroundTint="#03dac5 "
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -26,11 +30,11 @@
             android:layout_width="61dp"
             android:layout_height="53dp"
             android:layout_marginBottom="16dp"
-            app:backgroundTint="@color/white"
             android:clickable="true"
-
             android:scaleType="center"
+
             android:src="@drawable/add"
+            app:backgroundTint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.955"

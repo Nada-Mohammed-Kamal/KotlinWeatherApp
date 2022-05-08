@@ -11,7 +11,7 @@ class weatherRetrofitClient private  constructor(): RemoteSource {
     override suspend fun getWeatherObjOverNetwork(context : Context): WeatherResponse? {
         var weatherObjResponse : WeatherResponse? = null
         val retrofitService = RetrofitService.getInstance()
-        weatherObjResponse = retrofitService.getWeatherObjFromRetrofit(/*SharedPrefsHelper.getLatitude(context) , SharedPrefsHelper.getLongitude(context) */"60.8162","115.7854","c22e271e9ebc0d0e0e406902c6b750ee", SharedPrefsHelper.getTempUnit(context) , SharedPrefsHelper.getLang(context)).body()
+        weatherObjResponse = retrofitService.getWeatherObjFromRetrofit(SharedPrefsHelper.getLatitude(context) , SharedPrefsHelper.getLongitude(context) ,"c22e271e9ebc0d0e0e406902c6b750ee", SharedPrefsHelper.getTempUnit(context) , SharedPrefsHelper.getLang(context)).body()
         //weatherObjResponse = response
         Log.i("san", "getWeatherObjOverNetwork: $weatherObjResponse")
         return weatherObjResponse

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="#03dac5 "
     android:orientation="vertical"
     android:weightSum="2"
     tools:context=".alarmscreen.view.AlarmScrActivity">
@@ -12,7 +12,8 @@
         android:id="@+id/textView5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:height="40dp" />
+        android:height="40dp"
+        android:background="#03dac5 " />
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -26,6 +27,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="152dp"
+            android:background="#FFFFFF"
+            android:backgroundTint="#FFFFFF"
             android:orientation="vertical"
             android:padding="10sp"
             android:weightSum="1">
@@ -65,6 +68,7 @@
                 android:fontFamily="casual"
                 android:hint="Title"
                 android:inputType="textPersonName"
+                android:textStyle="bold"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
         </LinearLayout>
@@ -95,6 +99,7 @@
                 android:fontFamily="casual"
                 android:text="Trip Start Date"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/startDateid"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/startDateid"
@@ -113,6 +118,7 @@
                 android:fontFamily="casual"
                 android:inputType="none"
                 android:minHeight="48dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/homeDateId"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -124,6 +130,7 @@
                 android:fontFamily="casual"
                 android:text="Trip End Date"
                 android:textSize="16sp"
+                android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/endDateid"
                 app:layout_constraintStart_toStartOf="@+id/homeDateId"
                 app:layout_constraintTop_toTopOf="@+id/endDateid"
@@ -141,6 +148,7 @@
                 android:fontFamily="casual"
                 android:inputType="none"
                 android:minHeight="48dp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/startDateid"
                 app:layout_constraintTop_toBottomOf="@+id/startDateid"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -173,6 +181,7 @@
                 android:textColorHighlight="@color/design_default_color_primary_variant"
                 android:textColorLink="@color/purple_700"
                 android:textSize="15sp"
+                android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/endDateid"
                 app:layout_constraintTop_toBottomOf="@+id/endDateid"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -188,7 +197,9 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:text="Alarm"
-        android:textColor="#03DAC5" />
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddAlarmToRecyclerViewFromAlarmDetailsScreenId"
@@ -200,8 +211,11 @@
         android:fontFamily="casual"
         android:text="Next"
         android:textAllCaps="false"
-        android:textColor="@color/white"
-        app:backgroundTint="#03DAC5"
+        android:textColor="#03dac5 "
+        android:textColorLink="#FBFBFB"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="#F8FAFA"
         app:cornerRadius="20dp" />
 
 </LinearLayout>

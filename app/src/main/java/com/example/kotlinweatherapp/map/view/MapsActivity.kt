@@ -51,6 +51,8 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback{
         setContentView(binding.root)
 
         saveBtn = findViewById(R.id.saveLocInMapBtnId)
+
+
         saveBtn.visibility = View.INVISIBLE
 
 
@@ -59,6 +61,8 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback{
             when (screen){
                 "fav" -> {
                     //TODO:get instance of view model and call
+                    var latlng = "${SharedPrefsHelper.getLatitude(this)},${SharedPrefsHelper.getLongitude(this)}"
+                    SharedPrefsHelper.setPreviousLatLng(this , latlng)
                     val favouriteObject = FavouriteObject(
                         currentLocation.latitude,
                         currentLocation.longitude,
@@ -71,11 +75,15 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback{
                     finish()
                 }
                 "settings" -> {
+                    var latlng = "${SharedPrefsHelper.getLatitude(this)},${SharedPrefsHelper.getLongitude(this)}"
+                    SharedPrefsHelper.setPreviousLatLng(this , latlng)
                     SharedPrefsHelper.setLatitude(this , currentLocation.latitude.toString())
                     SharedPrefsHelper.setLongitude(this , currentLocation.longitude.toString())
                     finish()
                 }
                 "gpsOrMap" -> {
+                    var latlng = "${SharedPrefsHelper.getLatitude(this)},${SharedPrefsHelper.getLongitude(this)}"
+                    SharedPrefsHelper.setPreviousLatLng(this , latlng)
                     SharedPrefsHelper.setLatitude(this , currentLocation.latitude.toString())
                     SharedPrefsHelper.setLongitude(this , currentLocation.longitude.toString())
                     val i = Intent(this , MainActivity::class.java)

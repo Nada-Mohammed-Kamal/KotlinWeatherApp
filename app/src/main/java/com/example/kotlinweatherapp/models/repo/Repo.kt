@@ -30,13 +30,17 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
         }
     }
 
-
     override fun getWeatherObjOverNetwork(context: Context): LiveData<List<WeatherResponse>> {
         CoroutineScope(Dispatchers.IO).launch {
             if (NetworkChangeReceiver.isThereInternetConnection) {
                 weatherObjOverNetwork = remoteSource.getWeatherObjOverNetwork(context)
                 weatherObjOverNetwork?.loc = "${weatherObjOverNetwork?.lat},${weatherObjOverNetwork?.lon}"
-                localSource.insertHomeObj(weatherObjOverNetwork)
+                if(!SharedPrefsHelper.getIsFav(context)){
+                    //val str = "${SharedPrefsHelper.getLatitude(context)},${SharedPrefsHelper.getLongitude(context)}"
+                    localSource.deleteHomeWeatherObjByLatLongId()
+                    localSource.insertHomeObj(weatherObjOverNetwork)
+                }
+
             }
         }
         return localSource.allStoredWeatherResponses
@@ -47,7 +51,10 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
             if (NetworkChangeReceiver.isThereInternetConnection) {
                 weatherObjOverNetwork = remoteSource.getWeatherObjOverNetworkWithLatAndLong(context , latLng)
                 weatherObjOverNetwork?.loc = "${weatherObjOverNetwork?.lat},${weatherObjOverNetwork?.lon}"
-                localSource.insertHomeObj(weatherObjOverNetwork)
+                if(!(SharedPrefsHelper.getIsFav(context))){
+                    localSource.deleteHomeWeatherObjByLatLongId()
+                    localSource.insertHomeObj(weatherObjOverNetwork)
+                }
             }
         }
         return localSource.allStoredWeatherResponses
@@ -74,6 +81,10 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
 
     override fun getHomeWeatherObj(location: String?):LiveData<WeatherResponse> {
         return localSource.getHomeWeatherObj(location)
+    }
+
+    override fun deleteHomeWeatherObjByLatLongId() {
+        localSource.deleteHomeWeatherObjByLatLongId()
     }
 
     override fun insertAlarm(alarm: Alarm?) {

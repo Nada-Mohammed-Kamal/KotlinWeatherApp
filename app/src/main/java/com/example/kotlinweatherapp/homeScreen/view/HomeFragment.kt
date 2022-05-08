@@ -133,7 +133,7 @@ class HomeFragment : Fragment() {
         temp = view.findViewById(R.id.homeTempratureId)
         descImg = view.findViewById(R.id.descImgId)
         desc = view.findViewById(R.id.homeDescId)
-        icon = view.findViewById(R.id.imageView)
+        //icon = view.findViewById(R.id.imageView)
         date = view.findViewById(R.id.homeDateId)
         hummidity = view.findViewById(R.id.homeHummidityId)
         pressure = view.findViewById(R.id.homePressureId)
@@ -211,6 +211,67 @@ class HomeFragment : Fragment() {
             Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
             showNoNetSnackbar()
         }
+
+        viewModel.getWeatherObj().observe(viewLifecycleOwner , { weatherObj ->
+
+            if(weatherObj != null && weatherObj.isNotEmpty()){
+                var hourlyAdapter = HourlyWeatherAdapter(weatherObj[0], requireContext())
+                hourlyRecyclerView.adapter = hourlyAdapter
+                var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
+                dailyRecyclerView.adapter = dailyAdapter
+
+                getAddressAndDateForLocation()
+                if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
+                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                        temp.text = "${weatherObj[0].current.temp}" + "س"
+                        wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
+                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                        temp.text = "${weatherObj[0].current.temp}" + "C"
+                        wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
+                    }
+                }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
+                {
+                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                        temp.text = "${weatherObj[0].current.temp}" + "ف"
+                        wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
+
+                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                        temp.text = "${weatherObj[0].current.temp}" + "F"
+                        wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
+                    }
+
+                } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
+                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                        temp.text = "${weatherObj[0].current.temp} ك "
+                        wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
+                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                        temp.text = "${weatherObj[0].current.temp}" + "K"
+                        wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
+                    }
+
+                }
+
+
+                Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
+
+                //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
+                date.text = timeStampToDate(weatherObj[0].current.dt)
+                hummidity.text = weatherObj[0].current.humidity.toString()
+                pressure.text = weatherObj[0].current.pressure.toString()
+                cloud.text = weatherObj[0].current.clouds.toString()
+                ultraViolet.text = weatherObj[0].current.uvi.toString()
+                visibility.text = weatherObj[0].current.visibility.toString()
+                desc.text = weatherObj[0].current.weather[0].description
+
+            }else{
+                var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
+                hourlyRecyclerView.adapter = hourlyAdapter
+                var dailyAdapter = DailyWeatherAdapter(null , activity?.applicationContext!!)
+                dailyRecyclerView.adapter = dailyAdapter
+                Log.e("NADAAAAA", "onViewCreated: No obj foundddddd", )
+            }
+        })
+
     }
 
     suspend fun getget(){

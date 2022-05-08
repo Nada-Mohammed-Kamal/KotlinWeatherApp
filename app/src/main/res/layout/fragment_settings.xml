@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#03dac5 ">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -173,7 +174,7 @@
             app:cardCornerRadius="16dp"
             app:cardElevation="16dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" >
+            app:layout_constraintTop_toBottomOf="@+id/cardView">
 
             <RadioGroup
                 android:id="@+id/radioGroupLocId"
@@ -218,9 +219,10 @@
             android:layout_height="52dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="60dp"
-            android:backgroundTint="#03DAC5"
+            android:backgroundTint="#B2FFFAFA"
             android:fontFamily="casual"
             android:text="@string/Apply"
+            android:textColor="#232323"
             android:textStyle="bold"
             app:cornerRadius="20dp"
             app:layout_constraintStart_toStartOf="parent"

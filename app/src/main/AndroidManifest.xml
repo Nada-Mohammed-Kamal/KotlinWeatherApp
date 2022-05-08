@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.kotlinweatherapp">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -19,6 +20,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KotlinWeatherApp"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".AlarmSevice"
+            android:enabled="true"
+            android:exported="true"></service>
+
+
         <activity
             android:name=".CustomDiolog.GPSOrMapActivity"
             android:exported="true" />
@@ -38,9 +45,6 @@
             android:name=".map.view.MapsActivity"
             android:exported="true"
             android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".map.view.MapActivity"
-            android:exported="true" />
         <activity
             android:name=".splashscreen.SplashAnimation"
             android:exported="true">

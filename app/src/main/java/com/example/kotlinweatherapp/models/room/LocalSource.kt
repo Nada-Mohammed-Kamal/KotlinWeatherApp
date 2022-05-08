@@ -19,6 +19,9 @@ interface LocalSource {
     //fun getAllHomeWeatherObs(): LiveData<List<WeatherResponse>>
     fun insertHomeObj(weatherObj: WeatherResponse?)
     fun deleteHomeWeatherObj(weatherObj: WeatherResponse?)
+
+    fun deleteHomeWeatherObjByLatLongId()
+
     fun updateHomeWeatherObj(weatherObj: WeatherResponse?)
     fun getHomeWeatherObj(location: String?): LiveData<WeatherResponse>
 

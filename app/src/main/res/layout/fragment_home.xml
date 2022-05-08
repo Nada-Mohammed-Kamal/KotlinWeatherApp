@@ -1,167 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#03dac5 ">
 
-    <FrameLayout
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".homeScreen.view.HomeFragment">
+        android:orientation="vertical"
+        android:weightSum="7.3">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardView4"
+            android:layout_width="347dp"
+            android:layout_height="207dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1.7"
+            android:background="#4BFFFDFD"
+            android:backgroundTint="#CBFFFFFF"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#4FFFFDFD">
+
+                <TextView
+                    android:id="@+id/homePlaceId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="casual"
+                    android:text="Nasr city , Egypt"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/homeTempratureId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="63dp"
+                    android:layout_marginTop="4dp"
+                    android:fontFamily="casual"
+                    android:shadowColor="#0B0A0A"
+                    android:text="20C"
+                    android:textAlignment="textStart"
+                    android:textColor="#100F0F"
+                    android:textSize="48sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="@+id/homePlaceId"
+                    app:layout_constraintStart_toStartOf="@+id/homePlaceId"
+                    app:layout_constraintTop_toBottomOf="@+id/homePlaceId" />
+
+                <TextView
+                    android:id="@+id/homeDescId"
+                    android:layout_width="wrap_content"
+                    android:layout_height="37dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="casual"
+                    android:text="Sunny"
+                    android:textColor="#03dac5 "
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toEndOf="@+id/descImgId"
+                    app:layout_constraintTop_toBottomOf="@+id/homeTempratureId" />
+
+                <ImageView
+                    android:id="@+id/descImgId"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="16dp"
+                    android:padding="0dp"
+                    android:src="@drawable/cloudy"
+                    app:layout_constraintStart_toStartOf="@+id/homeTempratureId"
+                    app:layout_constraintTop_toBottomOf="@+id/homeTempratureId" />
+
+                <TextView
+                    android:id="@+id/homeDateId"
+                    android:layout_width="0dp"
+                    android:layout_height="18dp"
+                    android:layout_marginTop="1dp"
+                    android:fontFamily="casual"
+                    android:text="1/5/2022"
+                    android:textAlignment="center"
+                    android:textColor="#3E3E3E"
+                    app:layout_constraintEnd_toEndOf="@+id/homeDescId"
+                    app:layout_constraintStart_toStartOf="@+id/descImgId"
+                    app:layout_constraintTop_toBottomOf="@+id/homeDescId" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardId"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:weightSum="7.3">
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.7">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <ImageView
-                        android:id="@+id/imageView"
-                        android:layout_width="253dp"
-                        android:layout_height="170dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="75dp"
-                        android:src="@drawable/cloudygirl"
-                        app:layout_constraintStart_toEndOf="@+id/homeTempratureId"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ImageContrastCheck" />
-
-                    <TextView
-                        android:id="@+id/homePlaceId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:layout_marginStart="39dp"
-                        android:layout_marginTop="28dp"
-                        android:fontFamily="casual"
-                        android:text="Nasr city , Egypt"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <TextView
-                        android:id="@+id/homeTempratureId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="63dp"
-                        android:layout_marginTop="4dp"
-                        android:fontFamily="casual"
-                        android:shadowColor="#0B0A0A"
-                        android:text="20C"
-                        android:textAlignment="textStart"
-                        android:textColor="#100F0F"
-                        android:textSize="48sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toStartOf="@+id/homePlaceId"
-                        app:layout_constraintTop_toBottomOf="@+id/homePlaceId" />
-
-                    <TextView
-                        android:id="@+id/homeDescId"
-                        android:layout_width="wrap_content"
-                        android:layout_height="37dp"
-                        android:layout_marginStart="4dp"
-                        android:layout_marginTop="16dp"
-                        android:fontFamily="casual"
-                        android:text="Sunny"
-                        android:textColor="#03dac5 "
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        app:layout_constraintStart_toEndOf="@+id/descImgId"
-                        app:layout_constraintTop_toBottomOf="@+id/homeTempratureId" />
-
-                    <ImageView
-                        android:id="@+id/descImgId"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginTop="16dp"
-                        android:padding="0dp"
-                        android:src="@drawable/cloudy"
-                        app:layout_constraintStart_toStartOf="@+id/homeTempratureId"
-                        app:layout_constraintTop_toBottomOf="@+id/homeTempratureId" />
-
-                    <TextView
-                        android:id="@+id/homeDateId"
-                        android:layout_width="102dp"
-                        android:layout_height="18dp"
-                        android:layout_marginTop="1dp"
-                        android:fontFamily="casual"
-                        android:text="1/5/2022"
-                        app:layout_constraintStart_toStartOf="@+id/descImgId"
-                        app:layout_constraintTop_toBottomOf="@+id/homeDescId" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:id="@+id/view"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="0.005"
-                android:background="#AB6A6A6A" />
-
-            <View
-                android:id="@+id/view2"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="0.3"
-                android:background="#FFFFFF" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:background="#4FFFFDFD"
+            android:backgroundTint="#E4FFFDFD"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
             <androidx.gridlayout.widget.GridLayout
+                android:id="@+id/gridLayout"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
                 android:layout_weight="1.3"
+                android:background="#4FFFFDFD"
+                android:backgroundTint="#4FFFFDFD"
+                android:elevation="20dp"
                 android:rotationY="2"
-                app:columnCount="3">
+                app:columnCount="3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
 
                 <TextView
                     android:id="@+id/Idhummid"
-                    android:layout_width="wrap_content"
+                    android:layout_width="105dp"
                     android:layout_height="30dp"
                     android:width="130dp"
                     android:fontFamily="casual"
                     android:gravity="center"
                     android:text="@string/hummidityy"
-                    android:textColor="#72393939"
+                    android:textColor="#3E3E3E"
                     app:layout_column="0"
                     app:layout_row="0" />
 
                 <TextView
                     android:id="@+id/idPressure"
-                    android:layout_width="wrap_content"
+                    android:layout_width="105dp"
                     android:layout_height="30dp"
                     android:width="130dp"
                     android:fontFamily="casual"
                     android:gravity="center"
                     android:text="@string/Pressure"
-                    android:textColor="#72393939"
+                    android:textColor="#3E3E3E"
                     app:layout_column="1"
                     app:layout_row="0" />
 
                 <TextView
                     android:id="@+id/idWind"
-                    android:layout_width="wrap_content"
+                    android:layout_width="105dp"
                     android:layout_height="30dp"
                     android:width="150dp"
                     android:fontFamily="casual"
                     android:gravity="center"
                     android:text="@string/Wind"
-                    android:textColor="#72393939"
+                    android:textColor="#3E3E3E"
                     app:layout_column="2"
                     app:layout_row="0" />
 
                 <TextView
                     android:id="@+id/homeHummidityId"
-                    android:layout_width="wrap_content"
+                    android:layout_width="105dp"
                     android:layout_height="50dp"
                     android:width="130dp"
                     android:fontFamily="casual"
@@ -175,7 +189,7 @@
 
                 <TextView
                     android:id="@+id/homePressureId"
-                    android:layout_width="wrap_content"
+                    android:layout_width="105dp"
                     android:layout_height="50dp"
                     android:width="130dp"
                     android:fontFamily="casual"
@@ -189,7 +203,7 @@
 
                 <TextView
                     android:id="@+id/homeWindId"
-                    android:layout_width="wrap_content"
+                    android:layout_width="105dp"
                     android:layout_height="50dp"
                     android:width="150dp"
                     android:fontFamily="casual"
@@ -203,40 +217,40 @@
 
                 <TextView
                     android:id="@+id/idCloud"
-                    android:layout_width="130dp"
+                    android:layout_width="105dp"
                     android:layout_height="30dp"
                     android:fontFamily="casual"
                     android:gravity="center"
                     android:text="@string/Cloud"
-                    android:textColor="#72393939"
+                    android:textColor="#3E3E3E"
                     app:layout_column="0"
                     app:layout_row="2" />
 
                 <TextView
                     android:id="@+id/idUltraViolet"
-                    android:layout_width="130dp"
+                    android:layout_width="105dp"
                     android:layout_height="30dp"
                     android:fontFamily="casual"
                     android:gravity="center"
                     android:text="@string/UltraViolet"
-                    android:textColor="#72393939"
+                    android:textColor="#3E3E3E"
                     app:layout_column="1"
                     app:layout_row="2" />
 
                 <TextView
                     android:id="@+id/idVisability"
-                    android:layout_width="150dp"
+                    android:layout_width="105dp"
                     android:layout_height="30dp"
                     android:fontFamily="casual"
                     android:gravity="center"
                     android:text="@string/Visability"
-                    android:textColor="#72393939"
+                    android:textColor="#3E3E3E"
                     app:layout_column="2"
                     app:layout_row="2" />
 
                 <TextView
                     android:id="@+id/homeCloudId"
-                    android:layout_width="130dp"
+                    android:layout_width="105dp"
                     android:layout_height="50dp"
                     android:fontFamily="casual"
                     android:gravity="center"
@@ -249,7 +263,7 @@
 
                 <TextView
                     android:id="@+id/homeultraVioletId"
-                    android:layout_width="130dp"
+                    android:layout_width="105dp"
                     android:layout_height="50dp"
                     android:fontFamily="casual"
                     android:gravity="center"
@@ -262,7 +276,7 @@
 
                 <TextView
                     android:id="@+id/homeVisabitiyId"
-                    android:layout_width="150dp"
+                    android:layout_width="105dp"
                     android:layout_height="50dp"
                     android:fontFamily="casual"
                     android:gravity="center"
@@ -275,55 +289,60 @@
 
             </androidx.gridlayout.widget.GridLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_weight="0.0001"
-                android:background="#AB6A6A6A"
-                android:backgroundTint="#AB6A6A6A"
-                android:textColor="#AB6A6A6A">
-
-            </TextView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewHourlyId"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.3"
-                android:paddingLeft="20dp"
-                android:paddingTop="25dp"
-                android:paddingRight="20dp">
-
-            </androidx.recyclerview.widget.RecyclerView>
+        </androidx.cardview.widget.CardView>
 
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewHourlyId"
+            android:layout_width="match_parent"
+            android:layout_height="185dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1.3"
+            android:background="#00FFFDFD"
+            android:paddingLeft="20dp"
+            android:paddingTop="25dp"
+            android:paddingRight="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardId">
+
+        </androidx.recyclerview.widget.RecyclerView>
 
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="2"
-                android:elevation="20dp"
-                android:paddingBottom="20dp"
-                app:cardCornerRadius="20dp">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewDailyId"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
+            android:background="#00FFFDFD"
+            android:paddingTop="12dp"
+            android:paddingBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewHourlyId">
 
+        </androidx.recyclerview.widget.RecyclerView>
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerViewDailyId"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:paddingBottom="20dp"
-                    android:paddingTop="12dp">
+        <View
+            android:id="@+id/view2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight="0.3"
+            android:background="#FFFFFF"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardId" />
 
-                </androidx.recyclerview.widget.RecyclerView>
-            </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-        </LinearLayout>
-
-    </FrameLayout>
 
 </ScrollView>
