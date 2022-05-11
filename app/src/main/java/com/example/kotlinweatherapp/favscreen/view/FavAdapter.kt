@@ -39,9 +39,14 @@ class FavAdapter(var fav: List<FavouriteObject>?, var context: Context): Recycle
         holder.favPlaceTextView.text = fav?.get(position)?.locationName
 
         holder.constraintLayoutRow.setOnClickListener{
+            SharedPrefsHelper.setPreviousLatLng(context , "${SharedPrefsHelper.getLatitude(context)},${SharedPrefsHelper.getLongitude(context)}")
+            SharedPrefsHelper.setIsFav(context , true)
+
+
             SharedPrefsHelper.setLatitude(context , fav?.get(position)?.latitude.toString())
             SharedPrefsHelper.setLongitude(context , fav?.get(position)?.longitude.toString())
-            SharedPrefsHelper.setIsFav(context , fav?.get(position)?.isFavourite!!)
+
+            //SharedPrefsHelper.setIsFav(context , fav?.get(position)?.isFavourite!!)
 
             setFragment(HomeFragment.newInstance())
         }

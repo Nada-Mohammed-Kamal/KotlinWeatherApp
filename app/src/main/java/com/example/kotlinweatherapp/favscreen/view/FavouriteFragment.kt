@@ -98,14 +98,14 @@ class FavouriteFragment : Fragment() {
         viewModel = ViewModelProvider(this, favViewModelFactory).get(FavFragViewModel::class.java)
 
 
-        viewModel.getFavourites().observe(viewLifecycleOwner , androidx.lifecycle.Observer { favsList ->
+        viewModel.getFavourites().observe(viewLifecycleOwner , { favsList ->
             Log.e("NADATAG", "IN OBSERVEEEEE: innnnnnnnnnnnnnnnnnnnnnnn")
             if(favsList != null){
                 favAdapter.fav = favsList
                 favAdapter.notifyDataSetChanged()
             }
         })
-        //alarmAdapter.notifyDataSetChanged()
+        favAdapter.notifyDataSetChanged()
         Log.e("NADATAG", "onResume: innnnnnnnnnnnnnnnnnnnnnnn")
 
     }

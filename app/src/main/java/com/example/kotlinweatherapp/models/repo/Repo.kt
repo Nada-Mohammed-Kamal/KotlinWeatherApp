@@ -4,6 +4,7 @@ import android.content.Context
 import android.location.Location
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.kotlinweatherapp.models.networkConnectivity.NetworkChangeReceiver
 import com.example.kotlinweatherapp.models.pojos.Alarm
 import com.example.kotlinweatherapp.models.pojos.FavouriteObject
@@ -39,11 +40,20 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
                     //val str = "${SharedPrefsHelper.getLatitude(context)},${SharedPrefsHelper.getLongitude(context)}"
                     localSource.deleteHomeWeatherObjByLatLongId()
                     localSource.insertHomeObj(weatherObjOverNetwork)
-                }
-
+                } //fav obj
+                  //not in room so should be returned
             }
         }
-        return localSource.allStoredWeatherResponses
+        if(!SharedPrefsHelper.getIsFav(context)){
+            return localSource.allStoredWeatherResponses
+        } else {
+            val weatherObjOverNetwork1 =  MutableLiveData<List<WeatherResponse>>()
+            weatherObjOverNetwork1.value?.plus(weatherObjOverNetwork)
+            val o : LiveData<List<WeatherResponse>> = weatherObjOverNetwork1
+            //lazm a view hena al obj al rage3 bs
+          return o
+        }
+
     }
 
     override fun getWeatherObjOverNetworkWithLatAndLong(context: Context, latLng: LatLng): LiveData<List<WeatherResponse>> {
@@ -57,7 +67,23 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
                 }
             }
         }
-        return localSource.allStoredWeatherResponses
+        if(!SharedPrefsHelper.getIsFav(context)){
+            return localSource.allStoredWeatherResponses
+        } else {
+            val weatherObjOverNetwork1 =  MutableLiveData<List<WeatherResponse>>()
+            weatherObjOverNetwork1.value?.plus(weatherObjOverNetwork)
+            val o : LiveData<List<WeatherResponse>> = weatherObjOverNetwork1
+            //lazm a view hena al obj al rage3 bs
+            return o
+        }
+
+    }
+
+    override suspend fun getOneWeatherObjOverNetworkWithLatAndLong(context: Context, latLng: LatLng): WeatherResponse? {
+        val weatherObjOverNetwork = remoteSource.getOneWeatherObjOverNetworkWithLatAndLong(context , latLng)
+        this.weatherObjOverNetwork = weatherObjOverNetwork
+        weatherObjOverNetwork?.loc = "${weatherObjOverNetwork?.lat},${weatherObjOverNetwork?.lon}"
+        return weatherObjOverNetwork
     }
 
     override val allStoredWeatherResponses: LiveData<List<WeatherResponse>>

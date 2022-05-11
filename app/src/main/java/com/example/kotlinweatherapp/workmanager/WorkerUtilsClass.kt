@@ -133,6 +133,19 @@ class WorkerUtilsClass {
         fun deleteRequestFromWorkManagerByReq(reqID: UUID) {
             Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size before: " + wmRequestIds.size)
             var toBeDeleted: String? = null
+
+            val it1: Iterator<String> = wmRequestIds.iterator()
+            while (it1.hasNext()) {
+                val str = it1.next()
+                val splitted = str.split("_").toTypedArray()
+                if (UUID.fromString(splitted[0]) == reqID) {
+                    toBeDeleted = str
+                    break
+                }
+            }
+
+
+
             for (str in wmRequestIds) {
                 val splitted = str.split("_").toTypedArray()
                 if (UUID.fromString(splitted[0]) == reqID) {

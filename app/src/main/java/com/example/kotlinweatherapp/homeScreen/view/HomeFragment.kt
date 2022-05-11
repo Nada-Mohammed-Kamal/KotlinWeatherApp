@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
@@ -31,6 +32,7 @@ import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.*
 import java.io.IOException
@@ -64,6 +66,9 @@ class HomeFragment : Fragment() {
     lateinit var clod : TextView
     lateinit var uv : TextView
     lateinit var visblty : TextView
+
+    //favHomeBtn
+    lateinit var favBackBtn : FloatingActionButton
 
 
 
@@ -106,6 +111,29 @@ class HomeFragment : Fragment() {
         pressu = view.findViewById(R.id.idPressure)
         visblty = view.findViewById(R.id.idVisability)
 
+        favBackBtn = view.findViewById(R.id.HomeFavId)
+
+        if(!SharedPrefsHelper.getIsFav(requireContext())){
+            favBackBtn.visibility = View.INVISIBLE
+        } else {
+            favBackBtn.visibility = View.VISIBLE
+        }
+
+
+        favBackBtn.setOnClickListener {
+            SharedPrefsHelper.setPreviousLatLng(requireContext() , "0,0")
+            SharedPrefsHelper.setIsFav(requireContext() , false)
+
+            val previousLatLng = SharedPrefsHelper.getPreviousLatLng(requireContext())
+            val split = previousLatLng.split(",")
+            var lat = split[0]
+            var long = split[1]
+
+            SharedPrefsHelper.setLatitude(requireContext() ,lat)
+            SharedPrefsHelper.setLongitude(requireContext() ,long)
+            SharedPrefsHelper.setIsFav(requireContext() ,false)
+        }
+
         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
             uv.text = "الاشعه فوق البنفسجيه"
             clod.text = "السحب"
@@ -143,134 +171,270 @@ class HomeFragment : Fragment() {
         visibility = view.findViewById(R.id.homeVisabitiyId)
 
 
-        viewModel.getWeatherObj().observe(viewLifecycleOwner , { weatherObj ->
+        if(!SharedPrefsHelper.getIsFav(requireContext())){
+            viewModel.getWeatherObj().observe(viewLifecycleOwner , { weatherObj ->
 
-            if(weatherObj != null && weatherObj.isNotEmpty()){
-                var hourlyAdapter = HourlyWeatherAdapter(weatherObj[0], requireContext())
-                hourlyRecyclerView.adapter = hourlyAdapter
-                var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
-                dailyRecyclerView.adapter = dailyAdapter
 
-                getAddressAndDateForLocation()
-                if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
-                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-                        temp.text = "${weatherObj[0].current.temp}" + "س"
-                        wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
-                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
-                        temp.text = "${weatherObj[0].current.temp}" + "C"
-                        wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
+                if(weatherObj != null && weatherObj.isNotEmpty()){
+                    var hourlyAdapter = HourlyWeatherAdapter(weatherObj[0], requireContext())
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
+                    dailyRecyclerView.adapter = dailyAdapter
+
+                    getAddressAndDateForLocation()
+                    if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj[0].current.temp}" + "س"
+                            wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj[0].current.temp}" + "C"
+                            wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
+                        }
+                    }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
+                    {
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj[0].current.temp}" + "ف"
+                            wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
+
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj[0].current.temp}" + "F"
+                            wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
+                        }
+
+                    } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj[0].current.temp} ك "
+                            wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj[0].current.temp}" + "K"
+                            wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
+                        }
+
                     }
-                }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
-                {
-                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-                        temp.text = "${weatherObj[0].current.temp}" + "ف"
-                        wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
 
-                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
-                        temp.text = "${weatherObj[0].current.temp}" + "F"
-                        wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
-                    }
 
-                } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
-                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-                        temp.text = "${weatherObj[0].current.temp} ك "
-                        wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
-                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
-                        temp.text = "${weatherObj[0].current.temp}" + "K"
-                        wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
-                    }
+                    Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
 
+                    //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
+                    date.text = timeStampToDate(weatherObj[0].current.dt)
+                    hummidity.text = weatherObj[0].current.humidity.toString()
+                    pressure.text = weatherObj[0].current.pressure.toString()
+                    cloud.text = weatherObj[0].current.clouds.toString()
+                    ultraViolet.text = weatherObj[0].current.uvi.toString()
+                    visibility.text = weatherObj[0].current.visibility.toString()
+                    desc.text = weatherObj[0].current.weather[0].description
+
+                }else{
+                    var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(null , activity?.applicationContext!!)
+                    dailyRecyclerView.adapter = dailyAdapter
+                    Log.e("NADAAAAA", "onViewCreated: No obj foundddddd", )
                 }
+            })
+        }else{
+            viewModel.getFavWeatherObj()
+            viewModel.favWeatherObjOverNetwork.observe(viewLifecycleOwner , { weatherObj ->
+
+                if(weatherObj != null){
+                    var hourlyAdapter = HourlyWeatherAdapter(weatherObj, requireContext())
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(weatherObj, requireContext())
+                    dailyRecyclerView.adapter = dailyAdapter
+
+                    getAddressAndDateForLocation()
+                    if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj.current.temp}" + "س"
+                            wind.text = "${weatherObj.current.windSpeed}" + "متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj.current.temp}" + "C"
+                            wind.text = "${weatherObj.current.windSpeed} Meter/s"
+                        }
+                    }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
+                    {
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj.current.temp}" + "ف"
+                            wind.text = "${weatherObj.current.windSpeed} " + " ميل/ساعه"
+
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj.current.temp}" + "F"
+                            wind.text = "${weatherObj.current.windSpeed}" + "Mile/h"
+                        }
+
+                    } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj.current.temp} ك "
+                            wind.text = "${weatherObj.current.windSpeed}" + " متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj.current.temp}" + "K"
+                            wind.text = "${weatherObj.current.windSpeed} " + "Mile/H"
+                        }
+
+                    }
 
 
-                Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
+                    Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.current?.weather[0].icon+".png").into(descImg)
 
-                //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
-                date.text = timeStampToDate(weatherObj[0].current.dt)
-                hummidity.text = weatherObj[0].current.humidity.toString()
-                pressure.text = weatherObj[0].current.pressure.toString()
-                cloud.text = weatherObj[0].current.clouds.toString()
-                ultraViolet.text = weatherObj[0].current.uvi.toString()
-                visibility.text = weatherObj[0].current.visibility.toString()
-                desc.text = weatherObj[0].current.weather[0].description
+                    //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
+                    date.text = timeStampToDate(weatherObj.current.dt)
+                    hummidity.text = weatherObj.current.humidity.toString()
+                    pressure.text = weatherObj.current.pressure.toString()
+                    cloud.text = weatherObj.current.clouds.toString()
+                    ultraViolet.text = weatherObj.current.uvi.toString()
+                    visibility.text = weatherObj.current.visibility.toString()
+                    desc.text = weatherObj.current.weather[0].description
 
-            }else{
-                var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
-                hourlyRecyclerView.adapter = hourlyAdapter
-                var dailyAdapter = DailyWeatherAdapter(null , activity?.applicationContext!!)
-                dailyRecyclerView.adapter = dailyAdapter
-                Log.e("NADAAAAA", "onViewCreated: No obj foundddddd", )
-            }
-        })
+                }else{
+                    var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(null , activity?.applicationContext!!)
+                    dailyRecyclerView.adapter = dailyAdapter
+                    Log.e("NADAAAAA", "onViewCreated: No obj foundddddd", )
+                }
+            })
+        }
+
 
     }
 
     override fun onResume() {
         super.onResume()
+
+        if(!SharedPrefsHelper.getIsFav(requireContext())){
+            favBackBtn.visibility = View.INVISIBLE
+            viewModel.getWeatherObj().observe(viewLifecycleOwner , { weatherObj ->
+
+                if(weatherObj != null && weatherObj.isNotEmpty()){
+                    var hourlyAdapter = HourlyWeatherAdapter(weatherObj[0], requireContext())
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
+                    dailyRecyclerView.adapter = dailyAdapter
+
+                    getAddressAndDateForLocation()
+                    if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj[0].current.temp}" + "س"
+                            wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj[0].current.temp}" + "C"
+                            wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
+                        }
+                    }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
+                    {
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj[0].current.temp}" + "ف"
+                            wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
+
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj[0].current.temp}" + "F"
+                            wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
+                        }
+
+                    } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj[0].current.temp} ك "
+                            wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj[0].current.temp}" + "K"
+                            wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
+                        }
+
+                    }
+
+
+                    Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
+
+                    //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
+                    date.text = timeStampToDate(weatherObj[0].current.dt)
+                    hummidity.text = weatherObj[0].current.humidity.toString()
+                    pressure.text = weatherObj[0].current.pressure.toString()
+                    cloud.text = weatherObj[0].current.clouds.toString()
+                    ultraViolet.text = weatherObj[0].current.uvi.toString()
+                    visibility.text = weatherObj[0].current.visibility.toString()
+                    desc.text = weatherObj[0].current.weather[0].description
+
+                }else{
+                    var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(null , activity?.applicationContext!!)
+                    dailyRecyclerView.adapter = dailyAdapter
+                    Log.e("NADAAAAA", "onViewCreated: No obj foundddddd", )
+                }
+            })
+
+        } else {
+            favBackBtn.visibility = View.VISIBLE
+
+            viewModel.getFavWeatherObj()
+            viewModel.favWeatherObjOverNetwork.observe(viewLifecycleOwner , { weatherObj ->
+
+                if(weatherObj != null){
+                    var hourlyAdapter = HourlyWeatherAdapter(weatherObj, requireContext())
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(weatherObj, requireContext())
+                    dailyRecyclerView.adapter = dailyAdapter
+
+                    getAddressAndDateForLocation()
+                    if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj.current.temp}" + "س"
+                            wind.text = "${weatherObj.current.windSpeed}" + "متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj.current.temp}" + "C"
+                            wind.text = "${weatherObj.current.windSpeed} Meter/s"
+                        }
+                    }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
+                    {
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj.current.temp}" + "ف"
+                            wind.text = "${weatherObj.current.windSpeed} " + " ميل/ساعه"
+
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj.current.temp}" + "F"
+                            wind.text = "${weatherObj.current.windSpeed}" + "Mile/h"
+                        }
+
+                    } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
+                        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
+                            temp.text = "${weatherObj.current.temp} ك "
+                            wind.text = "${weatherObj.current.windSpeed}" + " متر/ثانيه"
+                        } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
+                            temp.text = "${weatherObj.current.temp}" + "K"
+                            wind.text = "${weatherObj.current.windSpeed} " + "Mile/H"
+                        }
+
+                    }
+
+
+                    Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.current?.weather[0].icon+".png").into(descImg)
+
+                    //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
+                    date.text = timeStampToDate(weatherObj.current.dt)
+                    hummidity.text = weatherObj.current.humidity.toString()
+                    pressure.text = weatherObj.current.pressure.toString()
+                    cloud.text = weatherObj.current.clouds.toString()
+                    ultraViolet.text = weatherObj.current.uvi.toString()
+                    visibility.text = weatherObj.current.visibility.toString()
+                    desc.text = weatherObj.current.weather[0].description
+
+                }else{
+                    var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
+                    hourlyRecyclerView.adapter = hourlyAdapter
+                    var dailyAdapter = DailyWeatherAdapter(null , activity?.applicationContext!!)
+                    dailyRecyclerView.adapter = dailyAdapter
+                    Log.e("NADAAAAA", "onViewCreated: No obj foundddddd", )
+                }
+            })
+        }
+
         if(!(NetworkChangeReceiver.isThereInternetConnection)){
             Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
             showNoNetSnackbar()
         }
 
-        viewModel.getWeatherObj().observe(viewLifecycleOwner , { weatherObj ->
-
-            if(weatherObj != null && weatherObj.isNotEmpty()){
-                var hourlyAdapter = HourlyWeatherAdapter(weatherObj[0], requireContext())
-                hourlyRecyclerView.adapter = hourlyAdapter
-                var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
-                dailyRecyclerView.adapter = dailyAdapter
-
-                getAddressAndDateForLocation()
-                if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
-                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-                        temp.text = "${weatherObj[0].current.temp}" + "س"
-                        wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
-                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
-                        temp.text = "${weatherObj[0].current.temp}" + "C"
-                        wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
-                    }
-                }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
-                {
-                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-                        temp.text = "${weatherObj[0].current.temp}" + "ف"
-                        wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
-
-                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
-                        temp.text = "${weatherObj[0].current.temp}" + "F"
-                        wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
-                    }
-
-                } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
-                    if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-                        temp.text = "${weatherObj[0].current.temp} ك "
-                        wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
-                    } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
-                        temp.text = "${weatherObj[0].current.temp}" + "K"
-                        wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
-                    }
-
-                }
 
 
-                Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
-
-                //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
-                date.text = timeStampToDate(weatherObj[0].current.dt)
-                hummidity.text = weatherObj[0].current.humidity.toString()
-                pressure.text = weatherObj[0].current.pressure.toString()
-                cloud.text = weatherObj[0].current.clouds.toString()
-                ultraViolet.text = weatherObj[0].current.uvi.toString()
-                visibility.text = weatherObj[0].current.visibility.toString()
-                desc.text = weatherObj[0].current.weather[0].description
-
-            }else{
-                var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
-                hourlyRecyclerView.adapter = hourlyAdapter
-                var dailyAdapter = DailyWeatherAdapter(null , activity?.applicationContext!!)
-                dailyRecyclerView.adapter = dailyAdapter
-                Log.e("NADAAAAA", "onViewCreated: No obj foundddddd", )
-            }
-        })
 
     }
 

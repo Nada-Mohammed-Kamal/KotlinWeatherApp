@@ -15,6 +15,7 @@ interface RepoInterface {
     //mn al network
     fun getWeatherObjOverNetwork(context : Context) : LiveData<List<WeatherResponse>>
     fun getWeatherObjOverNetworkWithLatAndLong(context : Context , latLng: LatLng) : LiveData<List<WeatherResponse>>
+    suspend fun getOneWeatherObjOverNetworkWithLatAndLong(context: Context, latLng: LatLng): WeatherResponse?
 
 
         //room

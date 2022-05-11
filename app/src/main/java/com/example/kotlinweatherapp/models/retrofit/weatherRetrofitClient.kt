@@ -2,6 +2,7 @@ package com.example.kotlinweatherapp.models.retrofit
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import com.example.kotlinweatherapp.models.pojos.WeatherResponse
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
 import com.google.android.gms.maps.model.LatLng
@@ -28,6 +29,19 @@ class weatherRetrofitClient private  constructor(): RemoteSource {
         Log.i("san", "getWeatherObjOverNetwork: $weatherObjResponse")
         return weatherObjResponse
     }
+
+    override suspend fun getOneWeatherObjOverNetworkWithLatAndLong(
+        context: Context,
+        latLng: LatLng
+    ): WeatherResponse? {
+        var weatherObjResponse : WeatherResponse? = null
+        val retrofitService = RetrofitService.getInstance()
+        weatherObjResponse = retrofitService.getWeatherObjFromRetrofit(latLng.latitude.toString() ,latLng.longitude.toString() ,"c22e271e9ebc0d0e0e406902c6b750ee", SharedPrefsHelper.getTempUnit(context), SharedPrefsHelper.getLang(context)).body()
+        //weatherObjResponse = response
+        Log.i("san", "getWeatherObjOverNetwork: $weatherObjResponse")
+        return weatherObjResponse
+    }
+
 
     companion object{
         private var instance : weatherRetrofitClient? = null

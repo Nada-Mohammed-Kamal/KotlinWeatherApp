@@ -15,6 +15,7 @@ interface RetrofitService {
     @GET("data/2.5/onecall")
     suspend fun getWeatherObjFromRetrofit(@Query("lat") latitude : String, @Query("lon")longitude : String, @Query("appid") id : String = "c22e271e9ebc0d0e0e406902c6b750ee" , @Query("units")tempUnit : String, @Query("lang")language : String ) : Response<WeatherResponse>
 
+
     //@GET("")
 
      companion object {
