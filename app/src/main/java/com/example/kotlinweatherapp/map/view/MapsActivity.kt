@@ -35,7 +35,6 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback{
     private lateinit var viewModel: MapViewModel
     lateinit var mapFactory : MapViewModelFactory
 
-    private lateinit var settingsComunicator: SettingsAndMapCommunicator
     private lateinit var mMap: GoogleMap
     private lateinit var binding: ActivityMapsBinding
 
@@ -152,6 +151,7 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback{
         }
         return ""
     }
+
 
     override fun onResume() {
         super.onResume()

@@ -121,14 +121,13 @@ class HomeFragment : Fragment() {
 
 
         favBackBtn.setOnClickListener {
-            SharedPrefsHelper.setPreviousLatLng(requireContext() , "0,0")
             SharedPrefsHelper.setIsFav(requireContext() , false)
 
             val previousLatLng = SharedPrefsHelper.getPreviousLatLng(requireContext())
             val split = previousLatLng.split(",")
             var lat = split[0]
             var long = split[1]
-
+            SharedPrefsHelper.setPreviousLatLng(requireContext() , "0,0")
             SharedPrefsHelper.setLatitude(requireContext() ,lat)
             SharedPrefsHelper.setLongitude(requireContext() ,long)
             SharedPrefsHelper.setIsFav(requireContext() ,false)
@@ -220,6 +219,7 @@ class HomeFragment : Fragment() {
                     hummidity.text = weatherObj[0].current.humidity.toString()
                     pressure.text = weatherObj[0].current.pressure.toString()
                     cloud.text = weatherObj[0].current.clouds.toString()
+                    wind.text = weatherObj[0].current.windSpeed.toString()
                     ultraViolet.text = weatherObj[0].current.uvi.toString()
                     visibility.text = weatherObj[0].current.visibility.toString()
                     desc.text = weatherObj[0].current.weather[0].description
@@ -281,6 +281,7 @@ class HomeFragment : Fragment() {
                     hummidity.text = weatherObj.current.humidity.toString()
                     pressure.text = weatherObj.current.pressure.toString()
                     cloud.text = weatherObj.current.clouds.toString()
+                    wind.text = weatherObj.current.windSpeed.toString()
                     ultraViolet.text = weatherObj.current.uvi.toString()
                     visibility.text = weatherObj.current.visibility.toString()
                     desc.text = weatherObj.current.weather[0].description
@@ -346,10 +347,12 @@ class HomeFragment : Fragment() {
                     Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
 
                     //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
+                    getAddressAndDateForLocation()
                     date.text = timeStampToDate(weatherObj[0].current.dt)
                     hummidity.text = weatherObj[0].current.humidity.toString()
                     pressure.text = weatherObj[0].current.pressure.toString()
                     cloud.text = weatherObj[0].current.clouds.toString()
+                    wind.text = weatherObj[0].current.windSpeed.toString()
                     ultraViolet.text = weatherObj[0].current.uvi.toString()
                     visibility.text = weatherObj[0].current.visibility.toString()
                     desc.text = weatherObj[0].current.weather[0].description
@@ -414,6 +417,7 @@ class HomeFragment : Fragment() {
                     hummidity.text = weatherObj.current.humidity.toString()
                     pressure.text = weatherObj.current.pressure.toString()
                     cloud.text = weatherObj.current.clouds.toString()
+                    wind.text = weatherObj.current.windSpeed.toString()
                     ultraViolet.text = weatherObj.current.uvi.toString()
                     visibility.text = weatherObj.current.visibility.toString()
                     desc.text = weatherObj.current.weather[0].description

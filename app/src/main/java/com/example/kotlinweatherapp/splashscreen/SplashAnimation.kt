@@ -50,7 +50,7 @@ class SplashAnimation : AppCompatActivity() {
     private fun initConnectionListener() {
         val intentFilter = IntentFilter()
         intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION)
-        registerReceiver(NetworkChangeReceiver(this), intentFilter)
+        registerReceiver(NetworkChangeReceiver(), intentFilter)
     }
 
 

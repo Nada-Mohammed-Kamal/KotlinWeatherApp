@@ -81,6 +81,9 @@ class FavouriteFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
+        Toast.makeText(requireContext() , "Swipe to delete From Favourite" , Toast.LENGTH_SHORT).show()
+
         favAdapter.notifyDataSetChanged()
         if(!(NetworkChangeReceiver.isThereInternetConnection)){
             Log.e(
@@ -173,8 +176,6 @@ class FavouriteFragment : Fragment() {
         itemTouchHelper.attachToRecyclerView(favRecyclerView)
     }
 
-
-
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>, grantResults: IntArray) {
         when (requestCode) {
@@ -226,7 +227,7 @@ class FavouriteFragment : Fragment() {
         try {
             var myAddress : List<Address> = addressGeocoder.getFromLocation(lat , long, 2)
             if(myAddress.isNotEmpty()){
-                var locName = "${myAddress[0].subAdminArea}, ${myAddress[0].adminArea}"
+                var locName = "${myAddress[0].adminArea} , ${myAddress[0].countryName}"
                 Log.i("ConvertLocInFavFrag", "getAddressForLocation: ${myAddress[0].subAdminArea} ${myAddress[0].adminArea}")
                 return locName
             }
@@ -264,7 +265,7 @@ class FavouriteFragment : Fragment() {
         builder.setMessage("Are you sure you want to Delete?")
             .setCancelable(false)
             .setPositiveButton("Yes") { dialog, id ->
-                //TODO :- Delete selected alarm from database
+                //TODO :- Delete selected fav from database
                 //delete
                 viewModel.deleteFavourite(favObj)
                 favAdapter.notifyDataSetChanged()

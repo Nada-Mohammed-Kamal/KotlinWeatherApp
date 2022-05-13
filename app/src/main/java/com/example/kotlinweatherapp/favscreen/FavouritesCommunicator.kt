@@ -6,5 +6,4 @@ import com.example.kotlinweatherapp.models.pojos.FavouriteObject
 
 interface FavouritesCommunicator {
     fun getItemAtIndexToDelete(index : Int) : FavouriteObject
-    //fun viewDialog(context : Context , alarmObj : Alarm)
 }

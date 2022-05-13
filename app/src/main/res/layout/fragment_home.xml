@@ -105,16 +105,17 @@
                     android:id="@+id/HomeFavId"
                     android:layout_width="61dp"
                     android:layout_height="53dp"
-                    android:layout_marginStart="29dp"
-                    android:layout_marginTop="11dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="14dp"
                     android:clickable="true"
                     android:scaleType="center"
-                    android:src="@drawable/backkkk_rev"
+                    android:src="@drawable/back"
                     app:backgroundTint="@color/white"
-                    app:layout_constraintStart_toEndOf="@+id/homePlaceId"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:tint="#03dac5"
                     tools:ignore="SpeakableTextPresentCheck" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>

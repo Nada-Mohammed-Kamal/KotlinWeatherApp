@@ -22,7 +22,7 @@ class AlarmFragViewModel(private val repository: RepoInterface, private var cont
     }
     fun getAlarms() : LiveData<List< Alarm>>{
         return repository.getAllAlarms()
-        //    return repository.allStoredAlarms
+       //    return repository.allStoredAlarms
     }
 
     fun deleteAlarm(alarm : Alarm){

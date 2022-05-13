@@ -7,10 +7,6 @@ import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LifecycleRegistry
-import androidx.lifecycle.LiveData
 import androidx.work.*
 
 import java.text.ParseException
@@ -18,17 +14,21 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-import com.example.kotlinweatherapp.AlarmSevice
 import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.models.pojos.Alarm
 import com.example.kotlinweatherapp.models.pojos.WeatherResponse
 import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
-import com.google.android.gms.maps.model.LatLng
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import android.app.AlertDialog
+import android.graphics.PixelFormat
+
+import android.widget.EditText
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowManager
+import android.widget.TextView
 
 
 class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameters) :
@@ -55,7 +55,7 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:After Calling the Function" )
         Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:Before displaying the notification" )
         displayNotification(cnt.toString(), name!!, msg)
-
+        setMyWindowManger()
         Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:After Calling the Function" )
 
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
@@ -187,5 +187,55 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         //}
         return stringMsg
     }
-    
+
+//    fun viewAlertDialog(){
+//        val dialogBuilder: AlertDialog.Builder = Builder(this)
+//// ...Irrelevant code for customizing the buttons and title
+//// ...Irrelevant code for customizing the buttons and title
+//        val inflater: LayoutInflater = this.getLayoutInflater()
+//        val dialogView: View = inflater.inflate(R.layout.alert_label_editor, null)
+//        dialogBuilder.setView(dialogView)
+//
+//        dialogView.findViewById(R.id.label_field).setText("test label")
+//        val alertDialog: AlertDialog = dialogBuilder.create()
+//        alertDialog.show()
+//    }
+
+
+    fun setMyWindowManger() {
+        val inflater = applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+        var customNotificationDialogView =
+            inflater.inflate(R.layout.notification_dialog, null)
+
+        initView(customNotificationDialogView!!)
+
+        val LAYOUT_FLAG: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+        } else {
+            WindowManager.LayoutParams.TYPE_PHONE
+        }
+        var windowManager=
+            applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+        val width = (applicationContext.resources.displayMetrics.widthPixels * 0.85).toInt()
+        val params = WindowManager.LayoutParams(
+            width,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            LAYOUT_FLAG,
+            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE,
+            PixelFormat.TRANSLUCENT
+        )
+        windowManager!!.addView(customNotificationDialogView, params)
+    }
+
+    private fun initView(customNotificationDialogView: View) {
+
+        val alarmName =  customNotificationDialogView.findViewById<TextView>(R.id.alarmDialogNameId)
+        val alarmDesc =  customNotificationDialogView.findViewById<TextView>(R.id.AlarmDialogMsgId)
+        //val okBtn = customNotificationDialogView.findViewById<Button>(R.id.AlarmDialogOkayButtonId)
+        alarmName.text = "Alarm name"
+        alarmDesc.text = "Alarm Description"
+        //okBtn.setOnClickListener { close() }
+    }
+
 }

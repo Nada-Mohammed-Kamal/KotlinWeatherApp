@@ -26,6 +26,8 @@ import com.example.kotlinweatherapp.models.pojos.Alarm
 import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
+import com.example.kotlinweatherapp.workmanager.WeatherWorkerClass
+import com.example.kotlinweatherapp.workmanager.WorkerUtilsClass
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -133,6 +135,13 @@ class AlarmFragment : Fragment() , AlarmCommunicator{
                 //TODO :- Delete selected alarm from database
                 //delete
                 viewModel.deleteAlarm(alarmObj)
+
+
+                ////TODO(Important) :- Delete selected alarm from work manager (make sure that this is the right alarm id)
+                WorkerUtilsClass.deleteRequestFromWorkManagerByReq(alarmObj.id)
+
+
+
                 alarmAdapter.notifyDataSetChanged()
                 //al sa7 an al toast de tab2a fal view model msh hena
                 Toast.makeText(context , "deleted Successfully" , Toast.LENGTH_SHORT).show()
