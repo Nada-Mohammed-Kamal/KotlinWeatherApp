@@ -14,6 +14,8 @@ import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.favscreen.FavouritesCommunicator
 import com.example.kotlinweatherapp.favscreen.NavigateToHome
 import com.example.kotlinweatherapp.homeScreen.view.HomeFragment
+import com.example.kotlinweatherapp.models.networkConnectivity.NetworkChangeReceiver
+import com.example.kotlinweatherapp.models.networkConnectivity.NetworkUtility
 import com.example.kotlinweatherapp.models.pojos.FavouriteObject
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
 
@@ -40,16 +42,20 @@ class FavAdapter(var fav: List<FavouriteObject>?, var context: Context , var nav
         holder.favPlaceTextView.text = fav?.get(position)?.locationName
 
         holder.constraintLayoutRow.setOnClickListener{
-            SharedPrefsHelper.setPreviousLatLng(context , "${SharedPrefsHelper.getLatitude(context)},${SharedPrefsHelper.getLongitude(context)}")
-            SharedPrefsHelper.setIsFav(context , true)
+            if(NetworkChangeReceiver.isThereInternetConnection){
+                SharedPrefsHelper.setPreviousLatLng(context , "${SharedPrefsHelper.getLatitude(context)},${SharedPrefsHelper.getLongitude(context)}")
+                SharedPrefsHelper.setIsFav(context , true)
 
 
-            SharedPrefsHelper.setLatitude(context , fav?.get(position)?.latitude.toString())
-            SharedPrefsHelper.setLongitude(context , fav?.get(position)?.longitude.toString())
+                SharedPrefsHelper.setLatitude(context , fav?.get(position)?.latitude.toString())
+                SharedPrefsHelper.setLongitude(context , fav?.get(position)?.longitude.toString())
 
-            //SharedPrefsHelper.setIsFav(context , fav?.get(position)?.isFavourite!!)
-            navToHome.navigateToHome()
-            setFragment(HomeFragment.newInstance())
+                //SharedPrefsHelper.setIsFav(context , fav?.get(position)?.isFavourite!!)
+                navToHome.navigateToHome()
+                setFragment(HomeFragment.newInstance())
+            } else {
+                navToHome.printNoInternetConnection()
+            }
         }
         //Glide.with(holder.iconImageView).load(sports?.dailyIcon).into(holder.iconImageView)
     }

@@ -325,4 +325,8 @@ class FavouriteFragment : Fragment() , NavigateToHome {
 
     }
 
+    override fun printNoInternetConnection() {
+        Toast.makeText(requireContext() , "Please Check your internet connection" , Toast.LENGTH_SHORT).show()
+    }
+
 }

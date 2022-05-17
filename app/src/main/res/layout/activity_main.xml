@@ -34,26 +34,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/home"
-            android:text="Home" />
+            android:text="" />
 
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/favorite"
-            android:text="Favorites" />
+            android:text="" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/alarm"
-            android:text="Alerts" />
+            android:text="" />
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:icon="@drawable/settings"
-            android:text="Settings" />
+            android:text="" />
 
 
     </com.google.android.material.tabs.TabLayout>
