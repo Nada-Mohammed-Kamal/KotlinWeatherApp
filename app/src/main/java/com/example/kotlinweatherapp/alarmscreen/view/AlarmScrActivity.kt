@@ -2,33 +2,24 @@ package com.example.kotlinweatherapp.alarmscreen.view
 
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-import android.app.Notification
 import android.app.TimePickerDialog
-import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.*
 import androidx.lifecycle.ViewModelProvider
-
 import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.alarmscreen.viewmodel.AlarmFragViewModel
 import com.example.kotlinweatherapp.alarmscreen.viewmodel.AlarmViewModelFactory
 import com.example.kotlinweatherapp.models.pojos.Alarm
-import com.example.kotlinweatherapp.models.pojos.AlarmType
-import com.example.kotlinweatherapp.models.pojos.ReasonOfTheAlarm
 import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
-import com.example.kotlinweatherapp.workmanager.WeatherWorkerClass
 import com.example.kotlinweatherapp.workmanager.WorkerUtilsClass
 import com.google.android.gms.maps.model.LatLng
 import java.text.SimpleDateFormat
 import java.util.*
-
 
 class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener {
     //calendar(date)
@@ -40,7 +31,7 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
     lateinit var reasonOfTheAlarm: Spinner
     lateinit var title : EditText
     lateinit var alarmOrNotificationSwitch: Switch
-
+    lateinit var reason : TextView
     //Time
     var alarmTime : EditText? = null
     lateinit var timeCalendar : Calendar
@@ -50,6 +41,9 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
     lateinit var timeBtn : Button
     var isAlarm : Boolean = false
 
+    lateinit var homeDateId : TextView
+    lateinit var homePlaceId : TextView
+    lateinit var homeWindId : TextView
 
     //viewModel
     private lateinit var viewModel: AlarmFragViewModel
@@ -70,10 +64,25 @@ class AlarmScrActivity : AppCompatActivity() ,AdapterView.OnItemSelectedListener
 
         //addBtn
         addBtn = findViewById(R.id.btnAddAlarmToRecyclerViewFromAlarmDetailsScreenId)
+
+        homeDateId = findViewById(R.id.homeDateId)
+        homePlaceId = findViewById(R.id.homePlaceId)
+        homeWindId = findViewById(R.id.homeWindId)
+        reason = findViewById(R.id.alarmIDID)
         //setDateAndTimeViews
         setDateAndTimePickersView()
         //view time picker dialog
         viewTimePicker()
+
+        if(SharedPrefsHelper.getLang(this) == "ar"){
+            homeDateId.text = "التاريخ الاول"
+            homePlaceId.text = "التاريخ الاخير"
+            homeWindId.text = "ميعاد التنبيه"
+            reason.text = "سبب التنبيه"
+            alarmOrNotificationSwitch.text = "ديالوج"
+
+            addBtn.text = "أضف"
+        }
 
 
         //alarmTime

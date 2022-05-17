@@ -23,6 +23,5 @@ data class WeatherResponse (
     @PrimaryKey
     @NonNull
     var loc : String = ""
-
     //var isFav : Boolean = false
      }
