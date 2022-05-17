@@ -41,10 +41,10 @@
 
         <ImageButton
             android:id="@+id/btnDeleteAlarmId"
-            android:layout_width="53dp"
-            android:layout_height="32dp"
+            android:layout_width="61dp"
+            android:layout_height="29dp"
             android:layout_marginTop="4dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="34dp"
             android:background="@drawable/trash"
             android:padding="8dp"
             android:paddingTop="8dp"

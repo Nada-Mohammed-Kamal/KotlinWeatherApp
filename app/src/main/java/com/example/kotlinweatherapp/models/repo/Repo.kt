@@ -80,10 +80,15 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
     }
 
     override suspend fun getOneWeatherObjOverNetworkWithLatAndLong(context: Context, latLng: LatLng): WeatherResponse? {
-        val weatherObjOverNetwork = remoteSource.getOneWeatherObjOverNetworkWithLatAndLong(context , latLng)
-        this.weatherObjOverNetwork = weatherObjOverNetwork
-        weatherObjOverNetwork?.loc = "${weatherObjOverNetwork?.lat},${weatherObjOverNetwork?.lon}"
-        return weatherObjOverNetwork
+        if (NetworkChangeReceiver.isThereInternetConnection) {
+            val weatherObjOverNetwork = remoteSource.getOneWeatherObjOverNetworkWithLatAndLong(context , latLng)
+            this.weatherObjOverNetwork = weatherObjOverNetwork
+            weatherObjOverNetwork?.loc = "${weatherObjOverNetwork?.lat},${weatherObjOverNetwork?.lon}"
+            return weatherObjOverNetwork
+        } else{
+            return localSource.allStoredWeatherResponses.value?.get(0)
+        }
+
     }
 
     override val allStoredWeatherResponses: LiveData<List<WeatherResponse>>

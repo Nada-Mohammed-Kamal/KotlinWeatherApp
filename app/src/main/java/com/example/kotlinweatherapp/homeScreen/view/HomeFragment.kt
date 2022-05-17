@@ -92,11 +92,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         myView = view
 
-        if(!(NetworkChangeReceiver.isThereInternetConnection)){
-            Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
-            showNoNetSnackbar()
-        }
-
+//        if(!(NetworkChangeReceiver.isThereInternetConnection)){
+//            Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
+//            showNoNetSnackbar()
+//        }
 
         //view model
         homeFactory = HomeViewModelFactory(
@@ -120,7 +119,6 @@ class HomeFragment : Fragment() {
             favBackBtn.visibility = View.VISIBLE
         }
 
-
         favBackBtn.setOnClickListener {
             SharedPrefsHelper.setIsFav(requireContext() , false)
 
@@ -139,7 +137,7 @@ class HomeFragment : Fragment() {
         }
 
         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-            uv.text = "الاشعه فوق البنفسجيه"
+            uv.text = "الاشعه البنفسجيه"
             clod.text = "السحب"
             hummid.text = "الرطوبه"
             wnd.text = "الرياح"
@@ -165,7 +163,6 @@ class HomeFragment : Fragment() {
         temp = view.findViewById(R.id.homeTempratureId)
         descImg = view.findViewById(R.id.descImgId)
         desc = view.findViewById(R.id.homeDescId)
-        //icon = view.findViewById(R.id.imageView)
         date = view.findViewById(R.id.homeDateId)
         hummidity = view.findViewById(R.id.homeHummidityId)
         pressure = view.findViewById(R.id.homePressureId)
@@ -185,7 +182,7 @@ class HomeFragment : Fragment() {
                     var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
                     dailyRecyclerView.adapter = dailyAdapter
 
-                    getAddressAndDateForLocation()
+                    getAddressAndDateForLocation(weatherObj[0])
                     if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj[0].current.temp}" + "س"
@@ -247,7 +244,7 @@ class HomeFragment : Fragment() {
                     var dailyAdapter = DailyWeatherAdapter(weatherObj, requireContext())
                     dailyRecyclerView.adapter = dailyAdapter
 
-                    getAddressAndDateForLocation()
+                    placeName.text = getAddressAndDateForLocation(weatherObj)
                     if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj.current.temp}" + "س"
@@ -318,7 +315,7 @@ class HomeFragment : Fragment() {
                     var dailyAdapter = DailyWeatherAdapter(weatherObj[0], requireContext())
                     dailyRecyclerView.adapter = dailyAdapter
 
-                    getAddressAndDateForLocation()
+                    placeName.text = getAddressAndDateForLocation(weatherObj[0])
                     if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj[0].current.temp}" + "س"
@@ -352,7 +349,7 @@ class HomeFragment : Fragment() {
                     Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
 
                     //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
-                    getAddressAndDateForLocation()
+                    placeName.text = getAddressAndDateForLocation(weatherObj[0])
                     date.text = timeStampToDate(weatherObj[0].current.dt)
                     hummidity.text = weatherObj[0].current.humidity.toString()
                     pressure.text = weatherObj[0].current.pressure.toString()
@@ -383,7 +380,7 @@ class HomeFragment : Fragment() {
                     var dailyAdapter = DailyWeatherAdapter(weatherObj, requireContext())
                     dailyRecyclerView.adapter = dailyAdapter
 
-                    getAddressAndDateForLocation()
+                    placeName.text = getAddressAndDateForLocation(weatherObj)
                     if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj.current.temp}" + "س"
@@ -426,6 +423,7 @@ class HomeFragment : Fragment() {
                     ultraViolet.text = weatherObj.current.uvi.toString()
                     visibility.text = weatherObj.current.visibility.toString()
                     desc.text = weatherObj.current.weather[0].description
+                    placeName.text = getAddressAndDateForLocation(weatherObj)
 
                 }else{
                     var hourlyAdapter = HourlyWeatherAdapter(null , activity?.applicationContext!!)
@@ -473,16 +471,19 @@ class HomeFragment : Fragment() {
         return dateFormat.format(date)
     }
 
-    fun getAddressAndDateForLocation(){
+    @SuppressLint("SetTextI18n")
+    fun getAddressAndDateForLocation(obj : WeatherResponse) : String{
         var addressGeocoder : Geocoder = Geocoder(context, Locale.getDefault())
         try {
             var myAddress : List<Address> = addressGeocoder.getFromLocation(SharedPrefsHelper.getLatitude(requireContext()).toDouble(), SharedPrefsHelper.getLongitude(requireContext()).toDouble(), 2)
             if(myAddress.isNotEmpty()){
-                placeName.text = "${myAddress[0].subAdminArea}, ${myAddress[0].adminArea}"
                 Log.i("NADAAAAAAA", "getAddressForLocation: ${myAddress[0].subAdminArea} ${myAddress[0].adminArea}")
+                placeName.text = "${myAddress[0].subAdminArea}, ${myAddress[0].adminArea}"
+                return "${myAddress[0].subAdminArea}, ${myAddress[0].adminArea}"
             }
         }catch (e : IOException){
             e.printStackTrace()
         }
+        return obj.timezone
     }
 }

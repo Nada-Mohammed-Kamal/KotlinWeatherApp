@@ -71,6 +71,7 @@ class WorkerUtilsClass {
         }
 
         fun pushNewRequestID(reqID: UUID, alarmID: String, time: String) {
+            //at2aked mn al time da
             wmRequestIds.add(reqID.toString() + "_" + alarmID + "_" + time)
         }
 
@@ -113,8 +114,7 @@ class WorkerUtilsClass {
                 WorkManager.getInstance().enqueue(request)
             }
 
-
-        fun deleteAllRequestsFromWorkManagerByMed(alarmID: UUID) {
+        /*fun deleteAllRequestsFromWorkManagerByMed(alarmID: UUID) {
             Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size before: " + wmRequestIds.size)
             val toBeDeleted = ArrayList<String>()
             for (str in wmRequestIds) {
@@ -131,7 +131,7 @@ class WorkerUtilsClass {
                 }
             }
             Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size after: " + wmRequestIds.size)
-        }
+        }*/
 
         fun deleteRequestFromWorkManagerByReq(reqID: UUID) {
             Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size before: " + wmRequestIds.size)
@@ -147,8 +147,6 @@ class WorkerUtilsClass {
                 }
             }
 
-
-
             for (str in wmRequestIds) {
                 val splitted = str.split("_").toTypedArray()
                 if (UUID.fromString(splitted[0]) == reqID) {
@@ -163,7 +161,6 @@ class WorkerUtilsClass {
             Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size after: " + wmRequestIds.size)
         }
     }
-
 }
 
 

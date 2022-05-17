@@ -158,9 +158,16 @@ class FavouriteFragment : Fragment() , NavigateToHome {
 
         btnAddFav.setOnClickListener{
 
-            val intent = Intent(requireContext() , MapsActivity::class.java)
-            intent.putExtra("fromScreen" , "fav")
-            startActivity(intent)
+            if(NetworkChangeReceiver.isThereInternetConnection){
+                val intent = Intent(requireContext() , MapsActivity::class.java)
+                intent.putExtra("fromScreen" , "fav")
+                startActivity(intent)
+            }
+
+            else{
+                Toast.makeText(requireContext() , "Please Check your internet connection" , Toast.LENGTH_SHORT).show()
+            }
+
             //getLocationPermission()
             //TODO: araga3 de (working) bs a replace al static location da bal hayarg3 mal map
 

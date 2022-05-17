@@ -44,5 +44,4 @@ class FavFragViewModel(private val repository: RepoInterface, private var contex
             repository.insertFavObj(fav)
         }
     }
-
 }

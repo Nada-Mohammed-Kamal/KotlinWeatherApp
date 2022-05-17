@@ -34,6 +34,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.fragment_settings.*
 import java.io.IOException
 import java.util.*
 
@@ -154,6 +155,8 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
             )
             showNoNetSnackbar()
 
+            radioButtonGPSId.isEnabled = false
+            radioButtonMapId.isEnabled = false
 
         }
 

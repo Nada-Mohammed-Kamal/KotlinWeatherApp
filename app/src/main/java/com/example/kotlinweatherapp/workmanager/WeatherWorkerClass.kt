@@ -111,7 +111,9 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
                     .build()
             WorkerUtilsClass.pushNewRequestID(
                 request.getId(),
-                //TODO msh mota2akeda mn dose time de
+
+                //TODO msh mota2akeda mn dose time de (important)
+
                 UUID.fromString(alarmId).toString(), doseTime!!
             )
             WorkManager.getInstance().enqueue(request)
@@ -138,14 +140,7 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
             .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.packageName + "/" + R.raw.alarmsound))
             .setAutoCancel(true)
         val notificationManager = NotificationManagerCompat.from(context)
-
-        val sound: Uri =
-            Uri.parse("android.resource://" + context.packageName.toString() + "/" + R.raw.alarmsound)
-        builder.setSound(sound)
-
-        // notificationId is a unique int for each notification that you must define
         notificationManager.notify(Integer.valueOf(id), builder.build())
-        Log.e("M3lsh", "displaying notification")
     }
 
     private suspend fun makeAPICallAndCheckWeatherIsThereAlertsOrNot(alarmId: String): String {
@@ -235,7 +230,6 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         }
     }
 
-
     private fun close() {
         try {
             (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).removeView(
@@ -247,7 +241,4 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
             Log.d("Error", e.toString())
         }
     }
-
-
-
 }

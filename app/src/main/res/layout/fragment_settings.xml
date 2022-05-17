@@ -15,12 +15,14 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
-            android:layout_width="175dp"
-            android:layout_height="200dp"
+            android:layout_width="0dp"
+            android:layout_height="204dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="44dp"
+            android:layout_marginEnd="20dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardView2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -63,8 +65,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView2"
-            android:layout_width="181dp"
-            android:layout_height="200dp"
+            android:layout_width="156dp"
+            android:layout_height="204dp"
             android:layout_marginTop="44dp"
             android:layout_marginEnd="24dp"
             app:cardCornerRadius="16dp"
@@ -111,8 +113,8 @@
 
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView3"
-            android:layout_width="175dp"
-            android:layout_height="200dp"
+            android:layout_width="153dp"
+            android:layout_height="202dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="24dp"
             app:cardCornerRadius="16dp"
@@ -167,12 +169,14 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:layout_width="175dp"
-            android:layout_height="200dp"
+            android:layout_width="0dp"
+            android:layout_height="202dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
+            android:layout_marginEnd="20dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="16dp"
+            app:layout_constraintEnd_toStartOf="@+id/cardView3"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView">
 
@@ -215,16 +219,18 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnApplySettingsScreenId"
-            android:layout_width="360dp"
+            android:layout_width="0dp"
             android:layout_height="52dp"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="60dp"
+            android:layout_marginEnd="16dp"
             android:backgroundTint="#B2FFFAFA"
             android:fontFamily="casual"
             android:text="@string/Apply"
             android:textColor="#232323"
             android:textStyle="bold"
             app:cornerRadius="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 

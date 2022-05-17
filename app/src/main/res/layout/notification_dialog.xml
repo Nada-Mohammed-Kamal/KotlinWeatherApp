@@ -10,11 +10,11 @@
     android:backgroundTint="#00FFFFFF">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="373dp"
+        android:layout_width="0dp"
         android:layout_height="223dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="16dp"
         android:elevation="20dp"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -51,9 +51,9 @@
                 android:layout_width="0dp"
                 android:layout_height="59dp"
                 android:layout_gravity="center"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="11dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="16dp"
                 android:fontFamily="casual"
                 android:text="Okay"
                 android:textAllCaps="false"
