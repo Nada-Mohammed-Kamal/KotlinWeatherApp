@@ -48,7 +48,6 @@ class SharedPrefsHelper{
             editor.apply()
         }
 
-
         fun getLongitude(context: Context) : String{
             val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
             return sharedPreference.getString("long","31.2885")!!
@@ -93,6 +92,19 @@ class SharedPrefsHelper{
             val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
             return sharedPreference.getBoolean("isFirstTime",true)
         }
+
+        fun getIsFirstTimeForAddAlarm(context: Context) : Boolean{
+            val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
+            return sharedPreference.getBoolean("isFirstTimeAdd",true)
+        }
+
+        fun setIsFirstTimeAddAlarm(context: Context , isFirstTime : Boolean){
+            val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)
+            var editor = sharedPreference.edit()
+            editor.putBoolean("isFirstTimeAdd", isFirstTime)
+            editor.apply()
+        }
+
 
         fun setPreviousLatLng(context: Context , latlng : String){
             val sharedPreference = context.getSharedPreferences("myAppSHaredPrefs", Context.MODE_PRIVATE)

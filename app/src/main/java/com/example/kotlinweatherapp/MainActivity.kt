@@ -14,9 +14,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        var i = Intent(this , AlarmScrActivity::class.java)
-//        startActivity(i)
-
         val bubbleNavLinearView = findViewById<BubbleNavigationLinearView>(R.id.bubbleNavigationBarid)
         setFragment(HomeFragment.newInstance())
 
@@ -28,7 +25,6 @@ class MainActivity : AppCompatActivity() {
                 3-> setFragment(SettingsFragment.newInstance())
             }
         }
-
     }
 
     fun setFragment(fragment : Fragment){

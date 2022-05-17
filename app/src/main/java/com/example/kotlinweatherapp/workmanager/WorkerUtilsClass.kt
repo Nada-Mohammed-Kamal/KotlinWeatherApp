@@ -21,6 +21,7 @@ class WorkerUtilsClass {
         val ALARM_DOSE_TIME = "MED_DOSE_TIME"
         val ALARM_NAME = "MED_NAME"
         val ALARM_END_DATE = "MED_END_DATE"
+        val ALARM_OR_NOTIFICATION = "ALARM_OR_NOTIFICATION"
 
         var wmRequestIds = ArrayList<String>()
 
@@ -80,21 +81,23 @@ class WorkerUtilsClass {
             val endDate = sdf.format(alarm.endDate)
             Log.i(TAG, "Current Date: $timeNow")
             Log.i(TAG, "End Date: $endDate")
-            for (ct in alarm.clcTimes()) {
-                when {
-                    ct!!.hours > 12 -> {
-                        customTime = CustomTime(ct!!.hours, ct.minutes, "pm")
-                    }
-                    ct!!.hours < 12 -> {
-                        customTime = CustomTime(ct!!.hours , ct.minutes , "am" )
-                    }
-                }
-                val time = convertCustomTimeIntoTimeString(customTime!!)
+//            for (ct in alarm.clcTimes()) {
+//                ct?.time =
+//                when {
+//                    ct!!.hours > 12 -> {
+//                        customTime = CustomTime(ct!!.hours, ct.minutes, "pm")
+//                    }
+//                    ct!!.hours < 12 -> {
+//                        customTime = CustomTime(ct!!.hours , ct.minutes , "am" )
+//                    }
+//                }
+                val time = convertCustomTimeIntoTimeString(alarm.alarmTime!!)
                 val data: Data = Builder()
                     .putString(ALARM_NAME, alarm.title)
                     .putString(ALARM_ID, alarm.id.toString())
                     .putString(ALARM_DOSE_TIME, time)
                     .putString(ALARM_END_DATE, endDate)
+                    .putBoolean(ALARM_OR_NOTIFICATION , alarm.typeBool)
                     .build()
                 val startDate = (SimpleDateFormat("dd-MM-yyyy").format(alarm.startDate)
                     .toString() + " "
@@ -109,7 +112,7 @@ class WorkerUtilsClass {
                 pushNewRequestID(request.id, alarm.id.toString(), time!!)
                 WorkManager.getInstance().enqueue(request)
             }
-        }
+
 
         fun deleteAllRequestsFromWorkManagerByMed(alarmID: UUID) {
             Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size before: " + wmRequestIds.size)
@@ -161,5 +164,6 @@ class WorkerUtilsClass {
         }
     }
 
-
 }
+
+

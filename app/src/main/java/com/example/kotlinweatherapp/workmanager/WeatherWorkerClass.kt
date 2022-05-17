@@ -2,12 +2,14 @@ package com.example.kotlinweatherapp.workmanager
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.content.ContentResolver
 import android.content.Context
 import android.os.Build
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.work.*
+import android.provider.Settings
 
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -20,25 +22,43 @@ import com.example.kotlinweatherapp.models.pojos.WeatherResponse
 import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
-import android.app.AlertDialog
+
 import android.graphics.PixelFormat
+import android.media.MediaPlayer
+import android.system.Os.close
 
 import android.widget.EditText
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import android.widget.Button
 import android.widget.TextView
+import java.io.FileDescriptor
+import android.net.Uri
+import android.system.Os.if_nametoindex
+import android.view.ViewGroup
+import android.view.WindowManager.LayoutParams
+import android.view.WindowManager.LayoutParams.TYPE_APPLICATION_PANEL
+import androidx.annotation.RequiresApi
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameters) :
     CoroutineWorker(context, workerParams) {
+
+    var customNotificationDialogView: View? = null
+    var mp : MediaPlayer? = null
     var cnt = 0
 
     init {
         cnt++
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override suspend fun doWork(): Result {
         val data: Data = inputData
         //m7taga al flag
@@ -46,16 +66,31 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         val alarmId: String? = data.getString(WorkerUtilsClass.ALARM_ID)
         val doseTime: String? = data.getString(WorkerUtilsClass.ALARM_DOSE_TIME)
         val endDate: String? = data.getString(WorkerUtilsClass.ALARM_END_DATE)
+        val alarmOrNotification : Boolean? = data.getBoolean((WorkerUtilsClass.ALARM_OR_NOTIFICATION) , true)
 
 
         //TODO: 2a2awam al service
         //AlarmSevice.startService(context, "Foreground Service is running..." , alarmId!!)
+
+
         Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:Before Calling the Function" )
         val msg = makeAPICallAndCheckWeatherIsThereAlertsOrNot(alarmId!!)
         Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:After Calling the Function" )
+
+
         Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:Before displaying the notification" )
-        displayNotification(cnt.toString(), name!!, msg)
-        setMyWindowManger()
+        if (alarmOrNotification == true){
+            if (Settings.canDrawOverlays(context)) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    displayNotification(cnt.toString(), name!!, msg)
+                    setMyWindowManger(name , msg)
+                }
+            }
+
+        } else {
+            displayNotification(cnt.toString(), name!!, msg)
+        }
+
         Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:After Calling the Function" )
 
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
@@ -72,10 +107,13 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         Log.i("M3lsh", "doWork: condition " + nxtDate.before(_endDate))
         WorkerUtilsClass.deleteRequestFromWorkManagerByReq(workerParams.id)
         if (nxtDate.before(_endDate)) {
-            Log.i("M3lsh", "doWork: ")
+            Log.i("NADAAA", "doWork: ")
             val request: OneTimeWorkRequest =
                 OneTimeWorkRequest.Builder(WeatherWorkerClass::class.java)
-                    .setInitialDelay(24, TimeUnit.DAYS)
+
+                        //////hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+
+                    .setInitialDelay(24, TimeUnit.HOURS)
                     .setInputData(workerParams.inputData)
                     .build()
             WorkerUtilsClass.pushNewRequestID(
@@ -104,7 +142,13 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
             .setContentTitle(task)
             .setContentText(desc)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + context.packageName + "/" + R.raw.alarmsound))
+            .setAutoCancel(true)
         val notificationManager = NotificationManagerCompat.from(context)
+
+        val sound: Uri =
+            Uri.parse("android.resource://" + context.packageName.toString() + "/" + R.raw.alarmsound)
+        builder.setSound(sound)
 
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(Integer.valueOf(id), builder.build())
@@ -163,7 +207,7 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
                              Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:first second Not null or empty" )
 
                              for (item in weatherObjOverNetwork?.alerts!!) {
-                                event = item.event
+                                event = item.tags[0]
                                 if (event == alarmObj?.reasonOfAlarm.toString()) { //the alert matches
                                     Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:no need to be carefull" )
                                     stringMsg = "You Need To be Careful there is $event coming"
@@ -188,54 +232,70 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         return stringMsg
     }
 
-//    fun viewAlertDialog(){
-//        val dialogBuilder: AlertDialog.Builder = Builder(this)
-//// ...Irrelevant code for customizing the buttons and title
-//// ...Irrelevant code for customizing the buttons and title
-//        val inflater: LayoutInflater = this.getLayoutInflater()
-//        val dialogView: View = inflater.inflate(R.layout.alert_label_editor, null)
-//        dialogBuilder.setView(dialogView)
-//
-//        dialogView.findViewById(R.id.label_field).setText("test label")
-//        val alertDialog: AlertDialog = dialogBuilder.create()
-//        alertDialog.show()
-//    }
 
+    fun setMyWindowManger(name : String , des : String) {
 
-    fun setMyWindowManger() {
         val inflater = applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        var customNotificationDialogView =
+         customNotificationDialogView =
             inflater.inflate(R.layout.notification_dialog, null)
 
-        initView(customNotificationDialogView!!)
+        initView(customNotificationDialogView!! ,name ,des )
+        if(mp == null){
+            mp = MediaPlayer.create(applicationContext , R.raw.alarmsound);
+
+        }
+        mp?.start();
+
 
         val LAYOUT_FLAG: Int = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+            LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
-            WindowManager.LayoutParams.TYPE_PHONE
+            LayoutParams.TYPE_PHONE
         }
+        //TODO: not working
         var windowManager=
             applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = (applicationContext.resources.displayMetrics.widthPixels * 0.85).toInt()
+
         val params = WindowManager.LayoutParams(
             width,
-            WindowManager.LayoutParams.WRAP_CONTENT,
+            LayoutParams.WRAP_CONTENT,
             LAYOUT_FLAG,
-            WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON or WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or WindowManager.LayoutParams.FLAG_LOCAL_FOCUS_MODE,
+            LayoutParams.FLAG_KEEP_SCREEN_ON or LayoutParams.FLAG_LAYOUT_IN_SCREEN or LayoutParams.FLAG_LOCAL_FOCUS_MODE,
             PixelFormat.TRANSLUCENT
         )
-        windowManager!!.addView(customNotificationDialogView, params)
+        CoroutineScope(Dispatchers.Main).launch {
+            windowManager.addView(customNotificationDialogView, params)
+        }
     }
 
-    private fun initView(customNotificationDialogView: View) {
+    private fun initView(customNotificationDialogView: View , name : String , des : String) {
 
         val alarmName =  customNotificationDialogView.findViewById<TextView>(R.id.alarmDialogNameId)
         val alarmDesc =  customNotificationDialogView.findViewById<TextView>(R.id.AlarmDialogMsgId)
-        //val okBtn = customNotificationDialogView.findViewById<Button>(R.id.AlarmDialogOkayButtonId)
-        alarmName.text = "Alarm name"
-        alarmDesc.text = "Alarm Description"
-        //okBtn.setOnClickListener { close() }
+        val okBtn = customNotificationDialogView.findViewById<Button>(R.id.AlarmDialogOkayButtonId)
+        alarmName.text = name
+        alarmDesc.text = des
+        okBtn.setOnClickListener {
+            mp?.release()
+            close()
+        }
     }
+
+
+    private fun close() {
+        try {
+            (context.getSystemService(Context.WINDOW_SERVICE) as WindowManager).removeView(
+                customNotificationDialogView
+            )
+            customNotificationDialogView!!.invalidate()
+            (customNotificationDialogView!!.parent as ViewGroup).removeAllViews()
+        } catch (e: Exception) {
+            Log.d("Error", e.toString())
+        }
+    }
+
+
 
 }

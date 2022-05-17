@@ -12,12 +12,13 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.favscreen.FavouritesCommunicator
+import com.example.kotlinweatherapp.favscreen.NavigateToHome
 import com.example.kotlinweatherapp.homeScreen.view.HomeFragment
 import com.example.kotlinweatherapp.models.pojos.FavouriteObject
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
 
 
-class FavAdapter(var fav: List<FavouriteObject>?, var context: Context): RecyclerView.Adapter<FavAdapter.ViewHolder>() ,
+class FavAdapter(var fav: List<FavouriteObject>?, var context: Context , var navToHome : NavigateToHome ): RecyclerView.Adapter<FavAdapter.ViewHolder>() ,
     FavouritesCommunicator {
     var myView : View? = null
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -47,7 +48,7 @@ class FavAdapter(var fav: List<FavouriteObject>?, var context: Context): Recycle
             SharedPrefsHelper.setLongitude(context , fav?.get(position)?.longitude.toString())
 
             //SharedPrefsHelper.setIsFav(context , fav?.get(position)?.isFavourite!!)
-
+            navToHome.navigateToHome()
             setFragment(HomeFragment.newInstance())
         }
         //Glide.with(holder.iconImageView).load(sports?.dailyIcon).into(holder.iconImageView)

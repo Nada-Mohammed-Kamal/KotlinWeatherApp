@@ -19,12 +19,16 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinweatherapp.map.view.MapsActivity
 import com.example.kotlinweatherapp.R
+import com.example.kotlinweatherapp.map.view.MapsActivity
 import com.example.kotlinweatherapp.favscreen.FavouritesCommunicator
+import com.example.kotlinweatherapp.favscreen.NavigateToHome
 import com.example.kotlinweatherapp.favscreen.viewmodel.FavFragViewModel
 import com.example.kotlinweatherapp.favscreen.viewmodel.FavViewModelFactory
 import com.example.kotlinweatherapp.models.networkConnectivity.NetworkChangeReceiver
@@ -40,13 +44,15 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import java.io.IOException
 import java.util.*
+import com.example.kotlinweatherapp.homeScreen.view.HomeFragment
+import com.gauravk.bubblenavigation.BubbleNavigationLinearView
 
 
-class FavouriteFragment : Fragment() {
+class FavouriteFragment : Fragment() , NavigateToHome {
 
     private lateinit var viewModel: FavFragViewModel
     lateinit var favViewModelFactory : FavViewModelFactory
-
+    private lateinit var navController: NavController
 
     //maps
     //map checking
@@ -68,7 +74,6 @@ class FavouriteFragment : Fragment() {
         ACCESS_COARSE_LOCATION
     )
     val location_permission_request_code : Int = 1234
-    //var location : Location = Location("30.016893,31.377033")
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
 
@@ -76,7 +81,6 @@ class FavouriteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
-
     }
 
     override fun onResume() {
@@ -142,10 +146,9 @@ class FavouriteFragment : Fragment() {
         viewModel = ViewModelProvider(this, favViewModelFactory).get(FavFragViewModel::class.java)
 
 
-        favAdapter = FavAdapter(listOf<FavouriteObject>() , requireContext())
+        favAdapter = FavAdapter(listOf<FavouriteObject>() , requireContext() , this)
         favRecyclerView.layoutManager = linearLayoutManager
         favRecyclerView.adapter = favAdapter
-
         communicator = favAdapter
 
 
@@ -182,7 +185,7 @@ class FavouriteFragment : Fragment() {
             location_permission_request_code -> {
                 // If request is cancelled, the result arrays are empty.
                 if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
-                    Log.e(TAG, "onRequestPermissionsResult: acceptedddddddddddd", )
+                    Log.e(TAG, "onRequestPermissionsResult: acceptedddddddddddd")
                     // Permission is granted.
                     mLocationPermission = true
 
@@ -195,7 +198,7 @@ class FavouriteFragment : Fragment() {
                     }
 
                 } else {
-                    Log.e(TAG, "onRequestPermissionsResult: denidedddddddddd", )
+                    Log.e(TAG, "onRequestPermissionsResult: denidedddddddddd")
                     // Explain to the user that the feature is unavailable because
                     // the features requires a permission
                     Toast.makeText(requireContext() , "Please enable the location in order to be able to add a favourite place" , Toast.LENGTH_LONG).show()
@@ -308,6 +311,31 @@ class FavouriteFragment : Fragment() {
     private fun init(){
             var i = Intent(requireContext() , MapsActivity::class.java)
             startActivity(i)
+    }
+
+    override fun navigateToHome() {
+        //navController = NavHostFragment.findNavController(this)
+        //navController.navigate(R.id.homeFragment)
+
+
+//        childFragmentManager
+//            .beginTransaction().
+//            add(R.id.fragmentContainer , HomeFragment.newInstance())
+//            .commit()
+
+
+        navController = Navigation.findNavController(view!!)
+        navController.navigate(R.id.fragmentHomeId)
+
+
+
+//        supportFragmentManager.beginTransaction().re
+//            .replace(R.id.fragmentContainer , fragment , "HomeActivity")
+//            .commit()
+
+        //TODO: navigation not working
+//        val bubbleNavLinearView = requireView().findViewById<BubbleNavigationLinearView>(R.id.bubbleNavigationBarid)
+//        bubbleNavLinearView?.setCurrentActiveItem(0)
     }
 
 }

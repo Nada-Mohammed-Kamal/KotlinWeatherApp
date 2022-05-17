@@ -50,5 +50,9 @@ class DailyWeatherAdapter(var weatherObj: WeatherResponse?, var context: Context
         return dateFormat.format(date)
     }
 
-    override fun getItemCount() = 7//3dd ayam al 2asboo3
+    override fun getItemCount() = 7 //3dd ayam al 2asboo3
+
+
+
+
 }

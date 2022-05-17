@@ -1,7 +1,10 @@
 package com.example.kotlinweatherapp.alarmscreen.view
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
@@ -10,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,8 +30,10 @@ import com.example.kotlinweatherapp.models.pojos.Alarm
 import com.example.kotlinweatherapp.models.repo.Repo
 import com.example.kotlinweatherapp.models.retrofit.weatherRetrofitClient
 import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
+import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
 import com.example.kotlinweatherapp.workmanager.WeatherWorkerClass
 import com.example.kotlinweatherapp.workmanager.WorkerUtilsClass
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 
@@ -107,9 +113,55 @@ class AlarmFragment : Fragment() , AlarmCommunicator{
 
 
         addAlarmBtn.setOnClickListener{
-            var i = Intent(context, AlarmScrActivity::class.java)
-            startActivity(i)
-            //viewModel.addAlarm()
+            if (checkFirstTime()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    checkDrawOverlayPermission()
+                    setNotFirstTime()
+                } else {
+                    navigateToCreateAlarmDialog()
+                }
+            } else {
+                navigateToCreateAlarmDialog()
+            }
+        }
+    }
+
+    private fun navigateToCreateAlarmDialog() {
+        var i = Intent(context, AlarmScrActivity::class.java)
+        startActivity(i)
+    }
+
+    private fun setNotFirstTime() {
+        SharedPrefsHelper.setIsFirstTimeAddAlarm(requireContext() ,false)
+    }
+
+    private fun checkFirstTime(): Boolean {
+        return   SharedPrefsHelper.getIsFirstTimeForAddAlarm(requireContext())
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun checkDrawOverlayPermission() {
+        // Check if we already  have permission to draw over other apps
+        if (!Settings.canDrawOverlays(requireContext())) {
+            // if not construct intent to request permission
+            val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+            alertDialogBuilder.setTitle("Alert")
+                .setMessage("please give the app the ability to draw over other apps")
+                .setPositiveButton("Okay") { dialog: DialogInterface, _: Int ->
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + requireActivity().packageName)
+                    )
+                    // request permission via start activity for result
+                    startActivityForResult(intent, 1)
+                    //It will call onActivityResult Function After you press Yes/No and go Back after giving permission
+                    dialog.dismiss()
+
+                }.setNegativeButton(
+                    "No"
+                ) { dialog: DialogInterface, _: Int ->
+                    dialog.dismiss()
+                }.show()
         }
     }
 

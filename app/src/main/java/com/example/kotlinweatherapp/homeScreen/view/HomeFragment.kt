@@ -164,7 +164,7 @@ class HomeFragment : Fragment() {
         date = view.findViewById(R.id.homeDateId)
         hummidity = view.findViewById(R.id.homeHummidityId)
         pressure = view.findViewById(R.id.homePressureId)
-        wind = view.findViewById(R.id.homeWindId)
+        wind = view.findViewById(R.id.windwindId)
         cloud = view.findViewById(R.id.homeCloudId)
         ultraViolet = view.findViewById(R.id.homeultraVioletId)
         visibility = view.findViewById(R.id.homeVisabitiyId)
@@ -184,20 +184,20 @@ class HomeFragment : Fragment() {
                     if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj[0].current.temp}" + "س"
-                            wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
+                            wind.text = "${weatherObj[0].current.windGust}" + "متر/ثانيه"
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj[0].current.temp}" + "C"
-                            wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
+                            wind.text = "${weatherObj[0].current.windGust} Meter/s"
                         }
                     }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
                     {
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj[0].current.temp}" + "ف"
-                            wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
+                            wind.text = "${weatherObj[0].current.windGust} " + " ميل/ساعه"
 
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj[0].current.temp}" + "F"
-                            wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
+                            wind.text = "${weatherObj[0].current.windGust}" + "Mile/h"
                         }
 
                     } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
@@ -206,7 +206,7 @@ class HomeFragment : Fragment() {
                             wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj[0].current.temp}" + "K"
-                            wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
+                            wind.text = "${weatherObj[0].current.windGust} " + "Mile/H"
                         }
 
                     }
@@ -219,7 +219,7 @@ class HomeFragment : Fragment() {
                     hummidity.text = weatherObj[0].current.humidity.toString()
                     pressure.text = weatherObj[0].current.pressure.toString()
                     cloud.text = weatherObj[0].current.clouds.toString()
-                    wind.text = weatherObj[0].current.windSpeed.toString()
+                    wind.text = weatherObj[0].current.windGust.toString()
                     ultraViolet.text = weatherObj[0].current.uvi.toString()
                     visibility.text = weatherObj[0].current.visibility.toString()
                     desc.text = weatherObj[0].current.weather[0].description
@@ -246,29 +246,29 @@ class HomeFragment : Fragment() {
                     if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj.current.temp}" + "س"
-                            wind.text = "${weatherObj.current.windSpeed}" + "متر/ثانيه"
+                            wind.text = "${weatherObj.current.windGust}" + "متر/ثانيه"
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj.current.temp}" + "C"
-                            wind.text = "${weatherObj.current.windSpeed} Meter/s"
+                            wind.text = "${weatherObj.current.windGust} Meter/s"
                         }
                     }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
                     {
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj.current.temp}" + "ف"
-                            wind.text = "${weatherObj.current.windSpeed} " + " ميل/ساعه"
+                            wind.text = "${weatherObj.current.windGust} " + " ميل/ساعه"
 
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj.current.temp}" + "F"
-                            wind.text = "${weatherObj.current.windSpeed}" + "Mile/h"
+                            wind.text = "${weatherObj.current.windGust}" + "Mile/h"
                         }
 
                     } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj.current.temp} ك "
-                            wind.text = "${weatherObj.current.windSpeed}" + " متر/ثانيه"
+                            wind.text = "${weatherObj.current.windGust}" + " متر/ثانيه"
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj.current.temp}" + "K"
-                            wind.text = "${weatherObj.current.windSpeed} " + "Mile/H"
+                            wind.text = "${weatherObj.current.windGust} " + "Mile/H"
                         }
 
                     }
@@ -281,7 +281,7 @@ class HomeFragment : Fragment() {
                     hummidity.text = weatherObj.current.humidity.toString()
                     pressure.text = weatherObj.current.pressure.toString()
                     cloud.text = weatherObj.current.clouds.toString()
-                    wind.text = weatherObj.current.windSpeed.toString()
+                    wind.text = weatherObj.current.windGust.toString()
                     ultraViolet.text = weatherObj.current.uvi.toString()
                     visibility.text = weatherObj.current.visibility.toString()
                     desc.text = weatherObj.current.weather[0].description
@@ -299,6 +299,7 @@ class HomeFragment : Fragment() {
 
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onResume() {
         super.onResume()
 
@@ -316,33 +317,32 @@ class HomeFragment : Fragment() {
                     if(SharedPrefsHelper.getTempUnit(requireContext()) == "metric"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj[0].current.temp}" + "س"
-                            wind.text = "${weatherObj[0].current.windSpeed}" + "متر/ثانيه"
+                            wind.text = "${weatherObj[0].current.windGust}" + "متر/ثانيه"
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj[0].current.temp}" + "C"
-                            wind.text = "${weatherObj[0].current.windSpeed} Meter/s"
+                            wind.text = "${weatherObj[0].current.windGust} Meter/s"
                         }
                     }else if(SharedPrefsHelper.getTempUnit(requireContext()) == "imperial")
                     {
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj[0].current.temp}" + "ف"
-                            wind.text = "${weatherObj[0].current.windSpeed} " + " ميل/ساعه"
+                            wind.text = "${weatherObj[0].current.windGust} " + " ميل/ساعه"
 
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj[0].current.temp}" + "F"
-                            wind.text = "${weatherObj[0].current.windSpeed}" + "Mile/h"
+                            wind.text = "${weatherObj[0].current.windGust}" + "Mile/h"
                         }
 
                     } else if (SharedPrefsHelper.getTempUnit(requireContext()) == "standard"){
                         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                             temp.text = "${weatherObj[0].current.temp} ك "
-                            wind.text = "${weatherObj[0].current.windSpeed}" + " متر/ثانيه"
+                            wind.text = "${weatherObj[0].current.windGust}" + " متر/ثانيه"
                         } else if(SharedPrefsHelper.getLang(requireContext()) == "en"){
                             temp.text = "${weatherObj[0].current.temp}" + "K"
-                            wind.text = "${weatherObj[0].current.windSpeed} " + "Mile/H"
+                            wind.text = "${weatherObj[0].current.windGust} " + "Mile/H"
                         }
 
                     }
-
 
                     Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.get(0)?.current?.weather[0].icon+".png").into(descImg)
 
@@ -436,10 +436,6 @@ class HomeFragment : Fragment() {
             Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
             showNoNetSnackbar()
         }
-
-
-
-
     }
 
     suspend fun getget(){

@@ -25,8 +25,6 @@ class Alarm (
     @PrimaryKey
     @NonNull
     var id : UUID = UUID.randomUUID()
-
-
     var startDate : Date? = stringToDate(startDateText , "MM/dd/yy")
     var endDate : Date? = stringToDate(endDateText , "MM/dd/yy")
 
