@@ -60,13 +60,7 @@ class HomeFragment : Fragment() {
     lateinit var visibility : TextView
     lateinit var desc : TextView
 
-    //labels
-    lateinit var hummid : TextView
-    lateinit var pressu : TextView
-    lateinit var wnd : TextView
-    lateinit var clod : TextView
-    lateinit var uv : TextView
-    lateinit var visblty : TextView
+
 
     //favHomeBtn
     lateinit var favBackBtn : FloatingActionButton
@@ -103,13 +97,7 @@ class HomeFragment : Fragment() {
         viewModel = ViewModelProvider(this, homeFactory).get(HomeFragViewModel::class.java)
 
 
-        //labels
-        uv = view.findViewById(R.id.idUltraViolet)
-        clod = view.findViewById(R.id.idCloud)
-        hummid = view.findViewById(R.id.Idhummid)
-        wnd = view.findViewById(R.id.idWind)
-        pressu = view.findViewById(R.id.idPressure)
-        visblty = view.findViewById(R.id.idVisability)
+
 
         favBackBtn = view.findViewById(R.id.HomeFavId)
 
@@ -136,14 +124,6 @@ class HomeFragment : Fragment() {
             tab!!.select()
         }
 
-        if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
-            uv.text = "الاشعه البنفسجيه"
-            clod.text = "السحب"
-            hummid.text = "الرطوبه"
-            wnd.text = "الرياح"
-            pressu.text = "الضغط"
-            visblty.text = "الرؤيه"
-        }
 
         //recycler views
         dailyRecyclerView = view.findViewById(R.id.recyclerViewDailyId)

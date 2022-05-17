@@ -39,7 +39,7 @@
                 android:layout_marginBottom="10sp"
                 android:layout_weight="0.25"
                 android:fontFamily="casual"
-                android:text="The Alarm is About:"
+                android:text="@string/about"
                 android:textSize="15sp"
                 android:textStyle="bold" />
 
@@ -66,7 +66,7 @@
                 android:layout_weight="0.25"
                 android:ems="10"
                 android:fontFamily="casual"
-                android:hint="Title"
+                android:hint="@string/titletitle"
                 android:inputType="textPersonName"
                 android:textStyle="bold"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
@@ -97,7 +97,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginTop="16dp"
                 android:fontFamily="casual"
-                android:text="Trip Start Date"
+                android:text="@string/sdate"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/startDateid"
@@ -107,10 +107,11 @@
 
             <EditText
                 android:id="@+id/startDateid"
-                android:layout_width="200dp"
+                android:layout_width="0dp"
                 android:layout_height="54dp"
                 android:layout_marginStart="48dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="10dp"
                 android:cursorVisible="false"
                 android:ems="10"
                 android:focusable="false"
@@ -119,6 +120,7 @@
                 android:inputType="none"
                 android:minHeight="48dp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/homeDateId"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -128,7 +130,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="casual"
-                android:text="Trip End Date"
+                android:text="@string/edate"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/endDateid"
@@ -138,9 +140,10 @@
 
             <EditText
                 android:id="@+id/endDateid"
-                android:layout_width="200dp"
+                android:layout_width="0dp"
                 android:layout_height="54dp"
                 android:layout_marginTop="28dp"
+                android:layout_marginEnd="10dp"
                 android:cursorVisible="false"
                 android:ems="10"
                 android:focusable="false"
@@ -149,6 +152,7 @@
                 android:inputType="none"
                 android:minHeight="48dp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/startDateid"
                 app:layout_constraintTop_toBottomOf="@+id/startDateid"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -160,7 +164,7 @@
                 android:layout_height="32dp"
                 android:layout_marginStart="16dp"
                 android:fontFamily="casual"
-                android:text="Alarm Time"
+                android:text="@string/atime"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="@+id/ediTtxtAlarmTimeid"
@@ -170,9 +174,10 @@
 
             <EditText
                 android:id="@+id/ediTtxtAlarmTimeid"
-                android:layout_width="200dp"
+                android:layout_width="0dp"
                 android:layout_height="54dp"
                 android:layout_marginTop="28dp"
+                android:layout_marginEnd="10dp"
                 android:ems="10"
                 android:fontFamily="casual"
                 android:inputType="textLongMessage"
@@ -182,6 +187,7 @@
                 android:textColorLink="@color/purple_700"
                 android:textSize="15sp"
                 android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/endDateid"
                 app:layout_constraintTop_toBottomOf="@+id/endDateid"
                 tools:ignore="SpeakableTextPresentCheck" />
@@ -194,9 +200,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="casual"
+        android:minHeight="48dp"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:text="Alarm"
+        android:text="@string/dialog"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         android:textStyle="bold" />
@@ -209,7 +216,7 @@
         android:layout_marginTop="40dp"
         android:layout_marginBottom="30sp"
         android:fontFamily="casual"
-        android:text="Add"
+        android:text="@string/add"
         android:textAllCaps="false"
         android:textColor="#03dac5 "
         android:textColorLink="#FBFBFB"

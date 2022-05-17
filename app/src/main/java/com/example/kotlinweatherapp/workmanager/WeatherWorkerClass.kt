@@ -167,15 +167,15 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
                              for (item in weatherObjOverNetwork?.alerts!!) {
                                 event = item.tags[0]
                                  stringMsg = if (event == alarmObj?.reasonOfAlarm.toString()) { //the alert matches
-                                     "You Need To be Careful there is $event coming"
+                                     "You Need To be Careful there is danger coming"
                                  } else { //the alert doesn't match
-                                     "Every thing is fine Today "
+                                     "Every thing is fine "
                                  }
                             } //there is no alerts
                          }
                 //the list is empty
                 else {
-                    stringMsg = "Every thing is fine Today "
+                    stringMsg = "Every thing is fine "
                 }
             }
         return stringMsg

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="hummidity">Humidity</string>
+    <string name="hummidity">الرطوبه</string>
     <string name="app_name">برنامج الطقس</string>
     <string name="hello_blank_fragment">مرحبا</string>
     <string name="title_activity_maps">الخريطه</string>
@@ -15,7 +15,7 @@
     <string name="MileHour">ميل/ساعه</string>
     <string name="MeterSecond">متر/ثانيه</string>
     <string name="Map">الخريطه</string>
-    <string name="GPS">Gps</string>
+    <string name="GPS">جي بي اس</string>
     <string name="Celsius">سيليزي</string>
     <string name="Fahrenheit">فيهرينهيت</string>
     <string name="Kelvin">كيلفن</string>
@@ -28,4 +28,11 @@
     <string name="fav">المفضل</string>
     <string name="alarm">التنبيهات</string>
     <string name="settings">الاعدادات</string>
+    <string name="about">المنبه عن :</string>
+    <string name="titletitle">العنوان</string>
+    <string name="sdate">المعاد الاول</string>
+    <string name="edate">المعاد الاخير</string>
+    <string name="atime">وقت المنبه</string>
+    <string name="dialog">ديالوج</string>
+    <string name="add">أضف</string>
 </resources>

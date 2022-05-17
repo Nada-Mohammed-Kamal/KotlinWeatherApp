@@ -92,7 +92,17 @@ class WorkerUtilsClass {
 //                        customTime = CustomTime(ct!!.hours , ct.minutes , "am" )
 //                    }
 //                }
-                val time = convertCustomTimeIntoTimeString(alarm.alarmTime!!)
+                var timeBefore = alarm.alarmTime!!
+                if(timeBefore.amOrPm == "am") {
+                    if(timeBefore.hour == 12){
+                        timeBefore.hour = 0
+                    }
+                }else{
+                    timeBefore.hour = timeBefore.hour + 12
+                }
+                println("$timeBefore")
+                val time = convertCustomTimeIntoTimeString(timeBefore)
+
                 val data: Data = Builder()
                     .putString(ALARM_NAME, alarm.title)
                     .putString(ALARM_ID, alarm.id.toString())
@@ -113,25 +123,6 @@ class WorkerUtilsClass {
                 pushNewRequestID(request.id, alarm.id.toString(), time!!)
                 WorkManager.getInstance().enqueue(request)
             }
-
-        /*fun deleteAllRequestsFromWorkManagerByMed(alarmID: UUID) {
-            Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size before: " + wmRequestIds.size)
-            val toBeDeleted = ArrayList<String>()
-            for (str in wmRequestIds) {
-                val splitted = str.split("_").toTypedArray()
-                if (UUID.fromString(splitted[1]) == alarmID) {
-                    toBeDeleted.add(str)
-                }
-            }
-            if (!toBeDeleted.isEmpty()) {
-                for (str in toBeDeleted) {
-                    val splitted = str.split("_").toTypedArray()
-                    wmRequestIds.remove(str)
-                    WorkManager.getInstance().cancelWorkById(UUID.fromString(splitted[0]))
-                }
-            }
-            Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size after: " + wmRequestIds.size)
-        }*/
 
         fun deleteRequestFromWorkManagerByReq(reqID: UUID) {
             Log.i(TAG, "deleteRequestFromWorkManagerByReq: Size before: " + wmRequestIds.size)

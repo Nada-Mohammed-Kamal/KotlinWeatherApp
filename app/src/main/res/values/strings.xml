@@ -38,4 +38,12 @@
     <string name="fav">\@drawable/favorite</string>
     <string name="alarm">\@drawable/alarm</string>
     <string name="settings">\@drawable/settings</string>
+    <string name="about">The Alarm is About :</string>
+    <string name="altitle">Title</string>
+    <string name="titletitle">Title</string>
+    <string name="sdate">Start Date</string>
+    <string name="edate">End Date</string>
+    <string name="atime">Alarm Time</string>
+    <string name="dialog">Dialog</string>
+    <string name="add">Add</string>
 </resources>
