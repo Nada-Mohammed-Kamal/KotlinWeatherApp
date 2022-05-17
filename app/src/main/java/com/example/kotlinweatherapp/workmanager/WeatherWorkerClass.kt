@@ -66,19 +66,13 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         val alarmId: String? = data.getString(WorkerUtilsClass.ALARM_ID)
         val doseTime: String? = data.getString(WorkerUtilsClass.ALARM_DOSE_TIME)
         val endDate: String? = data.getString(WorkerUtilsClass.ALARM_END_DATE)
+
+        //feen al start????
+
+
         val alarmOrNotification : Boolean? = data.getBoolean((WorkerUtilsClass.ALARM_OR_NOTIFICATION) , true)
 
-
-        //TODO: 2a2awam al service
-        //AlarmSevice.startService(context, "Foreground Service is running..." , alarmId!!)
-
-
-        Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:Before Calling the Function" )
         val msg = makeAPICallAndCheckWeatherIsThereAlertsOrNot(alarmId!!)
-        Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:After Calling the Function" )
-
-
-        Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:Before displaying the notification" )
         if (alarmOrNotification == true){
             if (Settings.canDrawOverlays(context)) {
                 GlobalScope.launch(Dispatchers.Main) {
@@ -86,12 +80,9 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
                     setMyWindowManger(name , msg)
                 }
             }
-
         } else {
             displayNotification(cnt.toString(), name!!, msg)
         }
-
-        Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:After Calling the Function" )
 
         val sdf = SimpleDateFormat("dd-MM-yyyy HH:mm:ss")
         val cal = Calendar.getInstance()
@@ -103,15 +94,17 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         } catch (e: ParseException) {
             e.printStackTrace()
         }
-        Log.i("M3lsh", "doWork: nxtDate: $nxtDate")
-        Log.i("M3lsh", "doWork: condition " + nxtDate.before(_endDate))
+
+        Log.i("TIMEINWORKMANAGER", "doWork: nxtDate: $nxtDate")
+        Log.i("TIMEINWORKMANAGER", "doWork: condition " + nxtDate.before(_endDate))
+
+
         WorkerUtilsClass.deleteRequestFromWorkManagerByReq(workerParams.id)
         if (nxtDate.before(_endDate)) {
-            Log.i("NADAAA", "doWork: ")
             val request: OneTimeWorkRequest =
                 OneTimeWorkRequest.Builder(WeatherWorkerClass::class.java)
 
-                        //////hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
+                    //////hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
 
                     .setInitialDelay(24, TimeUnit.HOURS)
                     .setInputData(workerParams.inputData)
@@ -155,85 +148,45 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         Log.e("M3lsh", "displaying notification")
     }
 
-
-    suspend fun makeAPICallAndCheckWeatherIsThereAlertsOrNot(alarmId: String): String {
-        Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot: inside Methodddddddddd" )
-        var stringMsg: String = ""
-        var event: String = ""
-        var alarmObj: Alarm? = null
-        //aroo7 al db a get al alarm da
-        //a request beeh 3al api
-        //a ret al response wa check fe alerts wala al array fady law fady ha set al notification b every thing is fine
-        //law msh fadya hamshy 3al list wa7ed wa7ed wa geeb al event law == al sbb al fal array ha3rdha
-        //law la2 hatala3 nothing there bardo
-        //mansash a set al isAlarm watala3 al notification 3ala anaha alarm wala notification
-
+    private suspend fun makeAPICallAndCheckWeatherIsThereAlertsOrNot(alarmId: String): String {
+        var stringMsg = ""
+        var event = ""
+        var alarmObj: Alarm?
         val instance = Repo.getInstance(
             weatherRetrofitClient.getInstance(),
             ConcreateLocalSource(applicationContext),
             applicationContext
         )
-
-
         var weatherObjOverNetwork: WeatherResponse? = null
-        Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot: weather obj: ${weatherObjOverNetwork}" )
-
-        //var job = CoroutineScope(Dispatchers.IO).launch {
             alarmObj = instance.getAlarmObj(UUID.fromString(alarmId))
-            Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot::${alarmObj} " )
-
-        //}
-        //CoroutineScope(Dispatchers.IO).launch {
-        //    job.join()
             weatherObjOverNetwork =
                 instance.getOneWeatherObjOverNetworkWithLatAndLong(
                     applicationContext,
                     alarmObj?.latLng!!
                 )
-            Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot: ${weatherObjOverNetwork}" )
-
-        //}
-
-        //CoroutineScope(Dispatchers.Main).launch {
-        //    job.join()
-            //TODO: al object byrg3 b null  -- wal time byb2a b 0 --> fal 7eta bta3at am w pm fal worker
+            //TODO: al time byb2a b 0 --> fal 7eta bta3at am w pm fal worker
             val b = weatherObjOverNetwork
-            Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot: $b" )
-            if (!(b == null)) {
-                Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:first Not null or empty" )
-
+            if (b != null) {
                 if(!(b.alerts.isNullOrEmpty()))
                          {
-                             Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:first second Not null or empty" )
-
                              for (item in weatherObjOverNetwork?.alerts!!) {
                                 event = item.tags[0]
-                                if (event == alarmObj?.reasonOfAlarm.toString()) { //the alert matches
-                                    Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:no need to be carefull" )
-                                    stringMsg = "You Need To be Careful there is $event coming"
-                                } else { //the alert doesn't match
-                                    Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot: second fine" )
-                                    stringMsg = "Every thing is fine there is no $event Today "
-                                }
+                                 stringMsg = if (event == alarmObj?.reasonOfAlarm.toString()) { //the alert matches
+                                     "You Need To be Careful there is $event coming"
+                                 } else { //the alert doesn't match
+                                     "Every thing is fine Today "
+                                 }
                             } //there is no alerts
-                             Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot: third fine" )
-
-                             Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot:No alerts Found" )
-
-
                          }
                 //the list is empty
                 else {
-                    stringMsg = "Every thing is fine there is no $event Today "
-                    Log.e("TAG", "makeAPICallAndCheckWeatherIsThereAlertsOrNot : the list is empty" )
+                    stringMsg = "Every thing is fine Today "
                 }
             }
-        //}
         return stringMsg
     }
 
-
-    fun setMyWindowManger(name : String , des : String) {
+    private fun setMyWindowManger(name : String, des : String) {
 
         val inflater = applicationContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
@@ -253,12 +206,11 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         } else {
             LayoutParams.TYPE_PHONE
         }
-        //TODO: not working
         var windowManager=
             applicationContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val width = (applicationContext.resources.displayMetrics.widthPixels * 0.85).toInt()
 
-        val params = WindowManager.LayoutParams(
+        val params = LayoutParams(
             width,
             LayoutParams.WRAP_CONTENT,
             LAYOUT_FLAG,

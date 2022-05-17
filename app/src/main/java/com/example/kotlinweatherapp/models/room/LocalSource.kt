@@ -36,7 +36,7 @@ interface LocalSource {
 
 
     //Favourites
-    //fun getAllFavouriteWeatherObs(): LiveData<List<FavouriteObject>>
+    fun getAllFavouriteWeatherObs(): LiveData<List<FavouriteObject>>
     fun insertFavObj(favObj: FavouriteObject?)
     fun deleteFavWeatherObj(favObj: FavouriteObject?)
     fun updateFavWeatherObj(favObj: FavouriteObject?)

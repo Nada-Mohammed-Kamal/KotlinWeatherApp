@@ -79,6 +79,10 @@ class ConcreateLocalSource(context : Context) : LocalSource {
         return alarmDao?.getAllAlarms()!!
     }
 
+    override fun getAllFavouriteWeatherObs(): LiveData<List<FavouriteObject>> {
+        return favDao?.getAllFavouriteWeatherObs()!!
+    }
+
     override fun getFavWeatherObj(location: Location?): FavouriteObject? {
         return favDao?.getFavWeatherObj(location)
     }

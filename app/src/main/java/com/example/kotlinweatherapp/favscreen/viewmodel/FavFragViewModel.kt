@@ -20,16 +20,14 @@ import kotlinx.coroutines.launch
 class FavFragViewModel(private val repository: RepoInterface, private var context : Context) :
     ViewModel() {
 
-
-
     init {
         getFavourites()
     }
 
 
-
     fun getFavourites() : LiveData<List< FavouriteObject>>{
-        return repository.allStoredFavourites
+        //return repository.allStoredFavourites
+        return repository.getAllFavouriteWeatherObs()
         //    return repository.allStoredAlarms
     }
 
@@ -46,7 +44,5 @@ class FavFragViewModel(private val repository: RepoInterface, private var contex
             repository.insertFavObj(fav)
         }
     }
-
-
 
 }

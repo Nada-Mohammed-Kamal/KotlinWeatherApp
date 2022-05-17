@@ -48,7 +48,7 @@ interface RepoInterface {
     fun getAllAlarms() : LiveData<List<Alarm>>
 
     //Favourites
-    //fun getAllFavouriteWeatherObs(): LiveData<List<FavouriteObject>>
+    fun getAllFavouriteWeatherObs(): LiveData<List<FavouriteObject>>
     fun insertFavObj(favObj: FavouriteObject?)
     fun deleteFavWeatherObj(favObj: FavouriteObject?)
     fun updateFavWeatherObj(favObj: FavouriteObject?)

@@ -134,6 +134,10 @@ class Repo private constructor(val remoteSource : RemoteSource, var localSource:
         return localSource.getAllAlarms()
     }
 
+    override fun getAllFavouriteWeatherObs(): LiveData<List<FavouriteObject>> {
+        return localSource.getAllFavouriteWeatherObs()
+    }
+
     override fun insertFavObj(favObj: FavouriteObject?) {
         localSource.insertFavObj(favObj)
     }
