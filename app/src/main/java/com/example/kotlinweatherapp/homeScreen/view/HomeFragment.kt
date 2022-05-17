@@ -34,6 +34,7 @@ import com.example.kotlinweatherapp.models.room.ConcreateLocalSource
 import com.example.kotlinweatherapp.sharedprefs.SharedPrefsHelper
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.tabs.TabLayout
 import kotlinx.coroutines.*
 import java.io.IOException
 import java.text.DateFormat
@@ -131,6 +132,10 @@ class HomeFragment : Fragment() {
             SharedPrefsHelper.setLatitude(requireContext() ,lat)
             SharedPrefsHelper.setLongitude(requireContext() ,long)
             SharedPrefsHelper.setIsFav(requireContext() ,false)
+
+            val tabLayout = activity?.findViewById(com.example.kotlinweatherapp.R.id.tabLayout) as TabLayout
+            val tab = tabLayout.getTabAt(1)
+            tab!!.select()
         }
 
         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){

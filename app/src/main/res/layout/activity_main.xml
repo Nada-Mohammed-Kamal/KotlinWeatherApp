@@ -7,69 +7,55 @@
         tools:context=".MainActivity">
 
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/fragmentContainer"
-        android:name="androidx.navigation.fragment.NavHostFragment"
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/bubbleNavigationBarid"
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/my_nav" />
+        android:layout_above="@+id/tabLayout" />
 
-    <com.gauravk.bubblenavigation.BubbleNavigationLinearView
-        android:id="@+id/bubbleNavigationBarid"
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:elevation="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        android:backgroundTint="@color/white"
+        app:tabGravity="fill"
+        app:tabIconTint="@color/teal_700"
+        app:tabIndicatorColor="#5A5A5A"
+        app:tabInlineLabel="true"
+        app:tabMaxWidth="0dp"
+        app:tabMode="fixed"
+        app:tabIndicatorAnimationMode="elastic"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1"
+        app:tabTextColor="#009688">
 
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/homeToggle"
+
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:bt_active="true"
-            app:bt_colorInactive="#5A5A5A"
-            app:bt_icon="@drawable/home"
-            app:bt_shapeColor="@android:color/holo_green_light"
-            app:bt_title="Home" />
+            android:icon="@drawable/home"
+            android:text="Home" />
 
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/favToggle"
+
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
+            android:icon="@drawable/favorite"
+            android:text="Favorites" />
 
-            app:bt_active="true"
-            app:bt_colorInactive="#5A5A5A"
-            app:bt_icon="@drawable/favorite"
-            app:bt_shapeColor="@android:color/holo_green_light"
-            app:bt_title="Favorites" />
-
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/alarmToggle"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            app:bt_active="true"
-            app:bt_colorInactive="#5A5A5A"
-            app:bt_icon="@drawable/alarm"
-            app:bt_shapeColor="@android:color/holo_green_light"
-            app:bt_title="Alarms" />
+            android:icon="@drawable/alarm"
+            android:text="Alerts" />
 
-        <com.gauravk.bubblenavigation.BubbleToggleView
-            android:id="@+id/settingToggle"
+        <com.google.android.material.tabs.TabItem
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            app:bt_active="true"
-            app:bt_colorInactive="#5A5A5A"
-            app:bt_icon="@drawable/settings"
-            app:bt_shapeColor="@android:color/holo_green_light"
-            app:bt_title="Settings" />
-    </com.gauravk.bubblenavigation.BubbleNavigationLinearView>
+            android:icon="@drawable/settings"
+            android:text="Settings" />
+
+
+    </com.google.android.material.tabs.TabLayout>
 
     </RelativeLayout>

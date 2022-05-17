@@ -226,17 +226,14 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
             when (checkedId) {
                 R.id.radioButtonCelisiusId -> {
                     Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: celisus")
-//                    Toast.makeText(context, "Celsius", Toast.LENGTH_SHORT).show()
                     temprature = "metric"
                 }
                 R.id.radioButtonFehrenhitId -> {
                     Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: fehrinhit")
-//                    Toast.makeText(context, "Fahrenheit", Toast.LENGTH_SHORT).show()
                     temprature = "imperial"
                 }
                 R.id.radioButtonKelvinId -> {
                     Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: kelvin")
-//                    Toast.makeText(context, "Kelvin", Toast.LENGTH_SHORT).show()
                     temprature = "standard"
                 }
             }
@@ -247,12 +244,14 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
             SharedPrefsHelper.setLanguage(requireContext() , language)
             SharedPrefsHelper.setTempUnit(requireContext() , temprature)
             Log.e("SETINGSSCREEEEEN", "appl button: al lang $language wal temp $temprature")
-            Toast.makeText(requireContext(), "Changes Applied Successfully", Toast.LENGTH_SHORT).show()
+
+
 
             if(language == "en"){
+                Toast.makeText(requireContext(), "Changes Applied Successfully", Toast.LENGTH_SHORT).show()
 
                 LocalHelper.setLocale(requireContext(), "en");
-                Toast.makeText(requireContext() , "lang (en): ${context?.resources}" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(requireContext() , "lang (en): ${context?.resources}" , Toast.LENGTH_SHORT).show();
                 eng.text = "English"
                 arb.text = "Arabic"
                 milepersec.text = "Mile/Hour"
@@ -268,8 +267,10 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
                 langTxt.text = "Language"
                 btnApply!!.text = "Apply"
             } else {
+                Toast.makeText(requireContext(), "تم تثبيت التغييرات بنجاح", Toast.LENGTH_SHORT).show()
+
                 LocalHelper.setLocale(requireContext(), "ar");
-                Toast.makeText(requireContext() , "lang (ar): ${context?.resources}" , Toast.LENGTH_SHORT).show();
+                //Toast.makeText(requireContext() , "lang (ar): ${context?.resources}" , Toast.LENGTH_SHORT).show();
                 if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                     eng.text = "الانجليزيه"
                     arb.text = "العربيه"

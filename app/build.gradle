@@ -121,6 +121,8 @@ dependencies {
 
         // optional - Multiprocess support
         implementation "androidx.work:work-multiprocess:2.7.1"
+
+        apply plugin: 'kotlin-android-extensions'
     }
 
 }

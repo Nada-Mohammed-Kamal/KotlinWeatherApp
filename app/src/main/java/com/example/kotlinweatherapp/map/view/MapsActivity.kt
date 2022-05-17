@@ -60,8 +60,8 @@ class MapsActivity() : AppCompatActivity(), OnMapReadyCallback{
             when (screen){
                 "fav" -> {
                     //TODO:get instance of view model and call
-                    var latlng = "${SharedPrefsHelper.getLatitude(this)},${SharedPrefsHelper.getLongitude(this)}"
-                    SharedPrefsHelper.setPreviousLatLng(this , latlng)
+//                    var latlng = "${SharedPrefsHelper.getLatitude(this)},${SharedPrefsHelper.getLongitude(this)}"
+//                    SharedPrefsHelper.setPreviousLatLng(this , latlng)
                     val favouriteObject = FavouriteObject(
                         currentLocation.latitude,
                         currentLocation.longitude,

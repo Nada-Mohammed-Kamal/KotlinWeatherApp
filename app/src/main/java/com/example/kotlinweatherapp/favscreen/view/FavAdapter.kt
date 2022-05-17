@@ -63,6 +63,6 @@ class FavAdapter(var fav: List<FavouriteObject>?, var context: Context , var nav
     }
 
     fun setFragment(fragment : Fragment){
-        fragment.activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragmentContainer , fragment , "HomeActivity")?.commit()
+        //fragment.activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragmentContainer , fragment , "HomeActivity")?.commit()
     }
 }

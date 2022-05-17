@@ -25,7 +25,6 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.kotlinweatherapp.R
 import com.example.kotlinweatherapp.map.view.MapsActivity
 import com.example.kotlinweatherapp.favscreen.FavouritesCommunicator
 import com.example.kotlinweatherapp.favscreen.NavigateToHome
@@ -46,6 +45,10 @@ import java.io.IOException
 import java.util.*
 import com.example.kotlinweatherapp.homeScreen.view.HomeFragment
 import com.gauravk.bubblenavigation.BubbleNavigationLinearView
+import com.google.android.material.tabs.TabLayout
+
+import android.R
+import android.annotation.SuppressLint
 
 
 class FavouriteFragment : Fragment() , NavigateToHome {
@@ -83,6 +86,7 @@ class FavouriteFragment : Fragment() , NavigateToHome {
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onResume() {
         super.onResume()
 
@@ -121,7 +125,7 @@ class FavouriteFragment : Fragment() , NavigateToHome {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_favourite, container, false)
+        return inflater.inflate(com.example.kotlinweatherapp.R.layout.fragment_favourite, container, false)
     }
 
 
@@ -130,9 +134,9 @@ class FavouriteFragment : Fragment() , NavigateToHome {
         super.onViewCreated(view, savedInstanceState)
         myView = view
 
-        favRecyclerView = view.findViewById(R.id.recyclerViewFavScreenId)
+        favRecyclerView = view.findViewById(com.example.kotlinweatherapp.R.id.recyclerViewFavScreenId)
 
-        btnAddFav = view.findViewById(R.id.btnAddFavId)
+        btnAddFav = view.findViewById(com.example.kotlinweatherapp.R.id.btnAddFavId)
 
         linearLayoutManager = LinearLayoutManager(context)
         linearLayoutManager.orientation = LinearLayoutManager.VERTICAL
@@ -314,28 +318,11 @@ class FavouriteFragment : Fragment() , NavigateToHome {
     }
 
     override fun navigateToHome() {
-        //navController = NavHostFragment.findNavController(this)
-        //navController.navigate(R.id.homeFragment)
 
+        val tabLayout = activity?.findViewById(com.example.kotlinweatherapp.R.id.tabLayout) as TabLayout
+        val tab = tabLayout.getTabAt(0)
+        tab!!.select()
 
-//        childFragmentManager
-//            .beginTransaction().
-//            add(R.id.fragmentContainer , HomeFragment.newInstance())
-//            .commit()
-
-
-        navController = Navigation.findNavController(view!!)
-        navController.navigate(R.id.fragmentHomeId)
-
-
-
-//        supportFragmentManager.beginTransaction().re
-//            .replace(R.id.fragmentContainer , fragment , "HomeActivity")
-//            .commit()
-
-        //TODO: navigation not working
-//        val bubbleNavLinearView = requireView().findViewById<BubbleNavigationLinearView>(R.id.bubbleNavigationBarid)
-//        bubbleNavLinearView?.setCurrentActiveItem(0)
     }
 
 }
