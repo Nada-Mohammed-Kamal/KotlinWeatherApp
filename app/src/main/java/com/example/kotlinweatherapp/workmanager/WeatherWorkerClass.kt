@@ -67,9 +67,6 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
         val doseTime: String? = data.getString(WorkerUtilsClass.ALARM_DOSE_TIME)
         val endDate: String? = data.getString(WorkerUtilsClass.ALARM_END_DATE)
 
-        //feen al start????
-
-
         val alarmOrNotification : Boolean? = data.getBoolean((WorkerUtilsClass.ALARM_OR_NOTIFICATION) , true)
 
         val msg = makeAPICallAndCheckWeatherIsThereAlertsOrNot(alarmId!!)
@@ -104,8 +101,7 @@ class WeatherWorkerClass(var context: Context, var workerParams: WorkerParameter
             val request: OneTimeWorkRequest =
                 OneTimeWorkRequest.Builder(WeatherWorkerClass::class.java)
 
-                    //////hereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee
-
+////
                     .setInitialDelay(24, TimeUnit.HOURS)
                     .setInputData(workerParams.inputData)
                     .build()

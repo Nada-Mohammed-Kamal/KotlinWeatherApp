@@ -46,11 +46,9 @@ class HomeFragment : Fragment() {
     lateinit var hourlyRecyclerView : RecyclerView
     private lateinit var viewModel: HomeFragViewModel
     lateinit var homeFactory : HomeViewModelFactory
-
     lateinit var placeName : TextView
     lateinit var temp : TextView
     lateinit var descImg : ImageView
-    lateinit var icon : ImageView
     lateinit var date : TextView
     lateinit var hummidity : TextView
     lateinit var pressure : TextView
@@ -60,14 +58,8 @@ class HomeFragment : Fragment() {
     lateinit var visibility : TextView
     lateinit var desc : TextView
 
-
-
     //favHomeBtn
     lateinit var favBackBtn : FloatingActionButton
-
-
-
-    //var weatherObj : WeatherResponse? = null
     lateinit var myView: View
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,18 +78,10 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         myView = view
 
-//        if(!(NetworkChangeReceiver.isThereInternetConnection)){
-//            Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
-//            showNoNetSnackbar()
-//        }
-
         //view model
         homeFactory = HomeViewModelFactory(
             Repo.getInstance(weatherRetrofitClient.getInstance() ,ConcreateLocalSource(requireContext()),  requireContext()) , requireContext())
         viewModel = ViewModelProvider(this, homeFactory).get(HomeFragViewModel::class.java)
-
-
-
 
         favBackBtn = view.findViewById(R.id.HomeFavId)
 
@@ -277,8 +261,6 @@ class HomeFragment : Fragment() {
                 }
             })
         }
-
-
     }
 
     @SuppressLint("SetTextI18n")
@@ -350,7 +332,6 @@ class HomeFragment : Fragment() {
 
         } else {
             favBackBtn.visibility = View.VISIBLE
-
             viewModel.getFavWeatherObj()
             viewModel.favWeatherObjOverNetwork.observe(viewLifecycleOwner , { weatherObj ->
 
@@ -391,10 +372,8 @@ class HomeFragment : Fragment() {
 
                     }
 
-
                     Glide.with(descImg).load("http://openweathermap.org/img/w/"+ weatherObj?.current?.weather[0].icon+".png").into(descImg)
 
-                    //icon =  TODO: a3ml enum bal swr bta3t al 3agal de al ana ha7otaha
                     date.text = timeStampToDate(weatherObj.current.dt)
                     hummidity.text = weatherObj.current.humidity.toString()
                     pressure.text = weatherObj.current.pressure.toString()
@@ -416,20 +395,8 @@ class HomeFragment : Fragment() {
         }
 
         if(!(NetworkChangeReceiver.isThereInternetConnection)){
-            Log.e("snackbaaaaaaaaar", "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} ", )
             showNoNetSnackbar()
         }
-    }
-
-    suspend fun getget(){
-
-        val instance = Repo.getInstance(
-            weatherRetrofitClient.getInstance(),
-            ConcreateLocalSource(requireContext()),
-            requireContext()
-        )
-        val weatherObjOverNetwork = instance.remoteSource.getWeatherObjOverNetwork(requireContext())
-        Log.e("NadaTAG", "getget: ${weatherObjOverNetwork}")
     }
 
     companion object {

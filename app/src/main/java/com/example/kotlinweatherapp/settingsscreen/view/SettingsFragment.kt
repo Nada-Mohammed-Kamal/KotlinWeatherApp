@@ -90,10 +90,6 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
     private var myView: View? = null
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -129,7 +125,6 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
 
     override fun onResume() {
         super.onResume()
-
         if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
             eng.text = "الانجليزيه"
             arb.text = "العربيه"
@@ -149,15 +144,10 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
 
         addListenerOnButton()
         if(!(NetworkChangeReceiver.isThereInternetConnection)){
-            Log.e(
-                "snackbaaaaaaaaar",
-                "snackbaaaaaaaaar:${NetworkChangeReceiver.isThereInternetConnection} "
-            )
             showNoNetSnackbar()
 
             radioButtonGPSId.isEnabled = false
             radioButtonMapId.isEnabled = false
-
         }
 
         settingFactory = SettingsViewModelFactory(
@@ -180,13 +170,9 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         langRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonEnglishId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: english")
-                    //Toast.makeText(context, "english", Toast.LENGTH_SHORT).show()
                     language = "en"
                 }
                 R.id.radioButtonArabicId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: arabic")
-                    //Toast.makeText(context, "arabic", Toast.LENGTH_SHORT).show()
                     language = "ar"
                 }
             }
@@ -194,16 +180,12 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         locationRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonMapId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: map")
-                    //Toast.makeText(context, "map", Toast.LENGTH_SHORT).show()
                     location = "map"
                     val intent = Intent(requireContext() , MapsActivity::class.java)
                     intent.putExtra("fromScreen" , "settings")
                     startActivity(intent)
                 }
                 R.id.radioButtonGPSId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: gps")
-                    //Toast.makeText(context, "gps", Toast.LENGTH_SHORT).show()
                     location = "gps"
                     getCurrentLoc()
                 }
@@ -212,14 +194,10 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         windRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonMilePerHourId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: milePerHour")
-//                    Toast.makeText(context, "milePerHour", Toast.LENGTH_SHORT).show()
                     wind = "Mile/hour"
                     temprature = "imperial"
                 }
                 R.id.radioButtonMeterPerSecId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: meterPerSec")
-//                    Toast.makeText(context, "meterPerSec", Toast.LENGTH_SHORT).show()
                     wind = "Meter/sec"
                     temprature = "metric"
                 }
@@ -228,15 +206,12 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         tempRadioGroup?.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
                 R.id.radioButtonCelisiusId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: celisus")
                     temprature = "metric"
                 }
                 R.id.radioButtonFehrenhitId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: fehrinhit")
                     temprature = "imperial"
                 }
                 R.id.radioButtonKelvinId -> {
-                    Log.e("NEWWWWWWWWWWWWWWW", "addListenerOnButton: kelvin")
                     temprature = "standard"
                 }
             }
@@ -246,15 +221,10 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         btnApply?.setOnClickListener{
             SharedPrefsHelper.setLanguage(requireContext() , language)
             SharedPrefsHelper.setTempUnit(requireContext() , temprature)
-            Log.e("SETINGSSCREEEEEN", "appl button: al lang $language wal temp $temprature")
-
-
 
             if(language == "en"){
                 Toast.makeText(requireContext(), "Changes Applied Successfully", Toast.LENGTH_SHORT).show()
-
                 LocalHelper.setLocale(requireContext(), "en");
-                //Toast.makeText(requireContext() , "lang (en): ${context?.resources}" , Toast.LENGTH_SHORT).show();
                 eng.text = "English"
                 arb.text = "Arabic"
                 milepersec.text = "Mile/Hour"
@@ -271,9 +241,7 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
                 btnApply!!.text = "Apply"
             } else {
                 Toast.makeText(requireContext(), "تم تثبيت التغييرات بنجاح", Toast.LENGTH_SHORT).show()
-
                 LocalHelper.setLocale(requireContext(), "ar");
-                //Toast.makeText(requireContext() , "lang (ar): ${context?.resources}" , Toast.LENGTH_SHORT).show();
                 if(SharedPrefsHelper.getLang(requireContext()) == "ar"){
                     eng.text = "الانجليزيه"
                     arb.text = "العربيه"
@@ -298,7 +266,6 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false)
     }
 
@@ -374,7 +341,6 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         return false
     }
 
-
     companion object {
         private const val PERMISSION_REQUEST_ACCESS_LOCATION = 100
 
@@ -408,14 +374,13 @@ class SettingsFragment : Fragment() , SettingsAndMapCommunicator{
         Toast.makeText(requireContext() , "Favourite place added successfully" , Toast.LENGTH_SHORT).show()
     }
 
-    fun getAddressAndDateForLocation(lat : Double , long : Double) : String{
+    private fun getAddressAndDateForLocation(lat : Double, long : Double) : String{
         //GPSLat GPSLong
         var addressGeocoder : Geocoder = Geocoder(requireContext(), Locale.getDefault())
         try {
             var myAddress : List<Address> = addressGeocoder.getFromLocation(lat , long, 2)
             if(myAddress.isNotEmpty()){
-                var locName = "${myAddress[0].subAdminArea}, ${myAddress[0].adminArea}"
-                Log.i("ConvertLocInFavFrag", "getAddressForLocation: ${myAddress[0].subAdminArea} ${myAddress[0].adminArea}")
+                var locName = "${myAddress[0].countryName}, ${myAddress[0].adminArea}"
                 return locName
             }
         }catch (e : IOException){

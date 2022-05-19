@@ -14,12 +14,10 @@ import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+
 class HomeFragViewModel(private var repoInterface: RepoInterface, private var context: Context) : ViewModel(){
-    private var _weatherObjOverNetwork : MutableLiveData<WeatherResponse> = MutableLiveData()
-    var weatherObjOverNetwork : LiveData<WeatherResponse> = _weatherObjOverNetwork
      fun getWeatherObj() : LiveData<List<WeatherResponse>>{
             return  repoInterface.getWeatherObjOverNetwork(context)
-            Log.e("TAGFromViewModel", "getWeatherObj: $weatherObjOverNetwork", )
     }
 
 
@@ -38,16 +36,13 @@ class HomeFragViewModel(private var repoInterface: RepoInterface, private var co
                                 SharedPrefsHelper.getLongitude(context).toDouble()
                             )
                         )
-                    Log.e("TAG", "getFavWeatherObj: $oneWeatherObjOverNetworkWithLatAndLong" )
                     _favWeatherObjOverNetwork.postValue(oneWeatherObjOverNetworkWithLatAndLong)
 
                 } catch (e: Exception) {
-                    println("erorrrrrrrrrrrrrrrrrrr")
+                    println("erorrrrrrrrrrrrrrrrrrr mat33l3mo ba2a :| ${e.localizedMessage}")
                 }
 
             }
-
-            //Log.e("TAGFromViewModel", "getWeatherObj: $weatherObjOverNetwork", )
         }
 
 

@@ -49,9 +49,6 @@ class GPSOrMapActivity : AppCompatActivity() {
         mapBtn.setOnClickListener {
             chosenBtnIsMap = true
             val intent = Intent(this , MapsActivity::class.java)
-            //a7ot 7aga 3al intent 3ahsan a3rf hnak ana gaya mn meen fa law mn al GPSorMap Screen send 0 to save in shared prefs
-            //wlw mn settins screen kaman
-            //laken law mn al favs ma3mlsh save fal shared prefs
             intent.putExtra("fromScreen" , "gpsOrMap")
             startActivity(intent)
         }

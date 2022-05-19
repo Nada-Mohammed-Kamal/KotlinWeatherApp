@@ -14,15 +14,12 @@ import kotlinx.coroutines.launch
 class AlarmFragViewModel(private val repository: RepoInterface, private var context : Context) :
     ViewModel() {
 
-
-//    var listOfAlarms : LiveData<List< Alarm>>? = _listOfAlarms
-
     init {
         getAlarms()
     }
     fun getAlarms() : LiveData<List< Alarm>>{
         return repository.getAllAlarms()
-       //    return repository.allStoredAlarms
+       //return repository.allStoredAlarms
     }
 
     fun deleteAlarm(alarm : Alarm){

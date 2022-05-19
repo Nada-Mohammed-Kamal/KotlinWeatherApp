@@ -18,9 +18,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
 
-class Repo private constructor(val remoteSource : RemoteSource, var localSource: LocalSource, var context : Context):
+class Repo private constructor(private val remoteSource : RemoteSource, var localSource: LocalSource, var context : Context):
     RepoInterface {
-
     //vars
     var weatherObjOverNetwork : WeatherResponse? = null
 
