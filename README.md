@@ -16,7 +16,7 @@
 * The application is designed using the MVV pattern and using the Couroutiens.'
 
 
-![WhatsApp Image 2022-05-19 at 2 29 55 PM](https://user-images.githubusercontent.com/97159439/169294582-ff838def-6c72-44f0-a4a6-c0afac96a7a5.jpeg)
+![WhatsApp Image 2022-05-19 at 2 29 55 PM](https://user-images.githubusercontent.com/97159439/169294582-ff838def-6c72-44f0-a4a6-c0afac96a7a5.jpeg | width=100)
 ![WhatsApp Image 2022-05-19 at 2 29 54 PM (1)](https://user-images.githubusercontent.com/97159439/169294590-ca3daa8f-a0d3-4c1a-a9c0-6b5ad66c8ec5.jpeg)
 ![WhatsApp Image 2022-05-19 at 2 29 54 PM](https://user-images.githubusercontent.com/97159439/169294596-0db4507f-a85a-49b6-8b30-ce08546cc3f0.jpeg)
 ![WhatsApp Image 2022-05-19 at 2 29 53 PM](https://user-images.githubusercontent.com/97159439/169294601-6cfb6188-8601-4619-9532-a46d073df10a.jpeg)
